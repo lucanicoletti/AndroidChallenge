@@ -1,7 +1,6 @@
-package com.example.data
+package com.example.data.mappers
 
 import com.example.data.entities.GeoEntity
-import com.example.data.mappers.GeoEntityMapper
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -21,7 +20,10 @@ class GeoEntityMapperTest {
 
     @Before
     fun `prepare for test`() {
-        geoEntity = GeoEntity(LAT, LNG)
+        geoEntity = GeoEntity(
+            LAT,
+            LNG
+        )
     }
 
     @Test

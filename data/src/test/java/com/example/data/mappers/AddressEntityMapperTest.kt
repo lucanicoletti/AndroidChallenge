@@ -1,14 +1,11 @@
-package com.example.data
+package com.example.data.mappers
 
 import com.example.data.entities.AddressEntity
 import com.example.data.entities.GeoEntity
-import com.example.data.mappers.AddressEntityMapper
-import com.example.data.mappers.GeoEntityMapper
 import com.example.domain.models.GeoDomainModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
 import org.mockito.junit.MockitoJUnit

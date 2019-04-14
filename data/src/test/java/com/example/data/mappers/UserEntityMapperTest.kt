@@ -1,11 +1,8 @@
-package com.example.data
+package com.example.data.mappers
 
 import com.example.data.entities.AddressEntity
 import com.example.data.entities.CompanyEntity
 import com.example.data.entities.UserEntity
-import com.example.data.mappers.AddressEntityMapper
-import com.example.data.mappers.CompanyEntityMapper
-import com.example.data.mappers.UserEntityMapper
 import com.example.domain.models.AddressDomainModel
 import com.example.domain.models.CompanyDomainModel
 import org.junit.Before
