@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: "androidx.navigation.safeargs.kotlin"
 
 android {
     compileSdkVersion 28
@@ -39,6 +40,9 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0-alpha03'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha03'
 
+    // AndroidX lifecycle
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0-alpha04'
+
     //kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
@@ -69,4 +73,5 @@ dependencies {
 
     implementation project(':data')
     implementation project(':domain')
+    implementation 'android.arch.navigation:navigation-fragment:1.0.0'
 }
