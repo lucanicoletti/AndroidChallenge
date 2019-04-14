@@ -18,4 +18,12 @@ class CommentsRepositoryImpl @Inject constructor(
                             commentEntityMapper.mapToDomain(it)
                         }
                     }
+
+    override fun getCommentsByPost(postId: Int): Single<List<CommentDomainModel>> =
+            commentsApi.getCommentsByPost(postId)
+                    .map { list ->
+                        list.map {
+                            commentEntityMapper.mapToDomain(it)
+                        }
+                    }
 }

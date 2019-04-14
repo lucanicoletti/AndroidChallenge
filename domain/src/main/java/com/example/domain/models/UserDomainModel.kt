@@ -8,5 +8,6 @@ class UserDomainModel(
     val address: AddressDomainModel,
     val phone: String,
     val website: String,
-    val company: CompanyDomainModel
+    val company: CompanyDomainModel,
+    val imageUrl: String
 )

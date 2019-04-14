@@ -6,8 +6,8 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 class UsersUseCase @Inject constructor(private val usersRepository: UsersRepository)
-    : SingleUseCase<List<UserDomainModel>, Any>() {
+    : SingleUseCase<List<UserDomainModel>, Unit>() {
 
-    override fun buildUseCaseSingle(params: Any): Single<List<UserDomainModel>> =
+    override fun buildUseCaseSingle(params: Unit): Single<List<UserDomainModel>> =
         usersRepository.getUsers()
 }

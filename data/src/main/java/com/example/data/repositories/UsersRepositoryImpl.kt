@@ -19,4 +19,10 @@ class UsersRepositoryImpl @Inject constructor(
                             userEntityMapper.mapToDomain(it)
                         }
                     }
+
+    override fun getUsersById(userId: Int): Single<UserDomainModel> =
+            usersApi.getUsersById(userId)
+                    .map {
+                        userEntityMapper.mapToDomain(it)
+                    }
 }
