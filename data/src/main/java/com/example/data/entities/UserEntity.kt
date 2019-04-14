@@ -1,9 +1,11 @@
 package com.example.data.entities
 
+import com.google.gson.annotations.SerializedName
+
 data class UserEntity(
     val id: Int,
     val name: String,
-    val userName: String,
+    @SerializedName("username") val userName: String,
     val email: String,
     val address: AddressEntity,
     val phone: String,
