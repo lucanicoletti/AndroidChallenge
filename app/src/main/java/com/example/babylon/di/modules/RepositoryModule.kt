@@ -11,7 +11,7 @@ import dagger.Module
 
 @Suppress("unused")
 @Module(includes = [ApiModule::class])
-abstract class RepositoryModule  {
+abstract class RepositoryModule {
 
     @Binds
     abstract fun bindCommentsRepository(repository: CommentsRepositoryImpl): CommentsRepository

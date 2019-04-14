@@ -7,13 +7,13 @@ import javax.inject.Inject
 class UserMapper @Inject constructor() {
 
     fun mapToPresentation(domainModel: UserDomainModel): User =
-            User(
-                    domainModel.id,
-                    domainModel.name,
-                    domainModel.userName,
-                    domainModel.email,
-                    domainModel.phone,
-                    domainModel.website,
-                    domainModel.imageUrl
-            )
+        User(
+            domainModel.id,
+            domainModel.name,
+            domainModel.userName,
+            domainModel.email,
+            domainModel.phone,
+            domainModel.website,
+            domainModel.imageUrl
+        )
 }

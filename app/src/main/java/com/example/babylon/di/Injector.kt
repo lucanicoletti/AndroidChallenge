@@ -12,11 +12,15 @@ import javax.inject.Singleton
 @Suppress("unused")
 @Singleton
 @Component(
-        modules = [
-            AppModule::class,
-            ApiModule::class,
-            RepositoryModule::class
-        ]
+    modules = [
+        AndroidSupportInjectionModule::class,
+        MainActivityModule::class,
+        FragmentsModule::class,
+        ViewModelModule::class,
+        AppModule::class,
+        ApiModule::class,
+        RepositoryModule::class
+    ]
 )
 interface Injector : AndroidInjector<BabylonApp> {
     @Component.Builder

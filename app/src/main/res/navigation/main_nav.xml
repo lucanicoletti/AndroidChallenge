@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:startDestination="@id/postsListFragment"
+    android:id="@+id/main_nav">
+
+
+    <fragment
+        android:id="@+id/postsListFragment"
+        android:name="com.example.babylon.postlist.fragments.PostsListFragment"
+        android:label="PostsListFragment">
+        <action
+            android:id="@+id/action_postsListFragment_to_postDetailFragment"
+            app:destination="@id/postDetailFragment">
+            <argument
+                android:name="postId"
+                app:argType="integer"
+                android:defaultValue="0" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/postDetailFragment"
+        android:name="com.example.babylon.postdetails.fragments.PostDetailsFragment"
+        android:label="PostDetailFragment">
+        <argument
+            android:name="postId"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
+
+</navigation>

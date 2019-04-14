@@ -12,7 +12,8 @@ import retrofit2.Retrofit
 class ApiModule {
 
     @Provides
-    fun provideCommentsApi(retrofit: Retrofit): CommentsApi = retrofit.create(CommentsApi::class.java)
+    fun provideCommentsApi(retrofit: Retrofit): CommentsApi =
+        retrofit.create(CommentsApi::class.java)
 
     @Provides
     fun providePostsApi(retrofit: Retrofit): PostsApi = retrofit.create(PostsApi::class.java)

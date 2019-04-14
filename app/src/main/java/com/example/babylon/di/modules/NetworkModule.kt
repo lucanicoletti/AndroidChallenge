@@ -9,7 +9,6 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Suppress("unused")
@@ -23,18 +22,18 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit =
-            Retrofit.Builder()
-                    .baseUrl(BASE_URL)
-                    .client(okHttpClient)
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build()
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(okHttpClient)
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
 
     @Provides
     @Singleton
     fun provideOkHttpClient(): OkHttpClient =
-            OkHttpClient.Builder()
-                    .callTimeout(30, TimeUnit.SECONDS)
-                    .addInterceptor(HttpLoggingInterceptor())
-                    .build()
+        OkHttpClient.Builder()
+            .callTimeout(30, TimeUnit.SECONDS)
+            .addInterceptor(HttpLoggingInterceptor())
+            .build()
 }

@@ -28,8 +28,8 @@ class BabylonApp : Application(), HasActivityInjector, HasSupportFragmentInjecto
 
     private fun initDagger() {
         DaggerInjector
-                .builder()
-                .application(this)
-                .build().inject(this)
+            .builder()
+            .application(this)
+            .build().inject(this)
     }
 }

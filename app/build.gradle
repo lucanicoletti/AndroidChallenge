@@ -43,6 +43,10 @@ dependencies {
     // AndroidX lifecycle
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0-alpha04'
 
+    // Navigation
+    implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0"
+    implementation "android.arch.navigation:navigation-ui-ktx:1.0.0"
+
     //kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
