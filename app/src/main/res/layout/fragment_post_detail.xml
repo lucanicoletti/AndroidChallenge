@@ -2,32 +2,59 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/tv_title"
-        style="@style/PostTitleDetail"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_post_info"
+        style="@style/PostCardViewItem"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:transitionName="transition_title"
-        tools:text="Post title" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_body"
-        style="@style/PostBodyDetail"
+            <TextView
+                android:id="@+id/tv_title"
+                style="@style/PostTitleDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:transitionName="transition_title"
+                tools:text="Post title" />
+
+            <TextView
+                android:id="@+id/tv_body"
+                style="@style/PostBodyDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:padding="5dp"
+                android:transitionName="transition_body"
+                tools:text="In this post I'm gonna talk about ..." />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_user_info"
+        style="@style/PostCardViewItem"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_title"
-        android:transitionName="transition_body"
-        tools:text="In this post I'm gonna talk about ..." />
+        android:layout_marginTop="25dp"
+        app:layout_constraintTop_toBottomOf="@id/cv_post_info">
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:indeterminate="true"/>
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

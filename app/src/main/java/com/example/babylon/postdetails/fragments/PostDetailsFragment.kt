@@ -8,7 +8,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.example.babylon.R
 import com.example.babylon.core.getViewModel
+import com.example.babylon.core.observe
 import com.example.babylon.postdetails.viewmodels.PostDetailsViewModel
+import com.example.babylon.postdetails.viewmodels.PostDetailsViewState
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_post_detail.*
 import javax.inject.Inject
@@ -32,7 +34,21 @@ class PostDetailsFragment : DaggerFragment() {
         super.onActivityCreated(savedInstanceState)
 
         viewModel = getViewModel(viewModelFactory) {
+            observe(postDetailsViewState, ::onPostDetailViewState)
+        }
+    }
 
+    private fun onPostDetailViewState(postDetailsViewState: PostDetailsViewState?) {
+        when (postDetailsViewState) {
+            PostDetailsViewState.Loading -> {
+
+            }
+            is PostDetailsViewState.Error -> {
+
+            }
+            is PostDetailsViewState.Success -> {
+
+            }
         }
     }
 

@@ -1,6 +1,7 @@
 package com.example.domain.usecases
 
 import com.example.domain.models.CommentDomainModel
+import com.example.domain.models.PostDetailDomainModel
 import com.example.domain.models.UserDomainModel
 import com.example.domain.repositories.CommentsRepository
 import com.example.domain.repositories.UsersRepository
@@ -9,18 +10,20 @@ import io.reactivex.functions.BiFunction
 import javax.inject.Inject
 
 class CommentsAndUserUseCase @Inject constructor(
-        private val commentsRepository: CommentsRepository,
-        private val usersRepository: UsersRepository
-) : SingleUseCase<Pair<List<CommentDomainModel>, UserDomainModel>, Int>() {
+    private val commentsRepository: CommentsRepository,
+    private val usersRepository: UsersRepository
+) : SingleUseCase<PostDetailDomainModel, CommentsAndUserUseCase.Params>() {
 
-    override fun buildUseCaseSingle(params: Int):
-            Single<Pair<List<CommentDomainModel>, UserDomainModel>> =
-            Single.zip(
-                    commentsRepository.getCommentsByPost(params),
-                    usersRepository.getUsersById(params),
-                    BiFunction<List<CommentDomainModel>, UserDomainModel,
-                            Pair<List<CommentDomainModel>, UserDomainModel>> { t1, t2 ->
-                        Pair(t1, t2)
-                    }
-            )
+    override fun buildUseCaseSingle(params: Params):
+        Single<PostDetailDomainModel> =
+        Single.zip(
+            commentsRepository.getCommentsByPost(params.postId),
+            usersRepository.getUsersById(params.userId),
+            BiFunction<List<CommentDomainModel>, UserDomainModel,
+                PostDetailDomainModel> { comments, user ->
+                PostDetailDomainModel(user, comments)
+            }
+        )
+
+    data class Params(val userId: Int, val postId: Int)
 }
