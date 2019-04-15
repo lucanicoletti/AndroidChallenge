@@ -22,6 +22,10 @@ android {
         }
     }
 
+    androidExtensions {
+        experimental = true
+    }
+
     kapt {
         arguments {
             arg('dagger.formatGeneratedSource', 'disabled')

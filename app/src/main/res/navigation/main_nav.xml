@@ -7,25 +7,25 @@
 
     <fragment
         android:id="@+id/postsListFragment"
-        android:name="com.example.babylon.postlist.fragments.PostsListFragment"
-        android:label="PostsListFragment">
+        android:name="com.example.babylon.postlist.fragments.PostsListFragment">
         <action
             android:id="@+id/action_postsListFragment_to_postDetailFragment"
             app:destination="@id/postDetailFragment">
             <argument
-                android:name="postId"
-                app:argType="integer"
-                android:defaultValue="0" />
+                android:name="post"
+                app:argType="com.example.babylon.postlist.models.Post"
+                app:nullable="true"
+                android:defaultValue="@null" />
         </action>
     </fragment>
     <fragment
         android:id="@+id/postDetailFragment"
-        android:name="com.example.babylon.postdetails.fragments.PostDetailsFragment"
-        android:label="PostDetailFragment">
+        android:name="com.example.babylon.postdetails.fragments.PostDetailsFragment">
         <argument
-            android:name="postId"
-            app:argType="integer"
-            android:defaultValue="0" />
+            android:name="post"
+            app:argType="com.example.babylon.postlist.models.Post"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
 
 </navigation>
