@@ -19,6 +19,10 @@ class PostsListViewModel @Inject constructor(
     val postListViewState: LiveData<PostListViewState>
         get() = _postsListViewState
 
+    init {
+        fetchPosts()
+    }
+
     fun fetchPosts() {
         _postsListViewState.postValue(PostListViewState.Loading)
         postsUseCase.execute(
@@ -28,10 +32,7 @@ class PostsListViewModel @Inject constructor(
             {
                 onPostsListError(it)
             },
-            {
-                onPostListFinished()
-            },
-            Unit
+            params = Unit
         )
     }
 
@@ -45,9 +46,6 @@ class PostsListViewModel @Inject constructor(
         _postsListViewState.postValue(PostListViewState.Error(error.localizedMessage))
     }
 
-    private fun onPostListFinished() {
-        postsUseCase.dispose()
-    }
 }
 
 sealed class PostListViewState {

@@ -7,8 +7,9 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.example.babylon.R
-import com.example.babylon.core.getViewModel
-import com.example.babylon.core.observe
+import com.example.babylon.core.*
+import com.example.babylon.postdetails.models.Comment
+import com.example.babylon.postdetails.models.User
 import com.example.babylon.postdetails.viewmodels.PostDetailsViewModel
 import com.example.babylon.postdetails.viewmodels.PostDetailsViewState
 import dagger.android.support.DaggerFragment
@@ -35,21 +36,43 @@ class PostDetailsFragment : DaggerFragment() {
 
         viewModel = getViewModel(viewModelFactory) {
             observe(postDetailsViewState, ::onPostDetailViewState)
+            loadCommentsAndUserData(
+                args.post?.userId ?: -1,
+                args.post?.id ?: -1
+            )
         }
     }
 
     private fun onPostDetailViewState(postDetailsViewState: PostDetailsViewState?) {
         when (postDetailsViewState) {
             PostDetailsViewState.Loading -> {
-
+                pb_user_loading.visible()
             }
             is PostDetailsViewState.Error -> {
-
+                pb_user_loading.gone()
             }
             is PostDetailsViewState.Success -> {
-
+                loadUserData(postDetailsViewState.user)
+                loadCommentsData(postDetailsViewState.commentList)
             }
         }
+    }
+
+    private fun loadCommentsData(commentList: List<Comment>) {
+
+    }
+
+    private fun loadUserData(user: User) {
+        pb_user_loading.gone()
+        tv_name.text = user.name
+        tv_username.text = user.userName
+        tv_email.text = user.email
+        tv_website.text = user.website
+
+        GlideApp.with(this)
+            .load(user.imageUrl)
+            .centerCrop()
+            .into(iv_user_picture)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

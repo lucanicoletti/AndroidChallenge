@@ -29,10 +29,7 @@ class PostDetailsViewModel @Inject constructor(
             {
                 onCommentsAndUserFailed(it)
             },
-            {
-                commentsAndUserUseCase.dispose()
-            },
-            CommentsAndUserUseCase.Params(userId, postId)
+            params = CommentsAndUserUseCase.Params(userId, postId)
         )
     }
 

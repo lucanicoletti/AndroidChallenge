@@ -1,4 +1,4 @@
-package com.example.babylon.postlist
+package com.example.babylon.postlist.adapter
 
 import android.view.LayoutInflater
 import android.view.View

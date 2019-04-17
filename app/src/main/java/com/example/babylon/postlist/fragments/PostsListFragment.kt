@@ -5,23 +5,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.*
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.babylon.R
 import com.example.babylon.core.*
-import com.example.babylon.postlist.PostListItemAdapter
+import com.example.babylon.postlist.adapter.PostListItemAdapter
 import com.example.babylon.postlist.models.Post
 import com.example.babylon.postlist.viewmodels.PostListViewState
 import com.example.babylon.postlist.viewmodels.PostsListViewModel
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_posts_list.*
 import javax.inject.Inject
-import android.util.DisplayMetrics
-
-
-
 
 
 class PostsListFragment : DaggerFragment() {
@@ -43,7 +38,7 @@ class PostsListFragment : DaggerFragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = getViewModel(viewModelFactory) {
             observe(postListViewState, ::onPostListViewState)
-            fetchPosts()
+            //fetchPosts()
         }
     }
 
@@ -73,11 +68,6 @@ class PostsListFragment : DaggerFragment() {
 
         adapter = PostListItemAdapter(emptyList(), postAdapterClickListener)
         rv_posts.adapter = adapter
-    }
-
-    override fun onResume() {
-        super.onResume()
-        //if (::viewModel.isInitialized) viewModel.fetchPosts()
     }
 
     private fun onPostListViewState(viewState: PostListViewState?) {
