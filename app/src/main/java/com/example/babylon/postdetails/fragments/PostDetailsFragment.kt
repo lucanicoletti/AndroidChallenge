@@ -10,6 +10,7 @@ import com.example.babylon.R
 import com.example.babylon.core.*
 import com.example.babylon.postdetails.models.Comment
 import com.example.babylon.postdetails.models.User
+import com.example.babylon.postdetails.view.CommentView
 import com.example.babylon.postdetails.viewmodels.PostDetailsViewModel
 import com.example.babylon.postdetails.viewmodels.PostDetailsViewState
 import dagger.android.support.DaggerFragment
@@ -47,11 +48,15 @@ class PostDetailsFragment : DaggerFragment() {
         when (postDetailsViewState) {
             PostDetailsViewState.Loading -> {
                 pb_user_loading.visible()
+                pb_comments_loading.visible()
             }
             is PostDetailsViewState.Error -> {
                 pb_user_loading.gone()
+                pb_comments_loading.gone()
             }
             is PostDetailsViewState.Success -> {
+                pb_user_loading.gone()
+                pb_comments_loading.gone()
                 loadUserData(postDetailsViewState.user)
                 loadCommentsData(postDetailsViewState.commentList)
             }
@@ -59,11 +64,19 @@ class PostDetailsFragment : DaggerFragment() {
     }
 
     private fun loadCommentsData(commentList: List<Comment>) {
-
+        if (commentList.isEmpty()) {
+            tv_no_comments.visible()
+        } else {
+            tv_no_comments.gone()
+            commentList.forEach { singleComment ->
+                val commentView = CommentView(requireContext())
+                cv_comments_container.addView(commentView)
+                commentView.setupView(singleComment)
+            }
+        }
     }
 
     private fun loadUserData(user: User) {
-        pb_user_loading.gone()
         tv_name.text = user.name
         tv_username.text = user.userName
         tv_email.text = user.email

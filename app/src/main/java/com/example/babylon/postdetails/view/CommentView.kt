@@ -13,8 +13,11 @@ import kotlinx.android.synthetic.main.view_comment.view.*
  * on 17/04/2019
  */
 
-class CommentView @kotlin.jvm.JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
-: ConstraintLayout(context, attrs, defStyleAttr) {
+class CommentView @kotlin.jvm.JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : ConstraintLayout(context, attrs, defStyleAttr) {
 
     init {
         View.inflate(context, R.layout.view_comment, this)

@@ -16,8 +16,8 @@ import com.example.babylon.postlist.models.Post
  */
 
 class PostListItemAdapter(
-        private var postList: List<Post>,
-        private val postClickListener: OnPostClickListener
+    private var postList: List<Post>,
+    private val postClickListener: OnPostClickListener
 ) : RecyclerView.Adapter<PostListItemAdapter.ViewHolder>() {
 
     interface OnPostClickListener {
@@ -30,8 +30,10 @@ class PostListItemAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
-            ViewHolder(LayoutInflater.from(parent.context)
-                    .inflate(R.layout.view_list_item_post, parent, false))
+        ViewHolder(
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.view_list_item_post, parent, false)
+        )
 
     override fun getItemCount(): Int = postList.size
 

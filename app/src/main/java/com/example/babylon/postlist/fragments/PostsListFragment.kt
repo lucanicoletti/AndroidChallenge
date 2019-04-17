@@ -28,11 +28,11 @@ class PostsListFragment : DaggerFragment() {
     private var adapter: PostListItemAdapter? = null
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? =
-            inflater.inflate(R.layout.fragment_posts_list, container, false)
+        inflater.inflate(R.layout.fragment_posts_list, container, false)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -49,11 +49,12 @@ class PostsListFragment : DaggerFragment() {
 
     private var postAdapterClickListener = object : PostListItemAdapter.OnPostClickListener {
         override fun onPostClicked(post: Post, title: View, body: View) {
-            val navDirections = PostsListFragmentDirections.actionPostsListFragmentToPostDetailFragment(post)
+            val navDirections =
+                PostsListFragmentDirections.actionPostsListFragmentToPostDetailFragment(post)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 val animationExtras = FragmentNavigatorExtras(
-                        title to title.transitionName,
-                        body to body.transitionName
+                    title to title.transitionName,
+                    body to body.transitionName
                 )
                 navigateWithAnimations(navDirections, animationExtras)
             } else {
