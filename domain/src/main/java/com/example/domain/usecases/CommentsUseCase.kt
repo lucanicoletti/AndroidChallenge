@@ -5,9 +5,8 @@ import com.example.domain.repositories.CommentsRepository
 import io.reactivex.Single
 import javax.inject.Inject
 
-class CommentsUseCase @Inject constructor(private val commentsRepository: CommentsRepository)
-    : SingleUseCase<List<CommentDomainModel>, Any>() {
+class CommentsUseCase @Inject constructor(private val commentsRepository: CommentsRepository) {
 
-    override fun buildUseCaseSingle(params: Any): Single<List<CommentDomainModel>> =
+    fun getComments(): Single<List<CommentDomainModel>> =
             commentsRepository.getComments()
 }

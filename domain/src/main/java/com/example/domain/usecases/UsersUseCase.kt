@@ -5,9 +5,7 @@ import com.example.domain.repositories.UsersRepository
 import io.reactivex.Single
 import javax.inject.Inject
 
-class UsersUseCase @Inject constructor(private val usersRepository: UsersRepository)
-    : SingleUseCase<List<UserDomainModel>, Unit>() {
+class UsersUseCase @Inject constructor(private val usersRepository: UsersRepository) {
 
-    override fun buildUseCaseSingle(params: Unit): Single<List<UserDomainModel>> =
-        usersRepository.getUsers()
+    fun getUsers(): Single<List<UserDomainModel>> = usersRepository.getUsers()
 }

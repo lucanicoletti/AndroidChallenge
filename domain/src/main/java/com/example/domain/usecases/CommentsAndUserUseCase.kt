@@ -12,9 +12,9 @@ import javax.inject.Inject
 class CommentsAndUserUseCase @Inject constructor(
     private val commentsRepository: CommentsRepository,
     private val usersRepository: UsersRepository
-) : SingleUseCase<PostDetailDomainModel, CommentsAndUserUseCase.Params>() {
+) {
 
-    override fun buildUseCaseSingle(params: Params):
+    fun getCommentsAndUser(params: Params):
         Single<PostDetailDomainModel> =
         Single.zip(
             commentsRepository.getCommentsByPost(params.postId),

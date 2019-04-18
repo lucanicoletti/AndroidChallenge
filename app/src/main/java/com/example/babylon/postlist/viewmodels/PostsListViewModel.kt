@@ -2,17 +2,19 @@ package com.example.babylon.postlist.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import com.example.babylon.core.BaseViewModel
 import com.example.babylon.postlist.mappers.PostsMapper
 import com.example.babylon.postlist.models.Post
 import com.example.domain.models.PostDomainModel
 import com.example.domain.usecases.PostsUseCase
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class PostsListViewModel @Inject constructor(
     private val postsUseCase: PostsUseCase,
     private val postsMapper: PostsMapper
-) : ViewModel() {
+) : BaseViewModel() {
 
     private val _postsListViewState = MutableLiveData<PostListViewState>()
 
@@ -23,17 +25,26 @@ class PostsListViewModel @Inject constructor(
         fetchPosts()
     }
 
-    fun fetchPosts() {
-        _postsListViewState.postValue(PostListViewState.Loading)
-        postsUseCase.execute(
-            {
-                onPostsListSucceed(it)
-            },
-            {
-                onPostsListError(it)
-            },
-            params = Unit
-        )
+    override fun onCleared() {
+        super.onCleared()
+        disposeAll()
+    }
+
+    private fun fetchPosts() {
+        lastDisposable = postsUseCase.getPots()
+            .doOnSubscribe {
+                _postsListViewState.postValue(PostListViewState.Loading)
+            }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    onPostsListSucceed(it)
+                },
+                {
+                    onPostsListError(it)
+                }
+            )
     }
 
     private fun onPostsListSucceed(postList: List<PostDomainModel>) {
@@ -50,6 +61,6 @@ class PostsListViewModel @Inject constructor(
 
 sealed class PostListViewState {
     object Loading : PostListViewState()
-    class Error(val reason: String) : PostListViewState()
-    class Success(val list: List<Post>) : PostListViewState()
+    data class Error(val reason: String) : PostListViewState()
+    data class Success(val list: List<Post>) : PostListViewState()
 }

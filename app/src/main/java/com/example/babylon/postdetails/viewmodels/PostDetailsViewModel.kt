@@ -2,35 +2,47 @@ package com.example.babylon.postdetails.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import com.example.babylon.core.BaseViewModel
 import com.example.babylon.postdetails.mappers.PostDetailMapper
 import com.example.babylon.postdetails.models.Comment
 import com.example.babylon.postdetails.models.User
 import com.example.domain.models.PostDetailDomainModel
 import com.example.domain.usecases.CommentsAndUserUseCase
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class PostDetailsViewModel @Inject constructor(
     private val commentsAndUserUseCase: CommentsAndUserUseCase,
     private val postDetailMapper: PostDetailMapper
-) : ViewModel() {
+) : BaseViewModel() {
 
     private val _postDetailsViewState = MutableLiveData<PostDetailsViewState>()
 
     val postDetailsViewState: LiveData<PostDetailsViewState>
         get() = _postDetailsViewState
 
+    override fun onCleared() {
+        super.onCleared()
+        disposeAll()
+    }
+
     fun loadCommentsAndUserData(userId: Int, postId: Int) {
-        _postDetailsViewState.postValue(PostDetailsViewState.Loading)
-        commentsAndUserUseCase.execute(
-            {
-                onCommentsAndUserSucceed(it)
-            },
-            {
-                onCommentsAndUserFailed(it)
-            },
-            params = CommentsAndUserUseCase.Params(userId, postId)
-        )
+        lastDisposable =
+            commentsAndUserUseCase.getCommentsAndUser(CommentsAndUserUseCase.Params(userId, postId))
+                .doOnSubscribe {
+                    _postDetailsViewState.postValue(PostDetailsViewState.Loading)
+                }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    {
+                        onCommentsAndUserSucceed(it)
+                    },
+                    {
+                        onCommentsAndUserFailed(it)
+                    }
+                )
     }
 
     private fun onCommentsAndUserFailed(throwable: Throwable) {

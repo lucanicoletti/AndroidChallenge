@@ -8,8 +8,10 @@ import com.example.domain.models.CompanyDomainModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
+import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnit
 import org.mockito.junit.MockitoRule
 
@@ -29,6 +31,16 @@ class UserEntityMapperTest {
     @get:Rule
     var mockitoRule: MockitoRule = MockitoJUnit.rule()
 
+
+    @Mock
+    lateinit var addressMapper: AddressEntityMapper
+    @Mock
+    lateinit var companyMapper: CompanyEntityMapper
+    @Mock
+    lateinit var addressDomainModel: AddressDomainModel
+    @Mock
+    lateinit var companyDomainModel: CompanyDomainModel
+
     private lateinit var addressEntity: AddressEntity
     private lateinit var companyEntity: CompanyEntity
 
@@ -36,6 +48,7 @@ class UserEntityMapperTest {
 
     @Before
     fun `prepare for test`() {
+        MockitoAnnotations.initMocks(this)
         addressEntity = mock(AddressEntity::class.java)
         companyEntity = mock(CompanyEntity::class.java)
 
@@ -53,11 +66,6 @@ class UserEntityMapperTest {
 
     @Test
     fun `verify id is correct in domain model after mapping`() {
-        val addressMapper = mock(AddressEntityMapper::class.java)
-        val companyMapper = mock(CompanyEntityMapper::class.java)
-        val addressDomainModel = mock(AddressDomainModel::class.java)
-        val companyDomainModel = mock(CompanyDomainModel::class.java)
-
         Mockito.`when`(addressMapper.mapToDomain(addressEntity))
             .thenReturn(addressDomainModel)
         Mockito.`when`(companyMapper.mapToDomain(companyEntity))
@@ -71,11 +79,6 @@ class UserEntityMapperTest {
 
     @Test
     fun `verify name is correct in domain model after mapping`() {
-        val addressMapper = mock(AddressEntityMapper::class.java)
-        val companyMapper = mock(CompanyEntityMapper::class.java)
-        val addressDomainModel = mock(AddressDomainModel::class.java)
-        val companyDomainModel = mock(CompanyDomainModel::class.java)
-
         Mockito.`when`(addressMapper.mapToDomain(addressEntity))
             .thenReturn(addressDomainModel)
         Mockito.`when`(companyMapper.mapToDomain(companyEntity))
@@ -89,11 +92,6 @@ class UserEntityMapperTest {
 
     @Test
     fun `verify username is correct in domain model after mapping`() {
-        val addressMapper = mock(AddressEntityMapper::class.java)
-        val companyMapper = mock(CompanyEntityMapper::class.java)
-        val addressDomainModel = mock(AddressDomainModel::class.java)
-        val companyDomainModel = mock(CompanyDomainModel::class.java)
-
         Mockito.`when`(addressMapper.mapToDomain(addressEntity))
             .thenReturn(addressDomainModel)
         Mockito.`when`(companyMapper.mapToDomain(companyEntity))
@@ -107,11 +105,6 @@ class UserEntityMapperTest {
 
     @Test
     fun `verify phone is correct in domain model after mapping`() {
-        val addressMapper = mock(AddressEntityMapper::class.java)
-        val companyMapper = mock(CompanyEntityMapper::class.java)
-        val addressDomainModel = mock(AddressDomainModel::class.java)
-        val companyDomainModel = mock(CompanyDomainModel::class.java)
-
         Mockito.`when`(addressMapper.mapToDomain(addressEntity))
             .thenReturn(addressDomainModel)
         Mockito.`when`(companyMapper.mapToDomain(companyEntity))
@@ -125,11 +118,6 @@ class UserEntityMapperTest {
 
     @Test
     fun `verify website is correct in domain model after mapping`() {
-        val addressMapper = mock(AddressEntityMapper::class.java)
-        val companyMapper = mock(CompanyEntityMapper::class.java)
-        val addressDomainModel = mock(AddressDomainModel::class.java)
-        val companyDomainModel = mock(CompanyDomainModel::class.java)
-
         Mockito.`when`(addressMapper.mapToDomain(addressEntity))
             .thenReturn(addressDomainModel)
         Mockito.`when`(companyMapper.mapToDomain(companyEntity))
@@ -143,11 +131,6 @@ class UserEntityMapperTest {
 
     @Test
     fun `verify imageUrl is built correctly in domain model after mapping`() {
-        val addressMapper = mock(AddressEntityMapper::class.java)
-        val companyMapper = mock(CompanyEntityMapper::class.java)
-        val addressDomainModel = mock(AddressDomainModel::class.java)
-        val companyDomainModel = mock(CompanyDomainModel::class.java)
-
         Mockito.`when`(addressMapper.mapToDomain(addressEntity))
             .thenReturn(addressDomainModel)
         Mockito.`when`(companyMapper.mapToDomain(companyEntity))
