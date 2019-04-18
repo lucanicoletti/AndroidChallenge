@@ -62,6 +62,6 @@ class PostDetailsViewModel @Inject constructor(
 
 sealed class PostDetailsViewState {
     object Loading : PostDetailsViewState()
-    class Error(val reason: String) : PostDetailsViewState()
-    class Success(val user: User, val commentList: List<Comment>) : PostDetailsViewState()
+    data class Error(val reason: String) : PostDetailsViewState()
+    data class Success(val user: User, val commentList: List<Comment>) : PostDetailsViewState()
 }
