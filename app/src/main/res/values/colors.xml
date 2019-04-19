@@ -3,4 +3,6 @@
     <color name="colorPrimary">#003577</color>
     <color name="colorPrimaryDark">#00174B</color>
     <color name="colorAccent">#f96900</color>
+    <color name="tile_snack_bar_error_state">#ffff4444</color>
+    <color name="tile_snack_bar_success_state">#06A10B</color>
 </resources>

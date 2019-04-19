@@ -8,11 +8,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.example.babylon.R
 import com.example.babylon.core.*
+import com.example.babylon.core.views.TileSnackBar
 import com.example.babylon.postdetails.models.Comment
 import com.example.babylon.postdetails.models.User
 import com.example.babylon.postdetails.view.CommentView
 import com.example.babylon.postdetails.viewmodels.PostDetailsViewModel
 import com.example.babylon.postdetails.viewmodels.PostDetailsViewState
+import com.google.android.material.snackbar.Snackbar
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_post_detail.*
 import javax.inject.Inject
@@ -47,20 +49,41 @@ class PostDetailsFragment : DaggerFragment() {
     private fun onPostDetailViewState(postDetailsViewState: PostDetailsViewState?) {
         when (postDetailsViewState) {
             PostDetailsViewState.Loading -> {
-                pb_user_loading.visible()
-                pb_comments_loading.visible()
+                manageViewsVisibilityForLoadingState()
             }
             is PostDetailsViewState.Error -> {
-                pb_user_loading.gone()
-                pb_comments_loading.gone()
+                manageViewsVisibilityForErrorState()
+                showErrorMessageWithRetry()
             }
             is PostDetailsViewState.Success -> {
-                pb_user_loading.gone()
-                pb_comments_loading.gone()
+                manageViewsVisibilityForSuccessState()
                 loadUserData(postDetailsViewState.user)
                 loadCommentsData(postDetailsViewState.commentList)
             }
         }
+    }
+
+    private fun manageViewsVisibilityForErrorState() {
+        pb_user_loading.gone()
+        tv_about_the_user.gone()
+        tv_comments.gone()
+        g_user_info.gone()
+        pb_comments_loading.gone()
+    }
+
+    private fun manageViewsVisibilityForLoadingState() {
+        pb_user_loading.visible()
+        pb_comments_loading.visible()
+        g_user_info.gone()
+        tv_comments.visible()
+        tv_about_the_user.visible()
+    }
+
+    private fun manageViewsVisibilityForSuccessState() {
+        pb_user_loading.gone()
+        pb_comments_loading.gone()
+        tv_comments.visible()
+        g_user_info.visible()
     }
 
     private fun loadCommentsData(commentList: List<Comment>) {
@@ -95,5 +118,24 @@ class PostDetailsFragment : DaggerFragment() {
             tv_title.text = post.title
             tv_body.text = post.title
         }
+    }
+
+
+    private fun showErrorMessageWithRetry() {
+        val errorSnackBar = TileSnackBar.make(
+            view = cl_main_container,
+            title = R.string.error_loading_details,
+            mainButtonText = R.string.retry,
+            duration = Snackbar.LENGTH_INDEFINITE,
+            actionListener = View.OnClickListener {
+                viewModel.loadCommentsAndUserData(
+                    args.post?.userId ?: -1,
+                    args.post?.id ?: -1
+                )
+            },
+            type = TileSnackBar.TYPE_ERROR
+        )
+        errorSnackBar.showCloseIcon()
+        errorSnackBar.show()
     }
 }

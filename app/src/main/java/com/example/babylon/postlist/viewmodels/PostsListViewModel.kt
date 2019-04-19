@@ -30,7 +30,7 @@ class PostsListViewModel @Inject constructor(
         disposeAll()
     }
 
-    private fun fetchPosts() {
+    fun fetchPosts() {
         lastDisposable = postsUseCase.getPots()
             .doOnSubscribe {
                 _postsListViewState.postValue(PostListViewState.Loading)

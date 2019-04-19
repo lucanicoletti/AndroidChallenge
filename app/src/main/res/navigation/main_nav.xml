@@ -10,6 +10,10 @@
         android:name="com.example.babylon.postlist.fragments.PostsListFragment">
         <action
             android:id="@+id/action_postsListFragment_to_postDetailFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:exitAnim="@anim/exit_to_left"
+            app:popExitAnim="@anim/exit_to_right"
             app:destination="@id/postDetailFragment">
             <argument
                 android:name="post"

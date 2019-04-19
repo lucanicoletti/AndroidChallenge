@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.babylon.R
 import com.example.babylon.core.*
+import com.example.babylon.core.views.TileSnackBar
 import com.example.babylon.postlist.adapter.PostListItemAdapter
 import com.example.babylon.postlist.models.Post
 import com.example.babylon.postlist.viewmodels.PostListViewState
@@ -17,6 +18,9 @@ import com.example.babylon.postlist.viewmodels.PostsListViewModel
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_posts_list.*
 import javax.inject.Inject
+import com.google.android.material.snackbar.Snackbar
+
+
 
 
 class PostsListFragment : DaggerFragment() {
@@ -78,11 +82,28 @@ class PostsListFragment : DaggerFragment() {
             }
             is PostListViewState.Error -> {
                 pb_loading_list.gone()
+                showErrorMessageWithRetry()
             }
             is PostListViewState.Success -> {
                 pb_loading_list.gone()
                 adapter?.updatePosts(viewState.list)
             }
         }
+    }
+
+    private fun showErrorMessageWithRetry() {
+        val errorSnackBar = TileSnackBar.make(
+            view = fl_container,
+            title = R.string.error_loading_list_title,
+            message = R.string.error_loading_list_message,
+            mainButtonText = R.string.retry,
+            duration = Snackbar.LENGTH_INDEFINITE,
+            actionListener = View.OnClickListener {
+                viewModel.fetchPosts()
+            },
+            type = TileSnackBar.TYPE_ERROR
+        )
+        errorSnackBar.hideCloseIcon()
+        errorSnackBar.show()
     }
 }

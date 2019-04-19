@@ -1,5 +1,12 @@
 <resources>
     <string name="app_name">Babylon</string>
     <string name="read_more">Read more</string>
+    <string name="retry">Retry</string>
     <string name="no_comments">No comments on this post yet.</string>
+    <string name="error_loading_list_title">An error occurred.</string>
+    <string name="error_loading_list_message"> That\'s on us!</string>
+    <string name="error_loading_details">Couldn\'t fetch post details.</string>
+    <string name="about_the_post">Enjoy your reading</string>
+    <string name="about_the_user">Some info about the user:</string>
+    <string name="comments_title">Comments on this post:</string>
 </resources>
