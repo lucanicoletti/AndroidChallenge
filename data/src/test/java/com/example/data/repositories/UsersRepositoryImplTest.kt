@@ -151,10 +151,10 @@ class UsersRepositoryImplTest {
         usersEntityMapper = UserEntityMapper(addressEntityMapper, companyEntityMapper)
 
         repository = UsersRepositoryImpl(usersApi, usersEntityMapper)
-        setupLifeCyclerOwener()
+        setupLifeCycleOwner()
     }
 
-    private fun setupLifeCyclerOwener() {
+    private fun setupLifeCycleOwner() {
         val lifecycle = LifecycleRegistry(lifeCycleOwner)
         Mockito.`when`(lifeCycleOwner.lifecycle).thenReturn(lifecycle)
         lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
