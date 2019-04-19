@@ -10,7 +10,11 @@ import com.example.babylon.postlist.viewmodels.PostListViewState
 import com.example.babylon.postlist.viewmodels.PostsListViewModel
 import com.example.babylon.utils.RxSchedulerRule
 import com.example.domain.models.PostDomainModel
+import com.example.domain.models.UserDomainModel
 import com.example.domain.repositories.PostsRepository
+import com.example.domain.repositories.UsersRepository
+import com.example.domain.usecases.CommentsAndUserUseCase
+import com.example.domain.usecases.PostsAndUsersUseCase
 import com.example.domain.usecases.PostsUseCase
 import io.reactivex.Single
 import org.junit.Before
@@ -44,14 +48,18 @@ class PostListViewModelTest {
     @Mock
     lateinit var postsRepository: PostsRepository
     @Mock
+    lateinit var userRepository: UsersRepository
+    @Mock
     lateinit var postsMapper: PostsMapper
     @Mock
     lateinit var postsListViewStateObserver: Observer<PostListViewState>
     @Mock
     lateinit var mockPostDomainModel: PostDomainModel
+    @Mock
+    lateinit var mockUserDomainModel: UserDomainModel
 
 
-    private lateinit var postsUseCase: PostsUseCase
+    private lateinit var postAndUserUseCase: PostsAndUsersUseCase
     private lateinit var postsListViewModel: PostsListViewModel
 
     @Before
@@ -64,8 +72,11 @@ class PostListViewModelTest {
     fun `verify that success response create correct view state`() {
         // Arrange
         val validPostsResponse = listOf(mockPostDomainModel, mockPostDomainModel, mockPostDomainModel)
+        val validUsersResponse = listOf(mockUserDomainModel, mockUserDomainModel, mockUserDomainModel)
         Mockito.`when`(postsRepository.getPosts())
             .thenReturn(Single.just(validPostsResponse))
+        Mockito.`when`(userRepository.getUsers())
+            .thenReturn(Single.just(validUsersResponse))
 
         // Act
         setupViewModel()
@@ -80,6 +91,8 @@ class PostListViewModelTest {
         val message = "Unknown error"
         Mockito.`when`(postsRepository.getPosts())
             .thenReturn(Single.error(Exception(message)))
+        Mockito.`when`(userRepository.getUsers())
+            .thenReturn(Single.error(Exception(message)))
 
         // Act
         setupViewModel()
@@ -89,8 +102,8 @@ class PostListViewModelTest {
     }
 
     private fun setupViewModel() {
-        postsUseCase = PostsUseCase(postsRepository)
-        postsListViewModel = PostsListViewModel(postsUseCase, postsMapper)
+        postAndUserUseCase = PostsAndUsersUseCase(postsRepository, userRepository)
+        postsListViewModel = PostsListViewModel(postAndUserUseCase, postsMapper)
         setupObservers()
     }
 

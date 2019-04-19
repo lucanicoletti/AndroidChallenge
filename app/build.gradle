@@ -90,5 +90,6 @@ dependencies {
 
     implementation project(':data')
     implementation project(':domain')
+    testImplementation project(':domain')
     implementation 'android.arch.navigation:navigation-fragment:1.0.0'
 }
