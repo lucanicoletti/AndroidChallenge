@@ -3,16 +3,17 @@ package com.example.babylon.postlist.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.babylon.R
+import com.example.babylon.core.GlideApp
+import com.example.babylon.core.gone
+import com.example.babylon.core.visible
 import com.example.babylon.postlist.models.Post
+import kotlinx.android.synthetic.main.view_list_item_post.view.*
 
 /**
  * Created by Luca Nicoletti
  * on 15/04/2019
- * Monese® All rights reserved
  */
 
 class PostListItemAdapter(
@@ -38,21 +39,26 @@ class PostListItemAdapter(
     override fun getItemCount(): Int = postList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindView(postList[position], postClickListener)
-    }
-
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-
-        private val title: TextView = view.findViewById(R.id.tv_title)
-        private val body: TextView = view.findViewById(R.id.tv_partial_body)
-        private val readMore: Button = view.findViewById(R.id.btn_read_more)
-
-        fun bindView(post: Post, clickListener: OnPostClickListener) {
-            title.text = post.title
-            body.text = post.title
-            readMore.setOnClickListener {
-                clickListener.onPostClicked(post, title, body)
-            }
+        val post = postList[position]
+        holder.itemView.tv_title.text = post.title
+        holder.itemView.tv_partial_body.text = post.body
+        holder.itemView.fl_post_item_container.setOnClickListener {
+            postClickListener.onPostClicked(
+                post,
+                holder.itemView.tv_title,
+                holder.itemView.tv_partial_body
+            )
+        }
+        post.user?.let { postCreator ->
+            holder.itemView.g_user_info.visible()
+            GlideApp.with(holder.itemView)
+                .load(postCreator.imageUrl)
+                .into(holder.itemView.iv_user_picture)
+            holder.itemView.tv_user_name.text = postCreator.userName
+        } ?: run {
+            holder.itemView.g_user_info.gone()
         }
     }
+
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
 }
