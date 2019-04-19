@@ -65,7 +65,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:transitionName="transition_title"
                     tools:text="Post title" />
 
                 <TextView
@@ -75,7 +74,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:padding="5dp"
-                    android:transitionName="transition_body"
                     tools:text="In this post I'm gonna talk about ..." />
             </LinearLayout>
         </androidx.cardview.widget.CardView>

@@ -22,7 +22,7 @@ class PostListItemAdapter(
 ) : RecyclerView.Adapter<PostListItemAdapter.ViewHolder>() {
 
     interface OnPostClickListener {
-        fun onPostClicked(post: Post, title: View, body: View)
+        fun onPostClicked(post: Post)
     }
 
     fun updatePosts(newList: List<Post>) {
@@ -43,11 +43,7 @@ class PostListItemAdapter(
         holder.itemView.tv_title.text = post.title
         holder.itemView.tv_partial_body.text = post.body
         holder.itemView.fl_post_item_container.setOnClickListener {
-            postClickListener.onPostClicked(
-                post,
-                holder.itemView.tv_title,
-                holder.itemView.tv_partial_body
-            )
+            postClickListener.onPostClicked(post)
         }
         post.user?.let { postCreator ->
             holder.itemView.g_user_info.visible()

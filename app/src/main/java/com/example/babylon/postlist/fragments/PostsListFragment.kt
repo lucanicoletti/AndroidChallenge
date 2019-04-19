@@ -1,11 +1,9 @@
 package com.example.babylon.postlist.fragments
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.babylon.R
@@ -15,12 +13,10 @@ import com.example.babylon.postlist.adapter.PostListItemAdapter
 import com.example.babylon.postlist.models.Post
 import com.example.babylon.postlist.viewmodels.PostListViewState
 import com.example.babylon.postlist.viewmodels.PostsListViewModel
+import com.google.android.material.snackbar.Snackbar
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_posts_list.*
 import javax.inject.Inject
-import com.google.android.material.snackbar.Snackbar
-
-
 
 
 class PostsListFragment : DaggerFragment() {
@@ -52,18 +48,10 @@ class PostsListFragment : DaggerFragment() {
     }
 
     private var postAdapterClickListener = object : PostListItemAdapter.OnPostClickListener {
-        override fun onPostClicked(post: Post, title: View, body: View) {
-            val navDirections =
-                PostsListFragmentDirections.actionPostsListFragmentToPostDetailFragment(post)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                val animationExtras = FragmentNavigatorExtras(
-                    title to title.transitionName,
-                    body to body.transitionName
-                )
-                navigateWithAnimations(navDirections, animationExtras)
-            } else {
-                navigateTo(navDirections)
-            }
+        override fun onPostClicked(post: Post) {
+            val navDirections = PostsListFragmentDirections
+                .actionPostsListFragmentToPostDetailFragment(post)
+            navigateTo(navDirections)
         }
     }
 
