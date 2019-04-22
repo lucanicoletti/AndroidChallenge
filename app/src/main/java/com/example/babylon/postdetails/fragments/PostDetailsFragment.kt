@@ -25,7 +25,6 @@ class PostDetailsFragment : DaggerFragment() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
     lateinit var viewModel: PostDetailsViewModel
 
-
     private val args: PostDetailsFragmentArgs by navArgs()
 
     override fun onCreateView(
@@ -39,26 +38,42 @@ class PostDetailsFragment : DaggerFragment() {
 
         viewModel = getViewModel(viewModelFactory) {
             observe(postDetailsViewState, ::onPostDetailViewState)
-            loadCommentsAndUserData(
-                args.post?.userId ?: -1,
-                args.post?.id ?: -1
-            )
+            args.post?.user?.let {
+                loadComments(args.post?.id ?: -1)
+                loadUserData(it)
+            } ?: run {
+                loadCommentsAndUserData(
+                    args.post?.userId ?: -1,
+                    args.post?.id ?: -1
+                )
+            }
         }
     }
 
     private fun onPostDetailViewState(postDetailsViewState: PostDetailsViewState?) {
         when (postDetailsViewState) {
+            is PostDetailsViewState.SuccessBoth -> {
+                manageViewsVisibilityForSuccessState()
+                loadCommentsData(postDetailsViewState.commentList)
+                loadUserData(postDetailsViewState.user)
+            }
+            is PostDetailsViewState.ErrorBoth -> {
+                manageViewsVisibilityForErrorState()
+                showErrorMessageWithRetryBoth()
+            }
+            is PostDetailsViewState.SuccessComments -> {
+                manageViewsVisibilityForSuccessState()
+                loadCommentsData(postDetailsViewState.commentList)
+            }
+            is PostDetailsViewState.ErrorComments -> {
+                manageViewsVisibilityForErrorState()
+                showErrorMessageWithRetryComments()
+            }
+            PostDetailsViewState.LoadingCommentsOnly -> {
+                manageViewsVisibilityForLoadingCommentsOnlyState()
+            }
             PostDetailsViewState.Loading -> {
                 manageViewsVisibilityForLoadingState()
-            }
-            is PostDetailsViewState.Error -> {
-                manageViewsVisibilityForErrorState()
-                showErrorMessageWithRetry()
-            }
-            is PostDetailsViewState.Success -> {
-                manageViewsVisibilityForSuccessState()
-                loadUserData(postDetailsViewState.user)
-                loadCommentsData(postDetailsViewState.commentList)
             }
         }
     }
@@ -75,6 +90,12 @@ class PostDetailsFragment : DaggerFragment() {
         pb_user_loading.visible()
         pb_comments_loading.visible()
         g_user_info.gone()
+        tv_comments.visible()
+        tv_about_the_user.visible()
+    }
+
+    private fun manageViewsVisibilityForLoadingCommentsOnlyState() {
+        pb_comments_loading.visible()
         tv_comments.visible()
         tv_about_the_user.visible()
     }
@@ -121,7 +142,7 @@ class PostDetailsFragment : DaggerFragment() {
     }
 
 
-    private fun showErrorMessageWithRetry() {
+    private fun showErrorMessageWithRetryBoth() {
         val errorSnackBar = TileSnackBar.make(
             view = cl_main_container,
             title = R.string.error_loading_details,
@@ -132,6 +153,21 @@ class PostDetailsFragment : DaggerFragment() {
                     args.post?.userId ?: -1,
                     args.post?.id ?: -1
                 )
+            },
+            type = TileSnackBar.TYPE_ERROR
+        )
+        errorSnackBar.showCloseIcon()
+        errorSnackBar.show()
+    }
+
+    private fun showErrorMessageWithRetryComments() {
+        val errorSnackBar = TileSnackBar.make(
+            view = cl_main_container,
+            title = R.string.error_loading_details,
+            mainButtonText = R.string.retry,
+            duration = Snackbar.LENGTH_INDEFINITE,
+            actionListener = View.OnClickListener {
+                viewModel.loadComments(args.post?.id ?: -1)
             },
             type = TileSnackBar.TYPE_ERROR
         )

@@ -5,6 +5,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
+import com.example.babylon.postdetails.mappers.CommentMapper
 import com.example.babylon.postdetails.mappers.CommentsMapper
 import com.example.babylon.postdetails.mappers.PostDetailMapper
 import com.example.babylon.postdetails.mappers.UserMapper
@@ -13,11 +14,13 @@ import com.example.babylon.postdetails.models.User
 import com.example.babylon.postdetails.viewmodels.PostDetailsViewModel
 import com.example.babylon.postdetails.viewmodels.PostDetailsViewState
 import com.example.babylon.utils.RxSchedulerRule
+import com.example.domain.models.CommentDomainModel
 import com.example.domain.models.PostDetailDomainModel
 import com.example.domain.models.UserDomainModel
 import com.example.domain.repositories.CommentsRepository
 import com.example.domain.repositories.UsersRepository
 import com.example.domain.usecases.CommentsAndUserUseCase
+import com.example.domain.usecases.CommentsUseCase
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import io.reactivex.Single
@@ -56,12 +59,14 @@ class PostDetailsViewModelTest {
     @Mock
     lateinit var commentsMapper: CommentsMapper
     @Mock
+    lateinit var commentMapper: CommentMapper
+    @Mock
     lateinit var postDetailMapper: PostDetailMapper
     @Mock
     lateinit var postDetailsViewStateObserver: Observer<PostDetailsViewState>
 
-    @Mock
     lateinit var commentsAndUserUseCase: CommentsAndUserUseCase
+    lateinit var commentsUseCase: CommentsUseCase
     private lateinit var postDetailsViewModel: PostDetailsViewModel
 
     @Before
@@ -72,7 +77,7 @@ class PostDetailsViewModelTest {
 
 
     @Test
-    fun `verify that success response create correct view state`() {
+    fun `verify that success response create correct view state when fetching user and comments`() {
         // Arrange
         val validDetailResponse = PostDetailDomainModel(
             UserDomainModel(1, "", "", "", mock(), "", "", mock(), ""),
@@ -100,7 +105,7 @@ class PostDetailsViewModelTest {
         // Assert
         Mockito.verify(postDetailsViewStateObserver)
             .onChanged(
-                PostDetailsViewState.Success(
+                PostDetailsViewState.SuccessBoth(
                     postDetailMapper.mapToPresentation(validDetailResponse).user,
                     postDetailMapper.mapToPresentation(validDetailResponse).commentList
                 )
@@ -109,7 +114,7 @@ class PostDetailsViewModelTest {
 
 
     @Test
-    fun `verify that error response create correct view state`() {
+    fun `verify that error response create correct view state when fetching user and comments`() {
         // Arrange
         Mockito.`when`(commentsRepository.getCommentsByPost(any()))
             .thenReturn(Single.error(Throwable("")))
@@ -122,13 +127,49 @@ class PostDetailsViewModelTest {
         // Assert
         Mockito.verify(postDetailsViewStateObserver)
             .onChanged(
-                PostDetailsViewState.Error("")
+                PostDetailsViewState.ErrorBoth("")
+            )
+    }
+
+    @Test
+    fun `verify that success response create correct view state when fetching only comments`() {
+        // Arrange
+        Mockito.`when`(commentsRepository.getCommentsByPost(any()))
+            .thenReturn(Single.just(listOf()))
+        Mockito.`when`(commentsMapper.mapToPresentation(any()))
+            .thenReturn(listOf())
+
+        // Act
+        postDetailsViewModel.loadComments(1)
+
+        // Assert
+        Mockito.verify(postDetailsViewStateObserver)
+            .onChanged(
+                PostDetailsViewState.SuccessComments(listOf())
+            )
+    }
+
+
+    @Test
+    fun `verify that error response create correct view state when fetching only comments`() {
+        // Arrange
+        Mockito.`when`(commentsRepository.getCommentsByPost(any()))
+            .thenReturn(Single.error(Throwable("")))
+
+        // Act
+        postDetailsViewModel.loadComments(1)
+
+        // Assert
+        Mockito.verify(postDetailsViewStateObserver)
+            .onChanged(
+                PostDetailsViewState.ErrorComments("")
             )
     }
 
     private fun setupViewModel() {
         commentsAndUserUseCase = CommentsAndUserUseCase(commentsRepository, userRepository)
-        postDetailsViewModel = PostDetailsViewModel(commentsAndUserUseCase, postDetailMapper)
+        commentsUseCase = CommentsUseCase(commentsRepository)
+        postDetailsViewModel = PostDetailsViewModel(commentsAndUserUseCase, commentsUseCase, postDetailMapper, commentMapper)
         setupLifecycleOwner()
         setupObservers()
     }

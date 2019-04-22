@@ -9,4 +9,7 @@ class CommentsUseCase @Inject constructor(private val commentsRepository: Commen
 
     fun getComments(): Single<List<CommentDomainModel>> =
             commentsRepository.getComments()
+
+    fun getCommentsByPostId(postId: Int): Single<List<CommentDomainModel>> =
+            commentsRepository.getCommentsByPost(postId)
 }
