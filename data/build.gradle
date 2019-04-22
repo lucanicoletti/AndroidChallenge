@@ -29,33 +29,13 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    def dataDependenciesImpl = rootProject.ext.dataDependenciesImplementation
+    def dataTestDependenciesImpl = rootProject.ext.dataTestDependenciesImplementation
+    def dataAndroidTestDependenciesImpl = rootProject.ext.dataAndroidTestDependenciesImplementation
 
-    implementation 'androidx.appcompat:appcompat:1.1.0-alpha04'
-    testImplementation 'junit:junit:4.12'
-    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
-    testImplementation 'org.mockito:mockito-core:2.19.0'
-    testImplementation 'org.mockito:mockito-inline:2.13.0'
-    testImplementation 'androidx.arch.core:core-testing:2.1.0-alpha01'
-    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0"
-    androidTestImplementation 'org.mockito:mockito-android:2.7.22'
-    androidTestImplementation 'androidx.test:runner:1.2.0-alpha3'
-    androidTestImplementation 'androidx.arch.core:core-testing:2.1.0-alpha01'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha03'
-
-    //kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-
-    // Rx
-    implementation "io.reactivex.rxjava2:rxandroid:2.1.0"
-    implementation "io.reactivex.rxjava2:rxkotlin:2.3.0"
-
-    // Retrofit
-    implementation "com.squareup.retrofit2:retrofit:2.5.0"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:2.5.0"
-    implementation "com.squareup.retrofit2:converter-gson:2.5.0"
-
-    // Inject
-    implementation 'javax.inject:javax.inject:1'
+    implementation dataDependenciesImpl
+    testImplementation dataTestDependenciesImpl
+    androidTestImplementation dataAndroidTestDependenciesImpl
 
     compile project(path: ':domain')
 }

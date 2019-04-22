@@ -3,7 +3,6 @@
     android:id="@+id/fl_post_item_container"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:clickable="true"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -61,6 +60,7 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 app:cardElevation="0dp"
+                android:transitionName="@string/shared_elem_image"
                 app:cardCornerRadius="16dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginStart="5dp"

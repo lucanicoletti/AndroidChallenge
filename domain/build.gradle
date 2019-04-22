@@ -29,21 +29,15 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'androidx.appcompat:appcompat:1.1.0-alpha04'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0-alpha3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha03'
+    def domainDependenciesImpl = rootProject.ext.domainDependenciesImplementation
+    def domainTestDependenciesImpl = rootProject.ext.domainTestDependenciesImplementation
+    def domainAndroidTestDependenciesImpl = rootProject.ext.domainAndroidTestDependenciesImplementation
 
-    //kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-
-    // Rx
-    implementation "io.reactivex.rxjava2:rxandroid:2.1.0"
-    implementation "io.reactivex.rxjava2:rxkotlin:2.3.0"
-
-    // Inject
-    implementation 'javax.inject:javax.inject:1'
+    implementation domainDependenciesImpl
+    testImplementation domainTestDependenciesImpl
+    androidTestImplementation domainAndroidTestDependenciesImpl
 }
+
 repositories {
     mavenCentral()
 }

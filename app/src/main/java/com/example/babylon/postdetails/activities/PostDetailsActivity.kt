@@ -1,51 +1,115 @@
-package com.example.babylon.postdetails.fragments
+package com.example.babylon.postdetails.activities
 
+import android.content.Context
+import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
+import androidx.annotation.VisibleForTesting
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.example.babylon.R
 import com.example.babylon.core.*
 import com.example.babylon.core.views.TileSnackBar
+import com.example.babylon.idlingresources.EspressoIdlingResource
 import com.example.babylon.postdetails.models.Comment
 import com.example.babylon.postdetails.models.User
 import com.example.babylon.postdetails.view.CommentView
 import com.example.babylon.postdetails.viewmodels.PostDetailsViewModel
 import com.example.babylon.postdetails.viewmodels.PostDetailsViewState
+import com.example.babylon.postlist.models.Post
 import com.google.android.material.snackbar.Snackbar
-import dagger.android.support.DaggerFragment
-import kotlinx.android.synthetic.main.fragment_post_detail.*
+import dagger.android.AndroidInjection
+import kotlinx.android.synthetic.main.activity_post_details.*
 import javax.inject.Inject
 
-class PostDetailsFragment : DaggerFragment() {
+/**
+ * Created by Luca Nicoletti
+ * on 20/04/2019
+ */
+
+class PostDetailsActivity : AppCompatActivity() {
+
+    companion object {
+        const val ARG_POST = "ARG_POST"
+
+        fun getIntent(context: Context, post: Post): Intent =
+            Intent(context, PostDetailsActivity::class.java).apply {
+                putExtra(ARG_POST, post)
+            }
+    }
+
+    @VisibleForTesting
+    val userIdlingResource by lazy { EspressoIdlingResource("USER_IDLING") }
+    @VisibleForTesting
+    val commentsIdlingResource by lazy { EspressoIdlingResource("COMMENTS_IDLING") }
+    @VisibleForTesting
+    val userLoadingIdlingResource by lazy { EspressoIdlingResource("USER_LOADING_IDLING") }
+    @VisibleForTesting
+    val commentsLoadingIdlingResource by lazy { EspressoIdlingResource("COMMENTS_LOADING_IDLING") }
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    lateinit var viewModel: PostDetailsViewModel
+    private lateinit var viewModel: PostDetailsViewModel
 
-    private val args: PostDetailsFragmentArgs by navArgs()
+    private var post: Post? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_post_detail, container, false)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        AndroidInjection.inject(this)
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+        intent.extras?.let { extra ->
+            if (intent.hasExtra(ARG_POST)) {
+                post = extra.getParcelable(ARG_POST)
+            } else {
+                finish()
+            }
+        } ?: finish() // safely go back
 
+        // for tests
+        userIdlingResource.increment()
+        userLoadingIdlingResource.increment()
+        commentsIdlingResource.increment()
+        commentsLoadingIdlingResource.increment()
+
+        setContentView(R.layout.activity_post_details)
+        setupViews()
+        setupViewModel()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when (item?.itemId) {
+            android.R.id.home -> {
+                supportFinishAfterTransition()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onBackPressed() {
+        supportFinishAfterTransition()
+    }
+
+    private fun setupViews() {
+        tv_body.text = post?.body.orEmpty()
+        tv_title.text = post?.title.orEmpty()
+    }
+
+    private fun setupViewModel() {
         viewModel = getViewModel(viewModelFactory) {
             observe(postDetailsViewState, ::onPostDetailViewState)
-            args.post?.user?.let {
-                loadComments(args.post?.id ?: -1)
+            post?.user?.let {
+                loadComments(post?.id ?: 1)
                 loadUserData(it)
             } ?: run {
-                loadCommentsAndUserData(
-                    args.post?.userId ?: -1,
-                    args.post?.id ?: -1
-                )
+                supportPostponeEnterTransition()
+                loadCommentsAndUserData(post?.userId ?: -1, post?.id ?: -1)
             }
         }
     }
@@ -70,9 +134,12 @@ class PostDetailsFragment : DaggerFragment() {
                 showErrorMessageWithRetryComments()
             }
             PostDetailsViewState.LoadingCommentsOnly -> {
+                commentsLoadingIdlingResource.decrement()
                 manageViewsVisibilityForLoadingCommentsOnlyState()
             }
             PostDetailsViewState.Loading -> {
+                userLoadingIdlingResource.decrement()
+                commentsLoadingIdlingResource.decrement()
                 manageViewsVisibilityForLoadingState()
             }
         }
@@ -113,11 +180,12 @@ class PostDetailsFragment : DaggerFragment() {
         } else {
             tv_no_comments.gone()
             commentList.forEach { singleComment ->
-                val commentView = CommentView(requireContext())
+                val commentView = CommentView(this)
                 cv_comments_container.addView(commentView)
                 commentView.setupView(singleComment)
             }
         }
+        commentsIdlingResource.decrement()
     }
 
     private fun loadUserData(user: User) {
@@ -125,22 +193,37 @@ class PostDetailsFragment : DaggerFragment() {
         tv_username.text = user.userName
         tv_email.text = user.email
         tv_website.text = user.website
-
+        g_user_info.visible()
+        pb_user_loading.gone()
         GlideApp.with(this)
             .load(user.imageUrl)
             .centerCrop()
+            .listener(object: RequestListener<Drawable> {
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    supportStartPostponedEnterTransition()
+                    return false
+                }
+
+                override fun onResourceReady(
+                    resource: Drawable?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    dataSource: DataSource?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    supportStartPostponedEnterTransition()
+                    return false
+                }
+
+            })
             .into(iv_user_picture)
+        userIdlingResource.decrement()
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        args.post?.let { post ->
-            tv_title.text = post.title
-            tv_body.text = post.title
-        }
-    }
-
 
     private fun showErrorMessageWithRetryBoth() {
         val errorSnackBar = TileSnackBar.make(
@@ -150,8 +233,8 @@ class PostDetailsFragment : DaggerFragment() {
             duration = Snackbar.LENGTH_INDEFINITE,
             actionListener = View.OnClickListener {
                 viewModel.loadCommentsAndUserData(
-                    args.post?.userId ?: -1,
-                    args.post?.id ?: -1
+                    post?.userId ?: -1,
+                    post?.id ?: -1
                 )
             },
             type = TileSnackBar.TYPE_ERROR
@@ -167,11 +250,18 @@ class PostDetailsFragment : DaggerFragment() {
             mainButtonText = R.string.retry,
             duration = Snackbar.LENGTH_INDEFINITE,
             actionListener = View.OnClickListener {
-                viewModel.loadComments(args.post?.id ?: -1)
+                // for tests
+                userIdlingResource.increment()
+                userLoadingIdlingResource.increment()
+                commentsIdlingResource.increment()
+                commentsLoadingIdlingResource.increment()
+
+                viewModel.loadComments(post?.id ?: -1)
             },
             type = TileSnackBar.TYPE_ERROR
         )
         errorSnackBar.showCloseIcon()
         errorSnackBar.show()
     }
+
 }

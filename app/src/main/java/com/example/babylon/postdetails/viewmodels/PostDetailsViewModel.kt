@@ -13,6 +13,7 @@ import com.example.domain.usecases.CommentsAndUserUseCase
 import com.example.domain.usecases.CommentsUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class PostDetailsViewModel @Inject constructor(
@@ -40,6 +41,7 @@ class PostDetailsViewModel @Inject constructor(
                 }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                //.delay(3, TimeUnit.SECONDS)
                 .subscribe(
                     {
                         onCommentsAndUserSucceed(it)
@@ -58,6 +60,7 @@ class PostDetailsViewModel @Inject constructor(
                 }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                //.delay(3, TimeUnit.SECONDS)
                 .subscribe(
                     {
                         onCommentsSucceed(it)

@@ -9,4 +9,8 @@
     <string name="about_the_post">Enjoy your reading</string>
     <string name="about_the_user">Some info about the user:</string>
     <string name="comments_title">Comments on this post:</string>
+    <string name="shared_elem_image">shared_elem_image</string>
+    <string name="shared_elem_username">shared_elem_username</string>
+    <string name="shared_elem_title">shared_elem_title</string>
+    <string name="shared_elem_body">shared_elem_body</string>
 </resources>

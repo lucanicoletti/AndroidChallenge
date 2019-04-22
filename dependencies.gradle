@@ -1,0 +1,163 @@
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+ext {
+
+    // Android
+    xAppCompatVersion = '1.1.0-alpha04'
+    xCoreKtxVersion = '1.1.0-alpha05'
+    xConstraintLayoutVersion = '1.1.3'
+    xEspressoIdlingResourceVersion = '3.2.0-alpha03'
+    xLifeCycleExtensionsVersion = '2.1.0-alpha04'
+    xAnnotationVersion = '1.1.0-beta01'
+
+    // Testing
+    junitVersion = '4.12'
+    kotlinVersion = '1.3.21'
+    mockitoInlineVersion = '2.13.0'
+    mockitoCoreVersion = '2.23.0'
+    powerMockVersion = '2.0.0-beta.5'
+
+    // Android Testing
+    testCoreVersion = '1.1.0'
+    testJUnitVersion = '1.1.0'
+    testRunnerVersion = '1.2.0-alpha3'
+    testRulesVersion = '1.1.1'
+    mockitoAndroidVersion = '2.7.22'
+    mockitoKotlinVersion = '2.0.0'
+    archCoreTestingVersion = '2.1.0-alpha01'
+    espressoCoreVersion = '3.2.0-alpha03'
+
+    // dagger
+    daggerVersion = '2.21'
+
+    // Rx
+    rxAndroidVersion = '2.1.0'
+    rxKotlinVersion = '2.3.0'
+
+    // Retrofit
+    retrofitVersion = '2.5.0'
+
+    // OkHttpInterceptor
+    logginInterceptorVersion = '3.12.1'
+
+    // Glide
+    glideVersion = '4.9.0'
+
+    // Inject
+    injectVersion = '1'
+
+    presentationDependencies = [
+            implementation: [
+                    kotlin               : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion",
+                    appCompat            : "androidx.appcompat:appcompat:$xAppCompatVersion",
+                    coreKtx              : "androidx.core:core-ktx:$xCoreKtxVersion",
+                    constraintLayout     : "androidx.constraintlayout:constraintlayout:$xConstraintLayoutVersion",
+                    idlingResource       : "androidx.test.espresso:espresso-idling-resource:$xEspressoIdlingResourceVersion",
+                    lifeCycleExtensions  : "androidx.lifecycle:lifecycle-extensions:$xLifeCycleExtensionsVersion",
+                    rxAndroid            : "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion",
+                    rxKotlin             : "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion",
+
+                    retrofit             : "com.squareup.retrofit2:retrofit:$retrofitVersion",
+                    retrofitRxJavaAdapter: "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion",
+                    retrofitGSonConverter: "com.squareup.retrofit2:converter-gson:$retrofitVersion",
+                    okHttpInterceptor    : "com.squareup.okhttp3:logging-interceptor:$logginInterceptorVersion",
+                    glide                : "com.github.bumptech.glide:glide:$glideVersion",
+                    daggerAndroid        : "com.google.dagger:dagger-android:$daggerVersion",
+                    daggerAndroidSupport : "com.google.dagger:dagger-android-support:$daggerVersion",
+                    inject               : "javax.inject:javax.inject:$injectVersion"
+            ],
+            kapt          : [
+                    daggerCompiler        : "com.google.dagger:dagger-compiler:$daggerVersion",
+                    daggerAndroidProcessor: "com.google.dagger:dagger-android-processor:$daggerVersion",
+                    androidXAnnotation    : "androidx.annotation:annotation:$xAnnotationVersion",
+                    glidecompiler         : "com.github.bumptech.glide:compiler:$glideVersion"
+            ]
+    ]
+    presentationTestDependencies = [
+            testImplementation       : [
+                    junit         : "junit:junit:$junitVersion",
+                    mockito       : "org.mockito:mockito-inline:$mockitoInlineVersion",
+                    powemockApi   : "org.powermock:powermock-api-mockito2:$powerMockVersion",
+                    powermockJUnit: "org.powermock:powermock-module-junit4:$powerMockVersion",
+                    xCoreTesting  : "androidx.arch.core:core-testing:$archCoreTestingVersion",
+                    mockitoKotlin : "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion"
+            ],
+            androidTestImplementation: [
+                    mockitoAndroid: "org.mockito:mockito-android:$mockitoAndroidVersion",
+                    mockitoKotlin : "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion",
+                    testRunner    : "androidx.test:runner:$testRunnerVersion",
+                    testCore      : "androidx.test:core:$testCoreVersion",
+                    testRules     : "androidx.test:rules:$testRulesVersion",
+                    testJUnit     : "androidx.test.ext:junit:$testJUnitVersion",
+                    coreTesting   : "androidx.arch.core:core-testing:$archCoreTestingVersion",
+                    espressoCore  : "androidx.test.espresso:espresso-core:$espressoCoreVersion"
+            ]
+    ]
+
+    dataDependencies = [
+            implementation: [
+                    kotlin               : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion",
+                    appCompat            : "androidx.appcompat:appcompat:$xAppCompatVersion",
+                    rxAndroid            : "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion",
+                    rxKotlin             : "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion",
+                    retrofit             : "com.squareup.retrofit2:retrofit:$retrofitVersion",
+                    retrofitRxJavaAdapter: "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion",
+                    retrofitGSonConverter: "com.squareup.retrofit2:converter-gson:$retrofitVersion",
+                    inject               : "javax.inject:javax.inject:$injectVersion"
+            ]
+    ]
+
+    dataTestDependencies = [
+            testImplementation       : [
+                    junit        : "junit:junit:$junitVersion",
+                    kotlinJUnit  : "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion",
+                    mockitoCore  : "org.mockito:mockito-core:$mockitoCoreVersion",
+                    mockito      : "org.mockito:mockito-inline:$mockitoInlineVersion",
+                    xCoreTesting : "androidx.arch.core:core-testing:$archCoreTestingVersion",
+                    mockitoKotlin: "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion"
+            ],
+            androidTestImplementation: [
+                    mockitoAndroid: "org.mockito:mockito-android:$mockitoAndroidVersion",
+                    testRunner    : "androidx.test:runner:$testRunnerVersion",
+                    coreTesting   : "androidx.arch.core:core-testing:$archCoreTestingVersion",
+                    espressoCore  : "androidx.test.espresso:espresso-core:$espressoCoreVersion"
+            ]
+    ]
+
+    domainDependencies = [
+            implementation: [
+                    kotlin               : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion",
+                    appCompat            : "androidx.appcompat:appcompat:$xAppCompatVersion",
+                    rxAndroid            : "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion",
+                    rxKotlin             : "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion",
+                    inject               : "javax.inject:javax.inject:$injectVersion"
+            ]
+    ]
+
+    domainTestDependencies = [
+            testImplementation       : [
+                    junit        : "junit:junit:$junitVersion"
+            ],
+            androidTestImplementation: [
+                    testRunner    : "androidx.test:runner:$testRunnerVersion",
+                    espressoCore  : "androidx.test.espresso:espresso-core:$espressoCoreVersion"
+            ]
+    ]
+
+    presentationDependenciesImplementation = presentationDependencies['implementation'].values()
+    presentationDependenciesKapt = presentationDependencies['kapt'].values()
+    presentationTestDependenciesImplementation = presentationTestDependencies['testImplementation'].values()
+    presentationAndroidTestDependenciesImplementation = presentationTestDependencies['androidTestImplementation'].values()
+    
+    dataDependenciesImplementation = dataDependencies['implementation'].values()
+    dataTestDependenciesImplementation = dataTestDependencies['testImplementation'].values()
+    dataAndroidTestDependenciesImplementation = dataTestDependencies['androidTestImplementation'].values()
+    
+    domainDependenciesImplementation = domainDependencies['implementation'].values()
+    domainTestDependenciesImplementation = domainTestDependencies['testImplementation'].values()
+    domainAndroidTestDependenciesImplementation = domainTestDependencies['androidTestImplementation'].values()
+}

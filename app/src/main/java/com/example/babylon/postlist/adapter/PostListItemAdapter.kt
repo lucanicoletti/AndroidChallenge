@@ -1,5 +1,6 @@
 package com.example.babylon.postlist.adapter
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +23,12 @@ class PostListItemAdapter(
 ) : RecyclerView.Adapter<PostListItemAdapter.ViewHolder>() {
 
     interface OnPostClickListener {
-        fun onPostClicked(post: Post)
+        fun onPostClicked(
+            post: Post,
+            imageView: View? = null,
+            title: View? = null,
+            body: View? = null
+        )
     }
 
     fun updatePosts(newList: List<Post>) {
@@ -43,7 +49,16 @@ class PostListItemAdapter(
         holder.itemView.tv_title.text = post.title
         holder.itemView.tv_partial_body.text = post.body
         holder.itemView.fl_post_item_container.setOnClickListener {
-            postClickListener.onPostClicked(post)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                postClickListener.onPostClicked(
+                    post,
+                    imageView = holder.itemView.cv_image_container,
+                    title = holder.itemView.tv_title,
+                    body = holder.itemView.tv_partial_body
+                )
+            } else {
+                postClickListener.onPostClicked(post)
+            }
         }
         post.user?.let { postCreator ->
             holder.itemView.g_user_info.visible()
