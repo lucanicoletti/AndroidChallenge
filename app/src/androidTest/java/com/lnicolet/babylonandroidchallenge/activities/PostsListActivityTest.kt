@@ -1,15 +1,12 @@
 package com.lnicolet.babylon.activities
 
-import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
-import com.lnicolet.babylon.R
-import com.lnicolet.babylon.idlingresources.EspressoIdlingResource
-import com.lnicolet.babylon.postlist.activities.PostsListActivity
+import com.agoda.kakao.screen.Screen.Companion.onScreen
+import com.lnicolet.babylonandroidchallenge.idlingresources.EspressoIdlingResource
+import com.lnicolet.babylonandroidchallenge.postlist.activities.PostsListActivity
+import com.lnicolet.babylonandroidchallenge.screens.PostListActivityScreen
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -25,7 +22,8 @@ import org.junit.runner.RunWith
 class PostsListActivityTest {
 
     @get:Rule
-    var activityRule: ActivityTestRule<PostsListActivity> = ActivityTestRule(PostsListActivity::class.java)
+    var activityRule: ActivityTestRule<PostsListActivity> =
+        ActivityTestRule(PostsListActivity::class.java)
 
     private lateinit var loadingIdlingResource: EspressoIdlingResource
     private lateinit var postsListIdlingResource: EspressoIdlingResource
@@ -39,14 +37,27 @@ class PostsListActivityTest {
     @Test
     fun testListIsLoaded() {
         IdlingRegistry.getInstance().register(postsListIdlingResource.idlingResource)
-        onView(withId(R.id.rv_posts)).check(matches(isDisplayed()))
+        //onView(withId(R.id.rv_posts)).check(matches(isDisplayed()))
+        onScreen<PostListActivityScreen> {
+            postListRecycler {
+                firstChild<PostListActivityScreen.Item> {
+                    isDisplayed()
+                    title { hasAnyText() }
+                }
+            }
+        }
         IdlingRegistry.getInstance().unregister(postsListIdlingResource.idlingResource)
     }
 
     @Test
     fun testLoadingIsDisplayed() {
         IdlingRegistry.getInstance().register(loadingIdlingResource.idlingResource)
-        onView(withId(R.id.pb_loading_list)).check(matches(isDisplayed()))
+        //onView(withId(R.id.pb_loading_list)).check(matches(isDisplayed()))
+        onScreen<PostListActivityScreen> {
+            loader {
+                isDisplayed()
+            }
+        }
         IdlingRegistry.getInstance().unregister(loadingIdlingResource.idlingResource)
     }
 }

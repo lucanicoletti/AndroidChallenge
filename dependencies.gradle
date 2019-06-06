@@ -51,7 +51,10 @@ ext {
     injectVersion = '1'
 
     // Groupie
-    groupieVersion =  '2.3.0'
+    groupieVersion = '2.3.0'
+
+    // Kakao
+    kakaoVersion = '2.0.0'
 
     presentationDependencies = [
             implementation: [
@@ -99,7 +102,8 @@ ext {
                     testRules     : "androidx.test:rules:$testRulesVersion",
                     testJUnit     : "androidx.test.ext:junit:$testJUnitVersion",
                     coreTesting   : "androidx.arch.core:core-testing:$archCoreTestingVersion",
-                    espressoCore  : "androidx.test.espresso:espresso-core:$espressoCoreVersion"
+                    espressoCore  : "androidx.test.espresso:espresso-core:$espressoCoreVersion",
+                    kakao         : "com.agoda.kakao:kakao:$kakaoVersion"
             ]
     ]
 
@@ -135,21 +139,21 @@ ext {
 
     domainDependencies = [
             implementation: [
-                    kotlin               : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion",
-                    appCompat            : "androidx.appcompat:appcompat:$xAppCompatVersion",
-                    rxAndroid            : "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion",
-                    rxKotlin             : "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion",
-                    inject               : "javax.inject:javax.inject:$injectVersion"
+                    kotlin   : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion",
+                    appCompat: "androidx.appcompat:appcompat:$xAppCompatVersion",
+                    rxAndroid: "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion",
+                    rxKotlin : "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion",
+                    inject   : "javax.inject:javax.inject:$injectVersion"
             ]
     ]
 
     domainTestDependencies = [
             testImplementation       : [
-                    junit        : "junit:junit:$junitVersion"
+                    junit: "junit:junit:$junitVersion"
             ],
             androidTestImplementation: [
-                    testRunner    : "androidx.test:runner:$testRunnerVersion",
-                    espressoCore  : "androidx.test.espresso:espresso-core:$espressoCoreVersion"
+                    testRunner  : "androidx.test:runner:$testRunnerVersion",
+                    espressoCore: "androidx.test.espresso:espresso-core:$espressoCoreVersion"
             ]
     ]
 
@@ -157,11 +161,11 @@ ext {
     presentationDependenciesKapt = presentationDependencies['kapt'].values()
     presentationTestDependenciesImplementation = presentationTestDependencies['testImplementation'].values()
     presentationAndroidTestDependenciesImplementation = presentationTestDependencies['androidTestImplementation'].values()
-    
+
     dataDependenciesImplementation = dataDependencies['implementation'].values()
     dataTestDependenciesImplementation = dataTestDependencies['testImplementation'].values()
     dataAndroidTestDependenciesImplementation = dataTestDependencies['androidTestImplementation'].values()
-    
+
     domainDependenciesImplementation = domainDependencies['implementation'].values()
     domainTestDependenciesImplementation = domainTestDependencies['testImplementation'].values()
     domainAndroidTestDependenciesImplementation = domainTestDependencies['androidTestImplementation'].values()

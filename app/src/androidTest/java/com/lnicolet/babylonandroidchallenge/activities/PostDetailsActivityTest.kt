@@ -9,11 +9,11 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.rule.ActivityTestRule
-import com.lnicolet.babylon.R
-import com.lnicolet.babylon.idlingresources.EspressoIdlingResource
-import com.lnicolet.babylon.postdetails.activities.PostDetailsActivity
-import com.lnicolet.babylon.postdetails.models.User
-import com.lnicolet.babylon.postlist.models.Post
+import com.lnicolet.babylonandroidchallenge.R
+import com.lnicolet.babylonandroidchallenge.postdetails.models.User
+import com.lnicolet.babylonandroidchallenge.postlist.models.Post
+import com.lnicolet.babylonandroidchallenge.idlingresources.EspressoIdlingResource
+import com.lnicolet.babylonandroidchallenge.postdetails.activities.PostDetailsActivity
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
