@@ -14,10 +14,11 @@ import com.lnicolet.babylonandroidchallenge.core.*
 import com.lnicolet.babylonandroidchallenge.core.views.TileSnackBar
 import com.lnicolet.babylonandroidchallenge.idlingresources.EspressoIdlingResource
 import com.lnicolet.babylonandroidchallenge.postdetails.activities.PostDetailsActivity
-import com.lnicolet.babylonandroidchallenge.postlist.adapter.PostListItemAdapter
+import com.lnicolet.babylonandroidchallenge.postlist.items.PostListItem
 import com.lnicolet.babylonandroidchallenge.postlist.models.Post
 import com.lnicolet.babylonandroidchallenge.postlist.viewmodels.PostListViewState
 import com.lnicolet.babylonandroidchallenge.postlist.viewmodels.PostsListViewModel
+import com.xwray.groupie.GroupAdapter
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.posts_list_activity.*
 import javax.inject.Inject
@@ -35,7 +36,7 @@ class PostsListActivity : AppCompatActivity() {
     val postsListIdlingResource: EspressoIdlingResource by lazy { EspressoIdlingResource("LOADING_VISIBILITY") }
 
 
-    private var onPostClickListener = object : PostListItemAdapter.OnPostClickListener {
+    private var onPostClickListener = object : PostListItem.OnPostClickListener {
         override fun onPostClicked(post: Post, imageView: View?, title: View?, body: View?) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 val activityOptions = ActivityOptions.makeSceneTransitionAnimation(
@@ -57,14 +58,14 @@ class PostsListActivity : AppCompatActivity() {
 
     }
 
-    private val adapter = PostListItemAdapter(listOf(), onPostClickListener)
+    private val adapter = GroupAdapter<com.xwray.groupie.kotlinandroidextensions.ViewHolder>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AndroidInjection.inject(this)
         loadingIdlingResource.increment()
         postsListIdlingResource.increment()
-        setContentView(com.lnicolet.babylonandroidchallenge.R.layout.posts_list_activity)
+        setContentView(R.layout.posts_list_activity)
         setupViewModel()
         setupRecyclerView()
     }
@@ -90,7 +91,14 @@ class PostsListActivity : AppCompatActivity() {
             is PostListViewState.Success -> {
                 pb_loading_list.gone()
                 rv_posts.visible()
-                adapter.updatePosts(viewState.list)
+                viewState.list.forEach {
+                    adapter.add(
+                        PostListItem(
+                            it,
+                            onPostClickListener
+                        )
+                    )
+                }
                 postsListIdlingResource.decrement()
             }
             is PostListViewState.Error -> {

@@ -50,6 +50,9 @@ ext {
     // Inject
     injectVersion = '1'
 
+    // Groupie
+    groupieVersion =  '2.3.0'
+
     presentationDependencies = [
             implementation: [
                     kotlin               : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion",
@@ -68,7 +71,9 @@ ext {
                     glide                : "com.github.bumptech.glide:glide:$glideVersion",
                     daggerAndroid        : "com.google.dagger:dagger-android:$daggerVersion",
                     daggerAndroidSupport : "com.google.dagger:dagger-android-support:$daggerVersion",
-                    inject               : "javax.inject:javax.inject:$injectVersion"
+                    inject               : "javax.inject:javax.inject:$injectVersion",
+                    groupie              : "com.xwray:groupie:$groupieVersion",
+                    groupieAndroidKotlin : "com.xwray:groupie-kotlin-android-extensions:$groupieVersion"
             ],
             kapt          : [
                     daggerCompiler        : "com.google.dagger:dagger-compiler:$daggerVersion",
