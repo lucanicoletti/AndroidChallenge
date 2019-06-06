@@ -1,8 +1,8 @@
 package com.lnicolet.babylonandroidchallenge
 
 import android.app.Activity
-import android.app.Application
 import androidx.fragment.app.Fragment
+import androidx.multidex.MultiDexApplication
 import com.lnicolet.babylonandroidchallenge.di.DaggerInjector
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -11,7 +11,7 @@ import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
 
 
-class BabylonApp : Application(), HasActivityInjector, HasSupportFragmentInjector {
+class BabylonApp : MultiDexApplication(), HasActivityInjector, HasSupportFragmentInjector {
     @Inject
     lateinit var activityInjector: DispatchingAndroidInjector<Activity>
 

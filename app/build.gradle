@@ -12,9 +12,13 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+
+        multiDexEnabled true
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField 'String', 'BASE_URL', baseUrl
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -24,6 +28,11 @@ android {
 
     androidExtensions {
         experimental = true
+    }
+
+    dexOptions {
+        jumboMode = true
+        javaMaxHeapSize "4g"
     }
 
     kapt {
