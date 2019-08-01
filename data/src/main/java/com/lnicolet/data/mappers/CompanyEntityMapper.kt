@@ -1,7 +1,7 @@
 package com.lnicolet.data.mappers
 
 import com.lnicolet.data.entities.CompanyEntity
-import com.lnicolet.domain.models.CompanyDomainModel
+import com.lnicolet.domain.model.CompanyDomainModel
 import javax.inject.Inject
 
 class CompanyEntityMapper @Inject constructor() {

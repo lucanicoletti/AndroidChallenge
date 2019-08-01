@@ -2,13 +2,12 @@ package com.lnicolet.data.mappers
 
 import com.lnicolet.data.entities.AddressEntity
 import com.lnicolet.data.entities.GeoEntity
-import com.lnicolet.domain.models.GeoDomainModel
+import com.lnicolet.domain.model.GeoDomainModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.Mockito.mock
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnit
 import org.mockito.junit.MockitoRule

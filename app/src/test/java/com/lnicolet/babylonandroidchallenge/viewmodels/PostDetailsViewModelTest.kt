@@ -5,22 +5,21 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
-import com.lnicolet.babylonandroidchallenge.postdetails.mappers.CommentMapper
-import com.lnicolet.babylonandroidchallenge.postdetails.mappers.CommentsMapper
-import com.lnicolet.babylonandroidchallenge.postdetails.mappers.PostDetailMapper
-import com.lnicolet.babylonandroidchallenge.postdetails.mappers.UserMapper
-import com.lnicolet.babylonandroidchallenge.postdetails.models.PostDetail
-import com.lnicolet.babylonandroidchallenge.postdetails.models.User
+import com.lnicolet.presentation.postdetail.mapper.CommentMapper
+import com.lnicolet.presentation.postdetail.mapper.CommentsMapper
+import com.lnicolet.presentation.postdetail.mapper.PostDetailMapper
+import com.lnicolet.presentation.postlist.mapper.UserMapper
+import com.lnicolet.presentation.postdetail.model.PostDetail
+import com.lnicolet.presentation.postlist.model.User
 import com.lnicolet.babylonandroidchallenge.postdetails.viewmodels.PostDetailsViewModel
 import com.lnicolet.babylonandroidchallenge.postdetails.viewmodels.PostDetailsViewState
 import com.lnicolet.babylon.utils.RxSchedulerRule
-import com.lnicolet.domain.models.CommentDomainModel
-import com.lnicolet.domain.models.PostDetailDomainModel
-import com.lnicolet.domain.models.UserDomainModel
-import com.lnicolet.domain.repositories.CommentsRepository
-import com.lnicolet.domain.repositories.UsersRepository
-import com.lnicolet.domain.usecases.CommentsAndUserUseCase
-import com.lnicolet.domain.usecases.CommentsUseCase
+import com.lnicolet.domain.model.PostDetailDomainModel
+import com.lnicolet.domain.model.UserDomainModel
+import com.lnicolet.domain.repository.CommentsRepository
+import com.lnicolet.domain.repository.UsersRepository
+import com.lnicolet.domain.usecase.CommentsAndUserUseCase
+import com.lnicolet.domain.usecase.CommentsUseCase
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import io.reactivex.Single
@@ -87,11 +86,11 @@ class PostDetailsViewModelTest {
             .thenReturn(Single.just(listOf()))
         Mockito.`when`(userRepository.getUsersById(any()))
             .thenReturn(Single.just(validDetailResponse.user))
-        Mockito.`when`(usersMapper.mapToPresentation(any()))
+        Mockito.`when`(usersMapper.mapToView(any()))
             .thenReturn(User(1, "", "", "", "", "", ""))
-        Mockito.`when`(commentsMapper.mapToPresentation(any()))
+        Mockito.`when`(commentsMapper.mapToView(any()))
             .thenReturn(listOf())
-        Mockito.`when`(postDetailMapper.mapToPresentation(validDetailResponse))
+        Mockito.`when`(postDetailMapper.mapToView(validDetailResponse))
             .thenReturn(
                 PostDetail(
                     User(1, "", "", "", "", "", ""),
@@ -106,8 +105,8 @@ class PostDetailsViewModelTest {
         Mockito.verify(postDetailsViewStateObserver)
             .onChanged(
                 PostDetailsViewState.SuccessBoth(
-                    postDetailMapper.mapToPresentation(validDetailResponse).user,
-                    postDetailMapper.mapToPresentation(validDetailResponse).commentList
+                    postDetailMapper.mapToView(validDetailResponse).user,
+                    postDetailMapper.mapToView(validDetailResponse).commentList
                 )
             )
     }
@@ -136,7 +135,7 @@ class PostDetailsViewModelTest {
         // Arrange
         Mockito.`when`(commentsRepository.getCommentsByPost(any()))
             .thenReturn(Single.just(listOf()))
-        Mockito.`when`(commentsMapper.mapToPresentation(any()))
+        Mockito.`when`(commentsMapper.mapToView(any()))
             .thenReturn(listOf())
 
         // Act

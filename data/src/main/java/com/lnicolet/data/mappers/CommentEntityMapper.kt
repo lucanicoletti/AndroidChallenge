@@ -1,7 +1,7 @@
 package com.lnicolet.data.mappers
 
 import com.lnicolet.data.entities.CommentEntity
-import com.lnicolet.domain.models.CommentDomainModel
+import com.lnicolet.domain.model.CommentDomainModel
 import javax.inject.Inject
 
 class CommentEntityMapper @Inject constructor() {

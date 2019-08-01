@@ -3,8 +3,8 @@ package com.lnicolet.data.mappers
 import com.lnicolet.data.entities.AddressEntity
 import com.lnicolet.data.entities.CompanyEntity
 import com.lnicolet.data.entities.UserEntity
-import com.lnicolet.domain.models.AddressDomainModel
-import com.lnicolet.domain.models.CompanyDomainModel
+import com.lnicolet.domain.model.AddressDomainModel
+import com.lnicolet.domain.model.CompanyDomainModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

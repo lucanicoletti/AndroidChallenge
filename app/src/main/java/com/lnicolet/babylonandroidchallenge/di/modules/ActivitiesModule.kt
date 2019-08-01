@@ -1,6 +1,6 @@
 package com.lnicolet.babylonandroidchallenge.di.modules
 
-import com.lnicolet.babylonandroidchallenge.postlist.activities.PostsListActivity
+import com.lnicolet.babylonandroidchallenge.postlist.activity.PostsListActivity
 import com.lnicolet.babylonandroidchallenge.di.scopes.ActivityScope
 import com.lnicolet.babylonandroidchallenge.postdetails.activities.PostDetailsActivity
 import dagger.Module

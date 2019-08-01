@@ -1,7 +1,7 @@
 package com.lnicolet.data.mappers
 
 import com.lnicolet.data.entities.UserEntity
-import com.lnicolet.domain.models.UserDomainModel
+import com.lnicolet.domain.model.UserDomainModel
 import javax.inject.Inject
 
 class UserEntityMapper @Inject constructor(

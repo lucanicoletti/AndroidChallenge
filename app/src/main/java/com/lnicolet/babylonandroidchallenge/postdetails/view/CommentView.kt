@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.lnicolet.babylonandroidchallenge.R
-import com.lnicolet.babylonandroidchallenge.postdetails.models.Comment
+import com.lnicolet.presentation.postdetail.model.Comment
 import kotlinx.android.synthetic.main.view_comment.view.*
 
 /**

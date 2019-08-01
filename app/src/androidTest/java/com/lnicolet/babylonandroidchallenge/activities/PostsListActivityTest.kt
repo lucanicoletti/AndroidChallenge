@@ -5,7 +5,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
 import com.agoda.kakao.screen.Screen.Companion.onScreen
 import com.lnicolet.babylonandroidchallenge.idlingresources.EspressoIdlingResource
-import com.lnicolet.babylonandroidchallenge.postlist.activities.PostsListActivity
+import com.lnicolet.babylonandroidchallenge.postlist.activity.PostsListActivity
 import com.lnicolet.babylonandroidchallenge.screens.PostListActivityScreen
 import org.junit.Before
 import org.junit.Rule

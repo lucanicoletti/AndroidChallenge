@@ -3,17 +3,16 @@ package com.lnicolet.babylonandroidchallenge.postdetails.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.lnicolet.babylonandroidchallenge.core.BaseViewModel
-import com.lnicolet.babylonandroidchallenge.postdetails.mappers.CommentMapper
-import com.lnicolet.babylonandroidchallenge.postdetails.mappers.PostDetailMapper
-import com.lnicolet.babylonandroidchallenge.postdetails.models.Comment
-import com.lnicolet.babylonandroidchallenge.postdetails.models.User
-import com.lnicolet.domain.models.CommentDomainModel
-import com.lnicolet.domain.models.PostDetailDomainModel
-import com.lnicolet.domain.usecases.CommentsAndUserUseCase
-import com.lnicolet.domain.usecases.CommentsUseCase
+import com.lnicolet.presentation.postdetail.mapper.CommentMapper
+import com.lnicolet.presentation.postdetail.mapper.PostDetailMapper
+import com.lnicolet.presentation.postdetail.model.Comment
+import com.lnicolet.presentation.postlist.model.User
+import com.lnicolet.domain.model.CommentDomainModel
+import com.lnicolet.domain.model.PostDetailDomainModel
+import com.lnicolet.domain.usecase.CommentsAndUserUseCase
+import com.lnicolet.domain.usecase.CommentsUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class PostDetailsViewModel @Inject constructor(
@@ -77,7 +76,7 @@ class PostDetailsViewModel @Inject constructor(
 
     private fun onCommentsSucceed(commentsList: List<CommentDomainModel>) {
         val comments = commentsList.map {
-            commentMapper.mapToPresentation(it)
+            commentMapper.mapToView(it)
         }
         _postDetailsViewState.postValue(
             PostDetailsViewState.SuccessComments(comments)
@@ -89,7 +88,7 @@ class PostDetailsViewModel @Inject constructor(
     }
 
     private fun onCommentsAndUserSucceed(postDetailDomainModel: PostDetailDomainModel) {
-        val postDetail = postDetailMapper.mapToPresentation(postDetailDomainModel)
+        val postDetail = postDetailMapper.mapToView(postDetailDomainModel)
         _postDetailsViewState.postValue(
             PostDetailsViewState.SuccessBoth(
                 postDetail.user,

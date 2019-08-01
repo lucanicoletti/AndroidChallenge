@@ -10,8 +10,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.rule.ActivityTestRule
 import com.lnicolet.babylonandroidchallenge.R
-import com.lnicolet.babylonandroidchallenge.postdetails.models.User
-import com.lnicolet.babylonandroidchallenge.postlist.models.Post
+import com.lnicolet.presentation.postlist.model.User
+import com.lnicolet.presentation.postlist.model.Post
 import com.lnicolet.babylonandroidchallenge.idlingresources.EspressoIdlingResource
 import com.lnicolet.babylonandroidchallenge.postdetails.activities.PostDetailsActivity
 import org.junit.Rule

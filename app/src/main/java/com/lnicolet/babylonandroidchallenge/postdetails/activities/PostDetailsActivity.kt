@@ -17,12 +17,12 @@ import com.lnicolet.babylonandroidchallenge.R
 import com.lnicolet.babylonandroidchallenge.core.*
 import com.lnicolet.babylonandroidchallenge.core.views.TileSnackBar
 import com.lnicolet.babylonandroidchallenge.idlingresources.EspressoIdlingResource
-import com.lnicolet.babylonandroidchallenge.postdetails.models.Comment
-import com.lnicolet.babylonandroidchallenge.postdetails.models.User
+import com.lnicolet.presentation.postdetail.model.Comment
+import com.lnicolet.presentation.postlist.model.User
 import com.lnicolet.babylonandroidchallenge.postdetails.view.CommentView
 import com.lnicolet.babylonandroidchallenge.postdetails.viewmodels.PostDetailsViewModel
 import com.lnicolet.babylonandroidchallenge.postdetails.viewmodels.PostDetailsViewState
-import com.lnicolet.babylonandroidchallenge.postlist.models.Post
+import com.lnicolet.presentation.postlist.model.Post
 import com.google.android.material.snackbar.Snackbar
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_post_details.*

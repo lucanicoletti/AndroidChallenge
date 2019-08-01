@@ -2,8 +2,8 @@ package com.lnicolet.data.repositories
 
 import com.lnicolet.data.UsersApi
 import com.lnicolet.data.mappers.UserEntityMapper
-import com.lnicolet.domain.models.UserDomainModel
-import com.lnicolet.domain.repositories.UsersRepository
+import com.lnicolet.domain.model.UserDomainModel
+import com.lnicolet.domain.repository.UsersRepository
 import io.reactivex.Single
 import javax.inject.Inject
 

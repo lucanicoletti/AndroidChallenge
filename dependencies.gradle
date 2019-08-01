@@ -13,6 +13,7 @@ ext {
     xEspressoIdlingResourceVersion = '3.2.0-alpha03'
     xLifeCycleExtensionsVersion = '2.1.0-alpha04'
     xAnnotationVersion = '1.1.0-beta01'
+    googleMaterial = '1.0.0'
 
     // Testing
     junitVersion = '4.12'
@@ -56,7 +57,7 @@ ext {
     // Kakao
     kakaoVersion = '2.0.0'
 
-    presentationDependencies = [
+    appDependencies = [
             implementation: [
                     kotlin               : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion",
                     appCompat            : "androidx.appcompat:appcompat:$xAppCompatVersion",
@@ -66,6 +67,7 @@ ext {
                     lifeCycleExtensions  : "androidx.lifecycle:lifecycle-extensions:$xLifeCycleExtensionsVersion",
                     rxAndroid            : "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion",
                     rxKotlin             : "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion",
+                    androidMaterial      : "com.google.android.material:material:$googleMaterial",
 
                     retrofit             : "com.squareup.retrofit2:retrofit:$retrofitVersion",
                     retrofitRxJavaAdapter: "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion",
@@ -85,7 +87,7 @@ ext {
                     glidecompiler         : "com.github.bumptech.glide:compiler:$glideVersion"
             ]
     ]
-    presentationTestDependencies = [
+    appTestDependencies = [
             testImplementation       : [
                     junit         : "junit:junit:$junitVersion",
                     mockito       : "org.mockito:mockito-inline:$mockitoInlineVersion",
@@ -157,10 +159,20 @@ ext {
             ]
     ]
 
-    presentationDependenciesImplementation = presentationDependencies['implementation'].values()
-    presentationDependenciesKapt = presentationDependencies['kapt'].values()
-    presentationTestDependenciesImplementation = presentationTestDependencies['testImplementation'].values()
-    presentationAndroidTestDependenciesImplementation = presentationTestDependencies['androidTestImplementation'].values()
+    presentationDependencies = [
+            implementation: [
+                    kotlin   : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion",
+                    appCompat: "androidx.appcompat:appcompat:$xAppCompatVersion",
+                    rxAndroid: "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion",
+                    rxKotlin : "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion",
+                    inject   : "javax.inject:javax.inject:$injectVersion"
+            ]
+    ]
+
+    appDependenciesImplementation = appDependencies['implementation'].values()
+    appDependenciesKapt = appDependencies['kapt'].values()
+    appTestDependenciesImplementation = appTestDependencies['testImplementation'].values()
+    appAndroidTestDependenciesImplementation = appTestDependencies['androidTestImplementation'].values()
 
     dataDependenciesImplementation = dataDependencies['implementation'].values()
     dataTestDependenciesImplementation = dataTestDependencies['testImplementation'].values()
@@ -169,4 +181,6 @@ ext {
     domainDependenciesImplementation = domainDependencies['implementation'].values()
     domainTestDependenciesImplementation = domainTestDependencies['testImplementation'].values()
     domainAndroidTestDependenciesImplementation = domainTestDependencies['androidTestImplementation'].values()
+
+    presentationDependenciesImplementation = presentationDependencies['implementation'].values()
 }

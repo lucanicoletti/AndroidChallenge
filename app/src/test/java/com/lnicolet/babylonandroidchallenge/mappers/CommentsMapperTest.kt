@@ -1,7 +1,7 @@
 package com.lnicolet.babylonandroidchallenge.mappers
 
-import com.lnicolet.babylonandroidchallenge.postdetails.mappers.CommentMapper
-import com.lnicolet.domain.models.CommentDomainModel
+import com.lnicolet.presentation.postdetail.mapper.CommentMapper
+import com.lnicolet.domain.model.CommentDomainModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -44,7 +44,7 @@ class CommentsMapperTest {
     @Test
     fun `verify id is correct in domain model after mapping`() {
         val mapper = CommentMapper()
-        val model = mapper.mapToPresentation(commentDomainModel)
+        val model = mapper.mapToView(commentDomainModel)
 
         assert(model.id == ID)
     }
@@ -52,7 +52,7 @@ class CommentsMapperTest {
     @Test
     fun `verify post_id is correct in domain model after mapping`() {
         val mapper = CommentMapper()
-        val model = mapper.mapToPresentation(commentDomainModel)
+        val model = mapper.mapToView(commentDomainModel)
 
         assert(model.postId == POST_ID)
     }
@@ -60,7 +60,7 @@ class CommentsMapperTest {
     @Test
     fun `verify name is correct in domain model after mapping`() {
         val mapper = CommentMapper()
-        val model = mapper.mapToPresentation(commentDomainModel)
+        val model = mapper.mapToView(commentDomainModel)
 
         assert(model.name == NAME)
     }
@@ -68,7 +68,7 @@ class CommentsMapperTest {
     @Test
     fun `verify body is correct in domain model after mapping`() {
         val mapper = CommentMapper()
-        val model = mapper.mapToPresentation(commentDomainModel)
+        val model = mapper.mapToView(commentDomainModel)
 
         assert(model.body == BODY)
     }

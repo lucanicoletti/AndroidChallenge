@@ -3,11 +3,10 @@ package com.lnicolet.babylonandroidchallenge.postlist.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.lnicolet.babylonandroidchallenge.core.BaseViewModel
-import com.lnicolet.babylonandroidchallenge.postlist.mappers.PostsMapper
-import com.lnicolet.babylonandroidchallenge.postlist.models.Post
-import com.lnicolet.domain.models.PostDomainModel
-import com.lnicolet.domain.usecases.PostsAndUsersUseCase
-import com.lnicolet.domain.usecases.PostsUseCase
+import com.lnicolet.presentation.postlist.mapper.PostsMapper
+import com.lnicolet.presentation.postlist.model.Post
+import com.lnicolet.domain.model.PostDomainModel
+import com.lnicolet.domain.usecase.PostsAndUsersUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
@@ -31,7 +30,7 @@ class PostsListViewModel @Inject constructor(
         disposeAll()
     }
 
-    fun fetchPosts() {
+    private fun fetchPosts() {
         lastDisposable = postsAndUsersUseCase.getPostsWithUsers()
             .doOnSubscribe {
                 _postsListViewState.postValue(PostListViewState.Loading)
@@ -50,7 +49,7 @@ class PostsListViewModel @Inject constructor(
 
     private fun onPostsListSucceed(postList: List<PostDomainModel>) {
         _postsListViewState.postValue(
-            PostListViewState.Success(postsMapper.mapToPresentation(postList))
+            PostListViewState.Success(postsMapper.mapToView(postList))
         )
     }
 

@@ -6,7 +6,7 @@ import com.lnicolet.babylonandroidchallenge.R
 import com.lnicolet.babylonandroidchallenge.core.GlideApp
 import com.lnicolet.babylonandroidchallenge.core.gone
 import com.lnicolet.babylonandroidchallenge.core.visible
-import com.lnicolet.babylonandroidchallenge.postlist.models.Post
+import com.lnicolet.presentation.postlist.model.Post
 import com.xwray.groupie.kotlinandroidextensions.Item
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder
 import kotlinx.android.synthetic.main.view_list_item_post.view.*

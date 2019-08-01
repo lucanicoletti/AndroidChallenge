@@ -9,13 +9,11 @@ import com.lnicolet.babylon.postlist.mappers.PostsMapper
 import com.lnicolet.babylon.postlist.viewmodels.PostListViewState
 import com.lnicolet.babylon.postlist.viewmodels.PostsListViewModel
 import com.lnicolet.babylon.utils.RxSchedulerRule
-import com.lnicolet.domain.models.PostDomainModel
-import com.lnicolet.domain.models.UserDomainModel
-import com.lnicolet.domain.repositories.PostsRepository
-import com.lnicolet.domain.repositories.UsersRepository
-import com.lnicolet.domain.usecases.CommentsAndUserUseCase
-import com.lnicolet.domain.usecases.PostsAndUsersUseCase
-import com.lnicolet.domain.usecases.PostsUseCase
+import com.lnicolet.domain.model.PostDomainModel
+import com.lnicolet.domain.model.UserDomainModel
+import com.lnicolet.domain.repository.PostsRepository
+import com.lnicolet.domain.repository.UsersRepository
+import com.lnicolet.domain.usecase.PostsAndUsersUseCase
 import io.reactivex.Single
 import org.junit.Before
 import org.junit.Rule
@@ -82,7 +80,7 @@ class PostListViewModelTest {
         setupViewModel()
 
         // Assert
-        Mockito.verify(postsListViewStateObserver).onChanged(PostListViewState.Success(postsMapper.mapToPresentation(validPostsResponse)))
+        Mockito.verify(postsListViewStateObserver).onChanged(PostListViewState.Success(postsMapper.mapToView(validPostsResponse)))
     }
 
     @Test

@@ -1,7 +1,7 @@
 package com.lnicolet.data.mappers
 
 import com.lnicolet.data.entities.PostEntity
-import com.lnicolet.domain.models.PostDomainModel
+import com.lnicolet.domain.model.PostDomainModel
 import javax.inject.Inject
 
 class PostEntityMapper @Inject constructor() {

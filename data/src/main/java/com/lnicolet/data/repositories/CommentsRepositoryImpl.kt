@@ -2,8 +2,8 @@ package com.lnicolet.data.repositories
 
 import com.lnicolet.data.CommentsApi
 import com.lnicolet.data.mappers.CommentEntityMapper
-import com.lnicolet.domain.models.CommentDomainModel
-import com.lnicolet.domain.repositories.CommentsRepository
+import com.lnicolet.domain.model.CommentDomainModel
+import com.lnicolet.domain.repository.CommentsRepository
 import io.reactivex.Single
 import javax.inject.Inject
 

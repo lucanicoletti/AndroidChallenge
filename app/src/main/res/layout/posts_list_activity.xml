@@ -4,7 +4,7 @@
     android:id="@+id/fl_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".postlist.activities.PostsListActivity">
+    tools:context=".postlist.activity.PostsListActivity">
 
     <ProgressBar
         android:id="@+id/pb_loading_list"
