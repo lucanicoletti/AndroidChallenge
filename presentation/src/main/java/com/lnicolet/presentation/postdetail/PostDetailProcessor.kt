@@ -7,6 +7,8 @@ import com.lnicolet.presentation.postdetail.mapper.PostDetailMapper
 import com.lnicolet.presentation.postlist.model.User
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class PostDetailProcessor @Inject constructor(
@@ -16,15 +18,18 @@ class PostDetailProcessor @Inject constructor(
     private val commentsMapper: CommentsMapper
 ) {
 
-    private fun detailProcessor(params: CommentsAndUserUseCase.Params): ObservableTransformer<
-        PostDetailAction, PostDetailResult> = ObservableTransformer { outerObservable ->
+    private fun detailProcessor():
+            ObservableTransformer<PostDetailAction, PostDetailResult> =
+        ObservableTransformer { outerObservable ->
         outerObservable.switchMap { action ->
             when (action) {
                 is PostDetailAction.LoadCommentsOnly -> {
-                    loadOnlyComments(params.postId, action.user)
+                    loadOnlyComments(action.postId, action.user)
                 }
-                PostDetailAction.LoadCommentsAndUser -> {
-                    loadCommentsAndUser(params)
+                is PostDetailAction.LoadCommentsAndUser -> {
+                    loadCommentsAndUser(
+                            CommentsAndUserUseCase.Params(action.userId, action.postId)
+                    )
                 }
             }
         }
@@ -33,6 +38,8 @@ class PostDetailProcessor @Inject constructor(
     private fun loadCommentsAndUser(params: CommentsAndUserUseCase.Params)
         : Observable<PostDetailResult.LoadPostDetailTask> =
         commentsAndUserUseCase.getCommentsAndUser(params)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
             .map {
                 PostDetailResult.LoadPostDetailTask.bothFetched(postDetailMapper.mapToView(it))
             }
@@ -45,8 +52,10 @@ class PostDetailProcessor @Inject constructor(
     private fun loadOnlyComments(postId: Int, user: User)
         : Observable<PostDetailResult.LoadPostDetailTask> =
         commentsUseCase.getCommentsByPostId(postId)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
             .map {
-                PostDetailResult.LoadPostDetailTask.commentsFetched(commentsMapper.mapToView(it))
+                PostDetailResult.LoadPostDetailTask.commentsFetched(user, commentsMapper.mapToView(it))
             }
             .onErrorReturn {
                 PostDetailResult.LoadPostDetailTask.failedComments()
@@ -54,23 +63,13 @@ class PostDetailProcessor @Inject constructor(
             .toObservable()
             .startWith(PostDetailResult.LoadPostDetailTask.loadingComments(user))
 
-    lateinit var actionProcessor: ObservableTransformer<PostDetailAction, PostDetailResult>
+    val actionProcessor: ObservableTransformer<PostDetailAction, PostDetailResult>
 
-    fun init(params: CommentsAndUserUseCase.Params) {
+    init {
         this.actionProcessor = ObservableTransformer { outerObservable ->
             outerObservable.publish { innerObservable ->
                 innerObservable.ofType(PostDetailAction::class.java)
-                    .compose(detailProcessor(params))
-                    .mergeWith(
-                        innerObservable.filter {
-                            it !is PostDetailAction.LoadCommentsAndUser ||
-                                it !is PostDetailAction.LoadCommentsOnly
-                        }.flatMap {
-                            Observable.error<PostDetailResult>(
-                                IllegalArgumentException("Unknown Action type")
-                            )
-                        }
-                    )
+                    .compose(detailProcessor())
             }
         }
     }

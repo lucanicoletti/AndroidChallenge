@@ -1,6 +1,8 @@
 package com.lnicolet.presentation.postdetail
 
 import androidx.lifecycle.ViewModel
+import com.lnicolet.domain.usecase.CommentsAndUserUseCase
+import com.lnicolet.domain.usecase.PostsAndUsersUseCase
 import com.lnicolet.presentation.base.BaseIntent
 import com.lnicolet.presentation.base.BaseViewModel
 import com.lnicolet.presentation.base.TaskStatus
@@ -17,14 +19,7 @@ open class PostDetailViewModel @Inject constructor(
 
     private var intentsSubject: PublishSubject<PostDetailIntent> = PublishSubject.create()
     private val intentFilter: ObservableTransformer<PostDetailIntent, PostDetailIntent> =
-        ObservableTransformer { outerObservable ->
-            outerObservable.publish { innerObservable ->
-                Observable.merge(
-                    innerObservable.ofType(PostDetailIntent.InitialIntent::class.java).take(1),
-                    innerObservable.filter { intent -> intent !is PostDetailIntent.InitialIntent }
-                )
-            }
-        }
+        ObservableTransformer { it.publish { observable -> observable } }
 
     private val reducer: BiFunction<PostDetailViewState, PostDetailResult, PostDetailViewState> =
         BiFunction { _, result ->
@@ -70,15 +65,14 @@ open class PostDetailViewModel @Inject constructor(
         intentsSubject.compose(intentFilter)
             .map { this.actionFromIntent(it) }
             .compose(postDetailProcessor.actionProcessor)
-            .scan<PostDetailViewState>(PostDetailViewState.Idle, reducer)
+            .scan(PostDetailViewState.Idle, reducer)
             .replay(1)
             .autoConnect(0)
 
     private fun actionFromIntent(intent: BaseIntent): PostDetailAction =
         when (intent) {
-            is PostDetailIntent.InitialIntent -> PostDetailAction.LoadCommentsAndUser
-            is PostDetailIntent.LoadComments -> PostDetailAction.LoadCommentsOnly(intent.withUserLoaded)
-            is PostDetailIntent.LoadEverything -> PostDetailAction.LoadCommentsAndUser
+            is PostDetailIntent.LoadComments -> PostDetailAction.LoadCommentsOnly(intent.postId, intent.user)
+            is PostDetailIntent.LoadEverything -> PostDetailAction.LoadCommentsAndUser(intent.userId, intent.postId)
             else -> throw UnsupportedOperationException(
                 "Ooops, that looks like an unknown intent: $intent"
             )

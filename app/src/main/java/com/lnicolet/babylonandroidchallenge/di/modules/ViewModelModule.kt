@@ -4,8 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.lnicolet.babylonandroidchallenge.core.ViewModelFactory
 import com.lnicolet.babylonandroidchallenge.core.ViewModelKey
-import com.lnicolet.babylonandroidchallenge.postdetails.viewmodels.PostDetailsViewModel
-import com.lnicolet.babylonandroidchallenge.postlist.viewmodels.PostsListViewModel
+import com.lnicolet.presentation.postdetail.PostDetailViewModel
 import com.lnicolet.presentation.postlist.PostListViewModel
 import dagger.Binds
 import dagger.Module
@@ -24,6 +23,6 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(PostDetailsViewModel::class)
-    internal abstract fun bindPostDetailsViewModule(viewModel: PostDetailsViewModel): ViewModel
+    @ViewModelKey(PostDetailViewModel::class)
+    internal abstract fun bindPostDetailsViewModule(viewModel: PostDetailViewModel): ViewModel
 }

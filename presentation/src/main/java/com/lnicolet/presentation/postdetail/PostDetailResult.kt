@@ -22,8 +22,8 @@ sealed class PostDetailResult : BaseResult {
                     postDetail.commentList
                 )
 
-            internal fun commentsFetched(commentList: List<Comment>) =
-                LoadPostDetailTask(TaskStatus.SUCCESS, commentList = commentList)
+            internal fun commentsFetched(user: User, commentList: List<Comment>) =
+                LoadPostDetailTask(TaskStatus.SUCCESS, commentList = commentList, user = user)
 
             internal fun failedComments() =
                 LoadPostDetailTask(TaskStatus.FAILURE, user = null)

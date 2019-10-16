@@ -5,6 +5,6 @@ import com.lnicolet.presentation.postlist.model.User
 
 sealed class PostDetailAction: BaseAction {
 
-    object LoadCommentsAndUser: PostDetailAction()
-    class LoadCommentsOnly(val user: User): PostDetailAction()
+    class LoadCommentsAndUser(val userId: Int, val postId: Int): PostDetailAction()
+    class LoadCommentsOnly(val postId: Int, val user: User): PostDetailAction()
 }
