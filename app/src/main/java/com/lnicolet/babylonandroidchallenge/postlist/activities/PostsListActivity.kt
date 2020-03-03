@@ -19,6 +19,7 @@ import com.lnicolet.babylonandroidchallenge.postlist.models.Post
 import com.lnicolet.babylonandroidchallenge.postlist.viewmodels.PostListViewState
 import com.lnicolet.babylonandroidchallenge.postlist.viewmodels.PostsListViewModel
 import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.GroupieViewHolder
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.posts_list_activity.*
 import javax.inject.Inject
@@ -58,7 +59,7 @@ class PostsListActivity : AppCompatActivity() {
 
     }
 
-    private val adapter = GroupAdapter<com.xwray.groupie.kotlinandroidextensions.ViewHolder>()
+    private val adapter = GroupAdapter<GroupieViewHolder>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

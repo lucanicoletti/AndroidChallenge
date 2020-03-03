@@ -1,25 +1,18 @@
 package com.lnicolet.babylonandroidchallenge
 
-import android.app.Activity
-import androidx.fragment.app.Fragment
 import androidx.multidex.MultiDexApplication
 import com.lnicolet.babylonandroidchallenge.di.DaggerInjector
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasActivityInjector
-import dagger.android.support.HasSupportFragmentInjector
+import dagger.android.HasAndroidInjector
 import javax.inject.Inject
 
 
-class BabylonApp : MultiDexApplication(), HasActivityInjector, HasSupportFragmentInjector {
+class BabylonApp : MultiDexApplication(), HasAndroidInjector {
     @Inject
-    lateinit var activityInjector: DispatchingAndroidInjector<Activity>
+    lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
-    @Inject
-    lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
-
-    override fun activityInjector(): AndroidInjector<Activity> = activityInjector
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> = fragmentInjector
+    override fun androidInjector(): AndroidInjector<Any> = androidInjector
 
     override fun onCreate() {
         super.onCreate()
