@@ -1,21 +1,19 @@
-package com.lnicolet.babylon.viewmodels
+package com.lnicolet.babylonandroidchallenge.viewmodels
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
-import com.lnicolet.babylon.postlist.mappers.PostsMapper
-import com.lnicolet.babylon.postlist.viewmodels.PostListViewState
-import com.lnicolet.babylon.postlist.viewmodels.PostsListViewModel
-import com.lnicolet.babylon.utils.RxSchedulerRule
+import com.lnicolet.babylonandroidchallenge.postlist.mappers.PostsMapper
+import com.lnicolet.babylonandroidchallenge.postlist.viewmodels.PostListViewState
+import com.lnicolet.babylonandroidchallenge.postlist.viewmodels.PostsListViewModel
+import com.lnicolet.babylonandroidchallenge.utils.RxSchedulerRule
 import com.lnicolet.domain.models.PostDomainModel
 import com.lnicolet.domain.models.UserDomainModel
 import com.lnicolet.domain.repositories.PostsRepository
 import com.lnicolet.domain.repositories.UsersRepository
-import com.lnicolet.domain.usecases.CommentsAndUserUseCase
 import com.lnicolet.domain.usecases.PostsAndUsersUseCase
-import com.lnicolet.domain.usecases.PostsUseCase
 import io.reactivex.Single
 import org.junit.Before
 import org.junit.Rule
@@ -26,7 +24,6 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import org.powermock.modules.junit4.PowerMockRunner
-import java.lang.Exception
 
 /**
  * Created by Luca Nicoletti

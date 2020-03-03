@@ -13,8 +13,7 @@ import com.lnicolet.babylonandroidchallenge.postdetails.models.PostDetail
 import com.lnicolet.babylonandroidchallenge.postdetails.models.User
 import com.lnicolet.babylonandroidchallenge.postdetails.viewmodels.PostDetailsViewModel
 import com.lnicolet.babylonandroidchallenge.postdetails.viewmodels.PostDetailsViewState
-import com.lnicolet.babylon.utils.RxSchedulerRule
-import com.lnicolet.domain.models.CommentDomainModel
+import com.lnicolet.babylonandroidchallenge.utils.RxSchedulerRule
 import com.lnicolet.domain.models.PostDetailDomainModel
 import com.lnicolet.domain.models.UserDomainModel
 import com.lnicolet.domain.repositories.CommentsRepository
@@ -65,8 +64,8 @@ class PostDetailsViewModelTest {
     @Mock
     lateinit var postDetailsViewStateObserver: Observer<PostDetailsViewState>
 
-    lateinit var commentsAndUserUseCase: CommentsAndUserUseCase
-    lateinit var commentsUseCase: CommentsUseCase
+    private lateinit var commentsAndUserUseCase: CommentsAndUserUseCase
+    private lateinit var commentsUseCase: CommentsUseCase
     private lateinit var postDetailsViewModel: PostDetailsViewModel
 
     @Before
