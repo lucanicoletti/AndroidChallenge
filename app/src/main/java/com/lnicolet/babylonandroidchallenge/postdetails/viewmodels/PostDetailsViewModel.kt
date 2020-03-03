@@ -41,7 +41,6 @@ class PostDetailsViewModel @Inject constructor(
                 }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                //.delay(3, TimeUnit.SECONDS)
                 .subscribe(
                     {
                         onCommentsAndUserSucceed(it)
@@ -60,7 +59,6 @@ class PostDetailsViewModel @Inject constructor(
                 }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                //.delay(3, TimeUnit.SECONDS)
                 .subscribe(
                     {
                         onCommentsSucceed(it)

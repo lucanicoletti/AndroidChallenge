@@ -130,7 +130,7 @@ class PostDetailsActivity : AppCompatActivity() {
                 loadCommentsData(postDetailsViewState.commentList)
             }
             is PostDetailsViewState.ErrorComments -> {
-                manageViewsVisibilityForErrorState()
+                manageViewsVisibilityForErrorStateOnCommentsOnly()
                 showErrorMessageWithRetryComments()
             }
             PostDetailsViewState.LoadingCommentsOnly -> {
@@ -150,6 +150,11 @@ class PostDetailsActivity : AppCompatActivity() {
         tv_about_the_user.gone()
         tv_comments.gone()
         g_user_info.gone()
+        pb_comments_loading.gone()
+    }
+
+    private fun manageViewsVisibilityForErrorStateOnCommentsOnly() {
+        tv_comments.gone()
         pb_comments_loading.gone()
     }
 

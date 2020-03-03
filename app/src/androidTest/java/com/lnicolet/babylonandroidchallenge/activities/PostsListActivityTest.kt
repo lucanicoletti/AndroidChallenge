@@ -1,4 +1,4 @@
-package com.lnicolet.babylon.activities
+package com.lnicolet.babylonandroidchallenge.activities
 
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

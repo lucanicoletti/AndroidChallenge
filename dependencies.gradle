@@ -10,7 +10,7 @@ ext {
     xAppCompatVersion = '1.1.0'
     xCoreKtxVersion = '1.2.0'
     xConstraintLayoutVersion = '1.1.3'
-    xEspressoIdlingResourceVersion = '3.2.0-alpha03'
+    xEspressoIdlingResourceVersion = '3.3.0-alpha04'
     xLifeCycleExtensionsVersion = '2.2.0'
     xAnnotationVersion = '1.1.0'
 

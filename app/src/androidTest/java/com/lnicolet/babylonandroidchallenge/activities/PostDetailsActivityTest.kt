@@ -1,4 +1,4 @@
-package com.lnicolet.babylon.activities
+package com.lnicolet.babylonandroidchallenge.activities
 
 import android.content.Intent
 import androidx.appcompat.widget.AppCompatImageButton
@@ -60,11 +60,6 @@ class PostDetailsActivityTest {
 
     @Test
     fun verifyUserIsBeingFetchedWithNullValue() {
-        // This actually fails as Espresso is not fast enough to perform the check
-        // The Endpoints responds too fast and the loading is hidden to display the user data
-        // Idk how to make espresso faster :(
-        // to have it pass successful uncomment line 44 & 63 in PostDetailViewModel.kt file in order
-        // to delay the response from the use cases.
         val targetContext = getInstrumentation().targetContext
         postIntent = PostDetailsActivity.getIntent(
             targetContext,
@@ -113,11 +108,6 @@ class PostDetailsActivityTest {
 
     @Test
     fun verifyUserAndCommentsAreBeingFetched() {
-        // This actually fails as Espresso is not fast enough to perform the check
-        // The Endpoints responds too fast and the loading is hidden to display the user data
-        // Idk how to make espresso faster :(
-        // to have it pass successful uncomment line 44 & 63 in PostDetailViewModel.kt file in order
-        // to delay the response from the use cases.
         val targetContext = getInstrumentation().targetContext
         postIntent = PostDetailsActivity.getIntent(
             targetContext,
