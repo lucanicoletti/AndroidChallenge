@@ -3,6 +3,8 @@ package com.lnicolet.domain.usecases
 import com.lnicolet.domain.models.PostDomainModel
 import com.lnicolet.domain.repositories.PostsRepository
 import com.lnicolet.domain.repositories.UsersRepository
+import io.reactivex.Flowable
+import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
 import javax.inject.Inject
@@ -17,8 +19,8 @@ class PostsAndUsersUseCase @Inject constructor(
     private val usersRepository: UsersRepository
 ) {
 
-    fun getPostsWithUsers(): Single<List<PostDomainModel>> =
-            Single.zip(
+    fun getPostsWithUsers(): Observable<List<PostDomainModel>> =
+            Observable.zip(
                 postsRepository.getPosts(),
                 usersRepository.getUsers(),
                 BiFunction { posts, users ->

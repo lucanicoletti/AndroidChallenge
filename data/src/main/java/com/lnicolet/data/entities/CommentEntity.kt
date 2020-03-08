@@ -1,3 +1,13 @@
 package com.lnicolet.data.entities
 
-data class CommentEntity(val postId: Int, val id: Int, val name: String, val email: String, val body: String)
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "comment_table")
+data class CommentEntity(
+    @PrimaryKey var id: Int,
+    var postId: Int,
+    var name: String,
+    var email: String,
+    var body: String
+)

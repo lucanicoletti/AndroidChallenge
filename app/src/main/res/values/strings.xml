@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Babylon</string>
+    <string name="app_name">Android challenge</string>
     <string name="read_more">Read more</string>
     <string name="retry">Retry</string>
     <string name="no_comments">No comments on this post yet.</string>

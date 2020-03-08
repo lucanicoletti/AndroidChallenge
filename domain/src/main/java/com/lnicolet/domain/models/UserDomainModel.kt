@@ -5,9 +5,9 @@ class UserDomainModel(
     val name: String,
     val userName: String,
     val email: String,
-    val address: AddressDomainModel,
+    val address: AddressDomainModel?,
     val phone: String,
     val website: String,
-    val company: CompanyDomainModel,
+    val company: CompanyDomainModel?,
     val imageUrl: String
 )

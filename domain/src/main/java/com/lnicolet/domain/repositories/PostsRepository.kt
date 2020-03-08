@@ -1,8 +1,8 @@
 package com.lnicolet.domain.repositories
 
 import com.lnicolet.domain.models.PostDomainModel
-import io.reactivex.Single
+import io.reactivex.Observable
 
 interface PostsRepository {
-    fun getPosts(): Single<List<PostDomainModel>>
+    fun getPosts(): Observable<List<PostDomainModel>>
 }

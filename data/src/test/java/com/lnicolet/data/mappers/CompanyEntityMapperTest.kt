@@ -11,7 +11,8 @@ import org.mockito.junit.MockitoRule
 class CompanyEntityMapperTest {
 
     companion object {
-        private const val NAME = "Babylon"
+        private const val ID = 1
+        private const val NAME = "Company 1"
         private const val CATCH_PHRASE = "Catch phrase test"
         private const val BS = "BS"
     }
@@ -24,7 +25,7 @@ class CompanyEntityMapperTest {
     @Before
     fun `prepare for test`() {
         MockitoAnnotations.initMocks(this)
-        companyEntity = CompanyEntity(NAME, CATCH_PHRASE, BS)
+        companyEntity = CompanyEntity(ID, NAME, CATCH_PHRASE, BS)
     }
 
     @Test
@@ -32,7 +33,7 @@ class CompanyEntityMapperTest {
         val mapper = CompanyEntityMapper()
         val domainModel = mapper.mapToDomain(companyEntity)
 
-        assert(domainModel.name == NAME)
+        assert(domainModel?.name == NAME)
     }
 
     @Test
@@ -40,7 +41,7 @@ class CompanyEntityMapperTest {
         val mapper = CompanyEntityMapper()
         val domainModel = mapper.mapToDomain(companyEntity)
 
-        assert(domainModel.bs == BS)
+        assert(domainModel?.bs == BS)
     }
 
     @Test
@@ -48,6 +49,6 @@ class CompanyEntityMapperTest {
         val mapper = CompanyEntityMapper()
         val domainModel = mapper.mapToDomain(companyEntity)
 
-        assert(domainModel.catchPhrase == CATCH_PHRASE)
+        assert(domainModel?.catchPhrase == CATCH_PHRASE)
     }
 }

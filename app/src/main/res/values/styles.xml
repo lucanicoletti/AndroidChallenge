@@ -103,7 +103,7 @@
         <item name="android:padding">5dp</item>
     </style>
 
-    <style name="PostCardViewItem" parent="CardView">
+    <style name="PostCardViewItem" parent="CardView.Light">
         <item name="cardCornerRadius">8dp</item>
         <item name="cardElevation">1dp</item>
     </style>

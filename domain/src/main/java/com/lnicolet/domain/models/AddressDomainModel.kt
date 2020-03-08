@@ -5,5 +5,5 @@ data class AddressDomainModel(
     val suite: String,
     val city: String,
     val zipCode: String,
-    val geo: GeoDomainModel
+    val geo: GeoDomainModel?
 )

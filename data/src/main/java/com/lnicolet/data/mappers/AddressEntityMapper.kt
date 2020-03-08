@@ -6,12 +6,14 @@ import javax.inject.Inject
 
 class AddressEntityMapper @Inject constructor(private val geoEntityMapper: GeoEntityMapper) {
 
-    fun mapToDomain(entity: AddressEntity): AddressDomainModel =
+    fun mapToDomain(entity: AddressEntity?): AddressDomainModel? =
+        entity?.let {
             AddressDomainModel(
-                    entity.street,
-                    entity.suite,
-                    entity.city,
-                    entity.zipCode,
-                    geoEntityMapper.mapToDomain(entity.geo)
+                it.street,
+                it.suite,
+                it.city,
+                it.zipCode,
+                geoEntityMapper.mapToDomain(it.geo)
             )
+        }
 }

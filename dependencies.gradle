@@ -9,6 +9,9 @@ ext {
     // Android
     xAppCompatVersion = '1.1.0'
     xCoreKtxVersion = '1.2.0'
+    xMaterialVersion = '1.2.0-alpha05'
+    xRoomVersion = "2.2.4"
+    xRoomCompilerVersion = "1.1.1"
     xConstraintLayoutVersion = '1.1.3'
     xEspressoIdlingResourceVersion = '3.3.0-alpha04'
     xLifeCycleExtensionsVersion = '2.2.0'
@@ -61,12 +64,12 @@ ext {
                     kotlin               : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion",
                     appCompat            : "androidx.appcompat:appcompat:$xAppCompatVersion",
                     coreKtx              : "androidx.core:core-ktx:$xCoreKtxVersion",
+                    androixMaterial      : "com.google.android.material:material:$xMaterialVersion",
                     constraintLayout     : "androidx.constraintlayout:constraintlayout:$xConstraintLayoutVersion",
                     idlingResource       : "androidx.test.espresso:espresso-idling-resource:$xEspressoIdlingResourceVersion",
                     lifeCycleExtensions  : "androidx.lifecycle:lifecycle-extensions:$xLifeCycleExtensionsVersion",
                     rxAndroid            : "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion",
                     rxKotlin             : "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion",
-
                     retrofit             : "com.squareup.retrofit2:retrofit:$retrofitVersion",
                     retrofitRxJavaAdapter: "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion",
                     retrofitGSonConverter: "com.squareup.retrofit2:converter-gson:$retrofitVersion",
@@ -76,13 +79,20 @@ ext {
                     daggerAndroidSupport : "com.google.dagger:dagger-android-support:$daggerVersion",
                     inject               : "javax.inject:javax.inject:$injectVersion",
                     groupie              : "com.xwray:groupie:$groupieVersion",
-                    groupieAndroidKotlin : "com.xwray:groupie-kotlin-android-extensions:$groupieVersion"
+                    groupieAndroidKotlin : "com.xwray:groupie-kotlin-android-extensions:$groupieVersion",
+                    room                 : "androidx.room:room-runtime:$xRoomVersion",
+                    roomKtx              : "androidx.room:room-ktx:$xRoomVersion",
+                    roomRxJava           : "androidx.room:room-rxjava2:$xRoomVersion"
             ],
             kapt          : [
                     daggerCompiler        : "com.google.dagger:dagger-compiler:$daggerVersion",
                     daggerAndroidProcessor: "com.google.dagger:dagger-android-processor:$daggerVersion",
                     androidXAnnotation    : "androidx.annotation:annotation:$xAnnotationVersion",
-                    glidecompiler         : "com.github.bumptech.glide:compiler:$glideVersion"
+                    glidecompiler         : "com.github.bumptech.glide:compiler:$glideVersion",
+                    roomPersitence        : "android.arch.persistence.room:compiler:$xRoomCompilerVersion"
+            ],
+            annotationProcessor : [
+
             ]
     ]
     presentationTestDependencies = [
@@ -116,7 +126,13 @@ ext {
                     retrofit             : "com.squareup.retrofit2:retrofit:$retrofitVersion",
                     retrofitRxJavaAdapter: "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion",
                     retrofitGSonConverter: "com.squareup.retrofit2:converter-gson:$retrofitVersion",
-                    inject               : "javax.inject:javax.inject:$injectVersion"
+                    inject               : "javax.inject:javax.inject:$injectVersion",
+                    room                 : "androidx.room:room-runtime:$xRoomVersion",
+                    roomKtx              : "androidx.room:room-ktx:$xRoomVersion",
+                    roomRxJava           : "androidx.room:room-rxjava2:$xRoomVersion"
+            ],
+            kapt : [
+                    roomPersitence        : "android.arch.persistence.room:compiler:$xRoomCompilerVersion"
             ]
     ]
 
@@ -163,6 +179,7 @@ ext {
     presentationAndroidTestDependenciesImplementation = presentationTestDependencies['androidTestImplementation'].values()
 
     dataDependenciesImplementation = dataDependencies['implementation'].values()
+    dataDependenciesKapt = dataDependencies['kapt'].values()
     dataTestDependenciesImplementation = dataTestDependencies['testImplementation'].values()
     dataAndroidTestDependenciesImplementation = dataTestDependencies['androidTestImplementation'].values()
 

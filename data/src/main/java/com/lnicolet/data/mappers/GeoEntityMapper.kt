@@ -6,6 +6,9 @@ import javax.inject.Inject
 
 class GeoEntityMapper @Inject constructor() {
 
-    fun mapToDomain(entity: GeoEntity): GeoDomainModel =
-            GeoDomainModel(entity.lat, entity.lng)
+    fun mapToDomain(entity: GeoEntity?): GeoDomainModel? =
+        entity?.let {
+            GeoDomainModel(it.lat, it.lng)
+        }
+
 }

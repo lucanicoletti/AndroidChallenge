@@ -7,7 +7,7 @@ android {
     compileSdkVersion 29
 
     defaultConfig {
-        applicationId "com.lnicolet.babylonandroidchallenge"
+        applicationId "com.lnicolet.androidchallenge"
         minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
@@ -17,6 +17,14 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField 'String', 'BASE_URL', baseUrl
+
+        // used by Room, to test migrations
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation":
+                                     "$projectDir/schemas".toString()]
+            }
+        }
     }
 
     buildTypes {
@@ -46,6 +54,11 @@ android {
         }
         generateStubs = true
     }
+    // used by Room, to test migrations
+    sourceSets {
+        androidTest.assets.srcDirs +=
+                files("$projectDir/schemas".toString())
+    }
 }
 
 dependencies {
@@ -61,12 +74,7 @@ dependencies {
     testImplementation presentationTestDependenciesImpl
     androidTestImplementation presentationAndroidTestDependenciesImpl
 
-    // Navigation
-    implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0"
-    implementation "android.arch.navigation:navigation-ui-ktx:1.0.0"
-
     implementation project(':data')
     implementation project(':domain')
     testImplementation project(':domain')
-    implementation 'android.arch.navigation:navigation-fragment:1.0.0'
 }
