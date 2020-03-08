@@ -31,8 +31,9 @@ class PostsRepositoryImpl @Inject constructor(
 
     private fun getCachedPosts(): Observable<List<PostDomainModel>> =
         postDao.getPosts().map { list ->
+            if (list.isEmpty()) throw Throwable()
             list.map {
                 postEntityMapper.mapToDomain(it)
             }
-        }.take(1).filter { list -> list.isNotEmpty() }
+        }
 }

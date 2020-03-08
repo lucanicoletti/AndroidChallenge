@@ -54,7 +54,7 @@ class PostsListViewModel @Inject constructor(
     }
 
     private fun onPostsListError(error: Throwable) {
-        _postsListViewState.postValue(PostListViewState.Error(error.localizedMessage))
+        _postsListViewState.postValue(PostListViewState.Error(error.localizedMessage.orEmpty()))
     }
 
 }

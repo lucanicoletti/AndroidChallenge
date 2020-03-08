@@ -37,8 +37,10 @@ class UsersRepositoryImpl @Inject constructor(
 
     private fun getCachedUsers(): Observable<List<UserDomainModel>> =
         userDao.getUsers().map { list ->
+            if (list.isEmpty()) throw Throwable()
             list.map {
                 userEntityMapper.mapToDomain(it)
             }
-        }.take(1).filter { list -> list.isNotEmpty() }
+        }
+
 }
