@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.lnicolet.androidchallenge.R
 import com.lnicolet.androidchallenge.core.*
@@ -146,7 +147,7 @@ class PostDetailsActivity : AppCompatActivity() {
     }
 
     private fun manageViewsVisibilityForErrorState() {
-        pb_user_loading.gone()
+        pb_user_loading.invisible()
         tv_about_the_user.gone()
         tv_comments.gone()
         g_user_info.gone()
@@ -159,7 +160,7 @@ class PostDetailsActivity : AppCompatActivity() {
     }
 
     private fun manageViewsVisibilityForLoadingState() {
-        pb_user_loading.visible()
+        pb_user_loading.invisible()
         pb_comments_loading.visible()
         g_user_info.gone()
         tv_comments.visible()
@@ -173,7 +174,7 @@ class PostDetailsActivity : AppCompatActivity() {
     }
 
     private fun manageViewsVisibilityForSuccessState() {
-        pb_user_loading.gone()
+        pb_user_loading.invisible()
         pb_comments_loading.gone()
         tv_comments.visible()
         g_user_info.visible()
@@ -199,10 +200,11 @@ class PostDetailsActivity : AppCompatActivity() {
         tv_email.text = user.email
         tv_website.text = user.website
         g_user_info.visible()
-        pb_user_loading.gone()
+        pb_user_loading.invisible()
         GlideApp.with(this)
             .load(user.imageUrl)
             .centerCrop()
+            .apply(RequestOptions.circleCropTransform())
             .listener(object: RequestListener<Drawable> {
                 override fun onLoadFailed(
                     e: GlideException?,

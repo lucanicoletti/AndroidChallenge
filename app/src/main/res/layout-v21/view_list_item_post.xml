@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/fl_post_item_container"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fl_post_item_container"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:focusable="true"
+    android:clickable="true">
 
     <androidx.cardview.widget.CardView
         style="@style/PostCardViewItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardUseCompatPadding="true"
-        android:padding="5dp">
+        android:padding="5dp"
+        app:cardUseCompatPadding="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -23,14 +25,14 @@
                 style="@style/PostTitleItem"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:lines="1"
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="5dp"
+                android:ellipsize="end"
+                android:lines="1"
                 android:transitionName="@string/shared_elem_title"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/iv_user_picture"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cv_image_container"
+                app:layout_constraintTop_toTopOf="@id/iv_user_picture"
                 tools:text="Post title" />
 
             <TextView
@@ -38,52 +40,27 @@
                 style="@style/PostBodyItem"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
                 android:ellipsize="end"
                 android:lines="1"
-                android:layout_marginTop="5dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="5dp"
                 android:transitionName="@string/shared_elem_body"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_title"
                 tools:text="In this post I'm gonna talk about ..." />
 
-            <androidx.constraintlayout.widget.Group
-                android:id="@+id/g_user_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:constraint_referenced_ids="cv_image_container, tv_user_name"/>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cv_image_container"
+            <ImageView
+                android:id="@+id/iv_user_picture"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                app:cardElevation="0dp"
-                android:transitionName="@string/shared_elem_image"
-                app:cardCornerRadius="16dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginStart="5dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:id="@+id/iv_user_picture"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-            </androidx.cardview.widget.CardView>
-
-            <TextView
-                android:id="@+id/tv_user_name"
-                style="@style/PostUserUsername"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:transitionName="@string/shared_elem_username"
-                app:layout_constraintStart_toEndOf="@id/cv_image_container"
-                app:layout_constraintTop_toTopOf="@id/cv_image_container"
-                tools:text="fake_username" />
+                android:layout_marginEnd="5dp"
+                android:transitionName="@string/shared_elem_image"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@string/user_picture_content_description" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

@@ -18,7 +18,6 @@
         style="@style/CommentBody"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
         tools:text="long text which should be the comment on this post and maybe as well occupy 2 lines or even more if the comment is reaaaaaaaaaaaaaaaaaaaaaaaaaaaaaallllllllllllllly long" />
 
 </LinearLayout>

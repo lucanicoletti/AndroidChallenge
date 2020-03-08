@@ -2,6 +2,7 @@ package com.lnicolet.androidchallenge.postlist.items
 
 import android.os.Build
 import android.view.View
+import com.bumptech.glide.request.RequestOptions
 import com.lnicolet.androidchallenge.R
 import com.lnicolet.androidchallenge.core.GlideApp
 import com.lnicolet.androidchallenge.core.gone
@@ -9,7 +10,11 @@ import com.lnicolet.androidchallenge.core.visible
 import com.lnicolet.androidchallenge.postlist.models.Post
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
+import kotlinx.android.synthetic.main.activity_post_details.view.*
+import kotlinx.android.synthetic.main.view_comment.view.*
 import kotlinx.android.synthetic.main.view_list_item_post.view.*
+import kotlinx.android.synthetic.main.view_list_item_post.view.iv_user_picture
+import kotlinx.android.synthetic.main.view_list_item_post.view.tv_title
 
 class PostListItem(
     private val post: Post,
@@ -35,7 +40,7 @@ class PostListItem(
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 postClickListener.onPostClicked(
                     post,
-                    imageView = viewHolder.itemView.cv_image_container,
+                    imageView = viewHolder.itemView.iv_user_picture,
                     title = viewHolder.itemView.tv_title,
                     body = viewHolder.itemView.tv_partial_body
                 )
@@ -44,13 +49,14 @@ class PostListItem(
             }
         }
         post.user?.let { postCreator ->
-            viewHolder.itemView.g_user_info.visible()
+            viewHolder.itemView.iv_user_picture.visible()
             GlideApp.with(viewHolder.itemView)
                 .load(postCreator.imageUrl)
+                .centerCrop()
+                .apply(RequestOptions.circleCropTransform())
                 .into(viewHolder.itemView.iv_user_picture)
-            viewHolder.itemView.tv_user_name.text = postCreator.userName
         } ?: run {
-            viewHolder.itemView.g_user_info.gone()
+            viewHolder.itemView.iv_user_picture.gone()
         }
     }
 }
