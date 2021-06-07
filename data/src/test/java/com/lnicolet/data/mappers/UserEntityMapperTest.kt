@@ -25,7 +25,7 @@ class UserEntityMapperTest {
         private const val PHONE = "07564168666"
         private const val WEBSITE = "www.google.com"
 
-        private const val EXPECTED_IMAGE_URL = "https://api.adorable.io/avatars/256/$ID.png"
+        private const val EXPECTED_IMAGE_URL = "https://eu.ui-avatars.com/api/?size=256?background=random?name=l"
     }
 
     @get:Rule

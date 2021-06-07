@@ -138,7 +138,7 @@ class PostsRepositoryImplTest {
         val listType = object : TypeToken<ArrayList<PostEntity>>() {}.type
 
         assertFailsWith(JsonSyntaxException::class) {
-            val response = GsonBuilder().create()
+            GsonBuilder().create()
                 .fromJson<ArrayList<UserEntity>>(POSTS_RESPONSE_NON_OK, listType)
         }
     }

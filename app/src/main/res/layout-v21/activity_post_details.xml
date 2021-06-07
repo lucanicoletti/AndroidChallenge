@@ -75,8 +75,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:transitionName="@string/shared_elem_title"
-                    android:layout_marginTop="5dp"
-                    android:padding="5dp"
+                    android:layout_marginTop="8dp"
+                    android:padding="8dp"
                     tools:text="In this post I'm gonna talk about ..." />
             </LinearLayout>
         </androidx.cardview.widget.CardView>

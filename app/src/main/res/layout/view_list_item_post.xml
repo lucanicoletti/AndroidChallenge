@@ -5,14 +5,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:clickable="true"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:focusable="true">
 
     <androidx.cardview.widget.CardView
         style="@style/PostCardViewItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardUseCompatPadding="true"
-        android:padding="5dp">
+        android:padding="8dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -26,8 +27,8 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:lines="1"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 android:transitionName="@string/shared_elem_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -41,9 +42,8 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:lines="1"
-                android:layout_marginTop="5dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="5dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
                 android:transitionName="@string/shared_elem_body"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -62,8 +62,8 @@
                 android:layout_height="32dp"
                 app:cardElevation="0dp"
                 app:cardCornerRadius="16dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginStart="5dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -79,6 +79,7 @@
                 style="@style/PostUserUsername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:layout_marginEnd="10dp"
                 android:transitionName="@string/shared_elem_username"
                 app:layout_constraintStart_toEndOf="@id/cv_image_container"

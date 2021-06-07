@@ -207,7 +207,7 @@ class UsersRepositoryImplTest {
         val listType = object : TypeToken<ArrayList<UserEntity>>() {}.type
 
         assertFailsWith(JsonSyntaxException::class) {
-            val response = GsonBuilder().create()
+            GsonBuilder().create()
                 .fromJson<ArrayList<UserEntity>>(USERS_RESPONSE_ERROR, listType)
         }
     }
@@ -235,7 +235,7 @@ class UsersRepositoryImplTest {
     @Test
     fun `verify that exception is thrown with bad response`() {
         assertFailsWith(JsonSyntaxException::class) {
-            val response = GsonBuilder().create()
+            GsonBuilder().create()
                 .fromJson<UserEntity>(USER_RESPONSE_ERROR, UserEntity::class.java)
         }
     }

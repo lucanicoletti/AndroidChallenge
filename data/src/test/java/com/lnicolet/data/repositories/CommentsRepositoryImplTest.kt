@@ -126,7 +126,7 @@ class CommentsRepositoryImplTest {
     fun `verify that exception is thrown with non-ok response`() {
         val listType = object : TypeToken<ArrayList<CommentEntity>>() {}.type
         assertFailsWith(JsonSyntaxException::class) {
-            val response = GsonBuilder().create().fromJson<ArrayList<CommentEntity>>(
+            GsonBuilder().create().fromJson<ArrayList<CommentEntity>>(
                 COMMENTS_LIST_NON_OK, listType
             )
         }
