@@ -32,7 +32,7 @@ class GeoEntityMapperTest {
 
         val domainModel = mapper.mapToDomain(geoEntity)
 
-        assert(domainModel.lat == LAT)
+        assert(domainModel?.lat == LAT)
     }
 
     @Test
@@ -41,6 +41,6 @@ class GeoEntityMapperTest {
 
         val domainModel = mapper.mapToDomain(geoEntity)
 
-        assert(domainModel.lng == LNG)
+        assert(domainModel?.lng == LNG)
     }
 }

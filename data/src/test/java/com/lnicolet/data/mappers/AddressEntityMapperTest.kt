@@ -56,7 +56,7 @@ class AddressEntityMapperTest {
             .thenReturn(GeoDomainModel("", ""))
 
         val domainModel = mapper.mapToDomain(addressEntity)
-        assert(domainModel.city == CITY)
+        assert(domainModel?.city == CITY)
     }
 
     @Test
@@ -67,7 +67,7 @@ class AddressEntityMapperTest {
             .thenReturn(GeoDomainModel("", ""))
 
         val domainModel = mapper.mapToDomain(addressEntity)
-        assert(domainModel.street == STREET)
+        assert(domainModel?.street == STREET)
     }
 
     @Test
@@ -78,7 +78,7 @@ class AddressEntityMapperTest {
             .thenReturn(GeoDomainModel("", ""))
 
         val domainModel = mapper.mapToDomain(addressEntity)
-        assert(domainModel.suite == SUITE)
+        assert(domainModel?.suite == SUITE)
     }
 
     @Test
@@ -89,6 +89,6 @@ class AddressEntityMapperTest {
             .thenReturn(GeoDomainModel("", ""))
 
         val domainModel = mapper.mapToDomain(addressEntity)
-        assert(domainModel.zipCode == ZIPCODE)
+        assert(domainModel?.zipCode == ZIPCODE)
     }
 }

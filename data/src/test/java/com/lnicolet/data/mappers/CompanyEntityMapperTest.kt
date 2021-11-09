@@ -25,7 +25,7 @@ class CompanyEntityMapperTest {
     @Before
     fun `prepare for test`() {
         MockitoAnnotations.initMocks(this)
-        companyEntity = CompanyEntity(ID, NAME, CATCH_PHRASE, BS)
+        companyEntity = CompanyEntity(NAME, CATCH_PHRASE, BS)
     }
 
     @Test
