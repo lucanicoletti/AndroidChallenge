@@ -26,7 +26,7 @@ class CommentEntityMapperTest {
     @Before
     fun `prepare for test`() {
         MockitoAnnotations.initMocks(this)
-        commentEntity = CommentEntity(POST_ID, ID, NAME, EMAIL, BODY)
+        commentEntity = CommentEntity(ID, POST_ID, NAME, EMAIL, BODY)
     }
 
     @Test

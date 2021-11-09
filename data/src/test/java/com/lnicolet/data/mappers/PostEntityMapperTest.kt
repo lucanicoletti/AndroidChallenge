@@ -25,7 +25,7 @@ class PostEntityMapperTest {
     @Before
     fun `prepare for test`() {
         MockitoAnnotations.initMocks(this)
-        postEntity = PostEntity(USER_ID, ID, TITLE, BODY)
+        postEntity = PostEntity(ID, USER_ID, TITLE, BODY)
     }
 
 
