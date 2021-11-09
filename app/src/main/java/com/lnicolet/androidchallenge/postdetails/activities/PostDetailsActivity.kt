@@ -25,8 +25,8 @@ import com.lnicolet.androidchallenge.postdetails.viewmodels.PostDetailsViewModel
 import com.lnicolet.androidchallenge.postdetails.viewmodels.PostDetailsViewState
 import com.lnicolet.androidchallenge.postlist.models.Post
 import com.google.android.material.snackbar.Snackbar
+import com.lnicolet.androidchallenge.databinding.ActivityPostDetailsBinding
 import dagger.android.AndroidInjection
-import kotlinx.android.synthetic.main.activity_post_details.*
 import javax.inject.Inject
 
 /**
@@ -57,7 +57,7 @@ class PostDetailsActivity : AppCompatActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var viewModel: PostDetailsViewModel
-
+    private val binding: ActivityPostDetailsBinding by viewBinding(ActivityPostDetailsBinding::inflate)
     private var post: Post? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,13 +78,13 @@ class PostDetailsActivity : AppCompatActivity() {
         commentsIdlingResource.increment()
         commentsLoadingIdlingResource.increment()
 
-        setContentView(R.layout.activity_post_details)
+        setContentView(binding.root)
         setupViews()
         setupViewModel()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
             android.R.id.home -> {
                 supportFinishAfterTransition()
                 true
@@ -98,8 +98,8 @@ class PostDetailsActivity : AppCompatActivity() {
     }
 
     private fun setupViews() {
-        tv_body.text = post?.body.orEmpty()
-        tv_title.text = post?.title.orEmpty()
+        binding.tvBody.text = post?.body.orEmpty()
+        binding.tvTitle.text = post?.title.orEmpty()
     }
 
     private fun setupViewModel() {
@@ -147,47 +147,47 @@ class PostDetailsActivity : AppCompatActivity() {
     }
 
     private fun manageViewsVisibilityForErrorState() {
-        pb_user_loading.invisible()
-        tv_about_the_user.gone()
-        tv_comments.gone()
-        g_user_info.gone()
-        pb_comments_loading.gone()
+        binding.pbUserLoading.invisible()
+        binding.tvAboutTheUser.gone()
+        binding.tvComments.gone()
+        binding.gUserInfo.gone()
+        binding.pbCommentsLoading.gone()
     }
 
     private fun manageViewsVisibilityForErrorStateOnCommentsOnly() {
-        tv_comments.gone()
-        pb_comments_loading.gone()
+        binding.tvComments.gone()
+        binding.pbCommentsLoading.gone()
     }
 
     private fun manageViewsVisibilityForLoadingState() {
-        pb_user_loading.invisible()
-        pb_comments_loading.visible()
-        g_user_info.gone()
-        tv_comments.visible()
-        tv_about_the_user.visible()
+        binding.pbUserLoading.invisible()
+        binding.pbCommentsLoading.visible()
+        binding.gUserInfo.gone()
+        binding.tvComments.visible()
+        binding.tvAboutTheUser.visible()
     }
 
     private fun manageViewsVisibilityForLoadingCommentsOnlyState() {
-        pb_comments_loading.visible()
-        tv_comments.visible()
-        tv_about_the_user.visible()
+        binding.pbCommentsLoading.visible()
+        binding.tvComments.visible()
+        binding.tvAboutTheUser.visible()
     }
 
     private fun manageViewsVisibilityForSuccessState() {
-        pb_user_loading.invisible()
-        pb_comments_loading.gone()
-        tv_comments.visible()
-        g_user_info.visible()
+        binding.pbUserLoading.invisible()
+        binding.pbCommentsLoading.gone()
+        binding.tvComments.visible()
+        binding.gUserInfo.visible()
     }
 
     private fun loadCommentsData(commentList: List<Comment>) {
         if (commentList.isEmpty()) {
-            tv_no_comments.visible()
+            binding.tvNoComments.visible()
         } else {
-            tv_no_comments.gone()
+            binding.tvNoComments.gone()
             commentList.forEach { singleComment ->
                 val commentView = CommentView(this)
-                cv_comments_container.addView(commentView)
+                binding.cvCommentsContainer.addView(commentView)
                 commentView.setupView(singleComment)
             }
         }
@@ -195,12 +195,12 @@ class PostDetailsActivity : AppCompatActivity() {
     }
 
     private fun loadUserData(user: User) {
-        tv_name.text = user.name
-        tv_username.text = user.userName
-        tv_email.text = user.email
-        tv_website.text = user.website
-        g_user_info.visible()
-        pb_user_loading.invisible()
+        binding.tvName.text = user.name
+        binding.tvUsername.text = user.userName
+        binding.tvEmail.text = user.email
+        binding.tvWebsite.text = user.website
+        binding.gUserInfo.visible()
+        binding.pbUserLoading.invisible()
         GlideApp.with(this)
             .load(user.imageUrl)
             .centerCrop()
@@ -228,13 +228,13 @@ class PostDetailsActivity : AppCompatActivity() {
                 }
 
             })
-            .into(iv_user_picture)
+            .into(binding.ivUserPicture)
         userIdlingResource.decrement()
     }
 
     private fun showErrorMessageWithRetryBoth() {
         val errorSnackBar = TileSnackBar.make(
-            view = cl_main_container,
+            view = binding.clMainContainer,
             title = R.string.error_loading_details,
             mainButtonText = R.string.retry,
             duration = Snackbar.LENGTH_INDEFINITE,
@@ -252,7 +252,7 @@ class PostDetailsActivity : AppCompatActivity() {
 
     private fun showErrorMessageWithRetryComments() {
         val errorSnackBar = TileSnackBar.make(
-            view = cl_main_container,
+            view = binding.clMainContainer,
             title = R.string.error_loading_details,
             mainButtonText = R.string.retry,
             duration = Snackbar.LENGTH_INDEFINITE,

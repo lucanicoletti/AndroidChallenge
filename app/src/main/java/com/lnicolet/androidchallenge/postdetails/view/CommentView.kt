@@ -5,8 +5,9 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.lnicolet.androidchallenge.R
+import com.lnicolet.androidchallenge.core.inflater
+import com.lnicolet.androidchallenge.databinding.ViewCommentBinding
 import com.lnicolet.androidchallenge.postdetails.models.Comment
-import kotlinx.android.synthetic.main.view_comment.view.*
 
 /**
  * Created by Luca Nicoletti
@@ -19,12 +20,14 @@ class CommentView @kotlin.jvm.JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
+    private val binding: ViewCommentBinding = ViewCommentBinding.inflate(context.inflater, this, false)
+
     init {
         View.inflate(context, R.layout.view_comment, this)
     }
 
     fun setupView(comment: Comment) {
-        tv_user_name.text = comment.name
-        tv_comment_body.text = comment.body
+        binding.tvUserName.text = comment.name
+        binding.tvCommentBody.text = comment.body
     }
 }

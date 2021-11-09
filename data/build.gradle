@@ -1,26 +1,17 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 31
 
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 29
+        targetSdkVersion 31
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
-        // used by Room, to test migrations
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = ["room.schemaLocation":
-                                     "$projectDir/schemas".toString()]
-            }
-        }
     }
 
     buildTypes {
@@ -41,23 +32,16 @@ android {
         }
         generateStubs = true
     }
-    // used by Room, to test migrations
-    sourceSets {
-        androidTest.assets.srcDirs +=
-                files("$projectDir/schemas".toString())
-    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     def dataDependenciesImpl = rootProject.ext.dataDependenciesImplementation
-    def dataDependenciesKaptImpl = rootProject.ext.dataDependenciesKapt
     def dataTestDependenciesImpl = rootProject.ext.dataTestDependenciesImplementation
     def dataAndroidTestDependenciesImpl = rootProject.ext.dataAndroidTestDependenciesImplementation
 
     implementation dataDependenciesImpl
-    kapt dataDependenciesKaptImpl
     testImplementation dataTestDependenciesImpl
     androidTestImplementation dataAndroidTestDependenciesImpl
 

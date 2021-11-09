@@ -54,7 +54,7 @@ class TileSnackBar(
             )
 
 
-            customTileSnackbarView.setOnCloseClickListner(View.OnClickListener {
+            customTileSnackbarView.setOnCloseClickListener(View.OnClickListener {
                 tileSnackBar.dismiss()
             })
             tileSnackBar.setTitle(title)

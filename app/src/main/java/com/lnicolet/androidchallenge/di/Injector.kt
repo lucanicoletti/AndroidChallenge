@@ -18,8 +18,7 @@ import javax.inject.Singleton
         ViewModelModule::class,
         AppModule::class,
         ApiModule::class,
-        RepositoryModule::class,
-        RoomModule::class
+        RepositoryModule::class
     ]
 )
 interface Injector : AndroidInjector<ChallengeApp> {

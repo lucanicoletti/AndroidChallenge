@@ -22,7 +22,7 @@ interface CommentsApi {
 interface UsersApi {
 
     @GET("/users")
-    fun getUsers(): Observable<ArrayList<UserEntity>>
+    fun getUsers(): Single<ArrayList<UserEntity>>
 
     @GET("/users/{userId}")
     fun getUsersById(@Path("userId") userId: Int): Single<UserEntity>
@@ -31,5 +31,5 @@ interface UsersApi {
 interface PostsApi {
 
     @GET("/posts")
-    fun getPosts(): Observable<ArrayList<PostEntity>>
+    fun getPosts(): Single<ArrayList<PostEntity>>
 }

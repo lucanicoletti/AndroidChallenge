@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lnicolet.androidchallenge.R
 import com.lnicolet.androidchallenge.core.*
 import com.lnicolet.androidchallenge.core.views.TileSnackBar
+import com.lnicolet.androidchallenge.databinding.PostsListActivityBinding
 import com.lnicolet.androidchallenge.idlingresources.EspressoIdlingResource
 import com.lnicolet.androidchallenge.postdetails.activities.PostDetailsActivity
 import com.lnicolet.androidchallenge.postlist.items.PostListItem
@@ -21,7 +22,6 @@ import com.lnicolet.androidchallenge.postlist.viewmodels.PostsListViewModel
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import dagger.android.AndroidInjection
-import kotlinx.android.synthetic.main.posts_list_activity.*
 import javax.inject.Inject
 
 
@@ -33,8 +33,12 @@ class PostsListActivity : AppCompatActivity() {
 
     @VisibleForTesting
     val loadingIdlingResource: EspressoIdlingResource by lazy { EspressoIdlingResource("LOADING_LIST") }
+
     @VisibleForTesting
     val postsListIdlingResource: EspressoIdlingResource by lazy { EspressoIdlingResource("LOADING_VISIBILITY") }
+
+
+    private val binding: PostsListActivityBinding by viewBinding(PostsListActivityBinding::inflate)
 
 
     private var onPostClickListener = object : PostListItem.OnPostClickListener {
@@ -66,14 +70,14 @@ class PostsListActivity : AppCompatActivity() {
         AndroidInjection.inject(this)
         loadingIdlingResource.increment()
         postsListIdlingResource.increment()
-        setContentView(R.layout.posts_list_activity)
+        setContentView(binding.root)
         setupViewModel()
         setupRecyclerView()
     }
 
     private fun setupRecyclerView() {
-        rv_posts.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        rv_posts.adapter = adapter
+        binding.rvPosts.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        binding.rvPosts.adapter = adapter
     }
 
     private fun setupViewModel() {
@@ -86,25 +90,23 @@ class PostsListActivity : AppCompatActivity() {
         when (viewState) {
             PostListViewState.Loading -> {
                 loadingIdlingResource.decrement()
-                pb_loading_list.visible()
-                rv_posts.gone()
+                binding.pbLoadingList.visible()
+                binding.rvPosts.gone()
             }
             is PostListViewState.Success -> {
-                pb_loading_list.gone()
-                rv_posts.visible()
-                viewState.list.forEach {
-                    adapter.add(
-                        PostListItem(
-                            it,
-                            onPostClickListener
-                        )
+                binding.pbLoadingList.gone()
+                binding.rvPosts.visible()
+                adapter.addAll(viewState.list.map {
+                    PostListItem(
+                        it,
+                        onPostClickListener
                     )
-                }
+                })
                 postsListIdlingResource.decrement()
             }
             is PostListViewState.Error -> {
-                pb_loading_list.gone()
-                rv_posts.gone()
+                binding.pbLoadingList.gone()
+                binding.rvPosts.gone()
                 showErrorMessage()
             }
         }
@@ -112,7 +114,7 @@ class PostsListActivity : AppCompatActivity() {
 
     private fun showErrorMessage() {
         val tileSnackbar = TileSnackBar.make(
-            view = fl_container,
+            view = binding.flContainer,
             title = R.string.error_loading_list_title,
             message = R.string.error_loading_list_message,
             mainButtonText = R.string.retry,

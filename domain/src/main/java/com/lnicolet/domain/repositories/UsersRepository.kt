@@ -6,6 +6,6 @@ import io.reactivex.Observable
 import io.reactivex.Single
 
 interface UsersRepository {
-    fun getUsers(): Observable<List<UserDomainModel>>
+    fun getUsers(): Single<List<UserDomainModel>>
     fun getUsersById(userId: Int): Single<UserDomainModel>
 }

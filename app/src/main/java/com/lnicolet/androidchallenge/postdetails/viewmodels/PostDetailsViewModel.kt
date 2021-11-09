@@ -70,7 +70,7 @@ class PostDetailsViewModel @Inject constructor(
     }
 
     private fun onCommentsFailed(throwable: Throwable) {
-        _postDetailsViewState.postValue(PostDetailsViewState.ErrorComments(throwable.localizedMessage))
+        _postDetailsViewState.postValue(PostDetailsViewState.ErrorComments(throwable.localizedMessage.orEmpty()))
     }
 
     private fun onCommentsSucceed(commentsList: List<CommentDomainModel>) {
@@ -83,7 +83,7 @@ class PostDetailsViewModel @Inject constructor(
     }
 
     private fun onCommentsAndUserFailed(throwable: Throwable) {
-        _postDetailsViewState.postValue(PostDetailsViewState.ErrorBoth(throwable.localizedMessage))
+        _postDetailsViewState.postValue(PostDetailsViewState.ErrorBoth(throwable.localizedMessage.orEmpty()))
     }
 
     private fun onCommentsAndUserSucceed(postDetailDomainModel: PostDetailDomainModel) {

@@ -1,23 +1,28 @@
 package com.lnicolet.androidchallenge.core
 
+import android.content.Context
+import android.view.LayoutInflater
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
+import androidx.viewbinding.ViewBinding
 
 inline fun <reified T : ViewModel> Fragment.getViewModel(
     factory: ViewModelProvider.Factory,
     body: T.() -> Unit
 ): T {
-    val viewModel = ViewModelProviders.of(this, factory)[T::class.java]
+    val viewModel = ViewModelProvider(this, factory)[T::class.java]
     viewModel.body()
     return viewModel
 }
+
 inline fun <reified T : ViewModel> FragmentActivity.getViewModel(
     factory: ViewModelProvider.Factory,
     body: T.() -> Unit
 ): T {
-    val viewModel = ViewModelProviders.of(this, factory)[T::class.java]
+    val viewModel = ViewModelProvider(this, factory)[T::class.java]
     viewModel.body()
     return viewModel
 }
@@ -40,3 +45,16 @@ fun View.gone() {
 fun View.invisible() {
     visibility = View.INVISIBLE
 }
+
+/**
+ * Layout inflater from Context.
+ */
+inline val Context.inflater: LayoutInflater
+    get() = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+inline fun <T : ViewBinding> AppCompatActivity.viewBinding(
+    crossinline bindingInflater: (LayoutInflater) -> T
+) =
+    lazy(LazyThreadSafetyMode.NONE) {
+        bindingInflater.invoke(layoutInflater)
+    }
