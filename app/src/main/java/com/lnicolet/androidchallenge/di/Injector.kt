@@ -2,7 +2,12 @@ package com.lnicolet.androidchallenge.di
 
 import android.app.Application
 import com.lnicolet.androidchallenge.ChallengeApp
-import com.lnicolet.androidchallenge.di.modules.*
+import com.lnicolet.androidchallenge.di.modules.ActivitiesModule
+import com.lnicolet.androidchallenge.di.modules.ApiModule
+import com.lnicolet.androidchallenge.di.modules.AppModule
+import com.lnicolet.androidchallenge.di.modules.CoreModule
+import com.lnicolet.androidchallenge.di.modules.RepositoryModule
+import com.lnicolet.androidchallenge.di.modules.ViewModelModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -18,7 +23,8 @@ import javax.inject.Singleton
         ViewModelModule::class,
         AppModule::class,
         ApiModule::class,
-        RepositoryModule::class
+        RepositoryModule::class,
+        CoreModule::class
     ]
 )
 interface Injector : AndroidInjector<ChallengeApp> {

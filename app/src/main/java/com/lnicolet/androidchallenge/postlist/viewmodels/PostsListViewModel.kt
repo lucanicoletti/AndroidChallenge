@@ -2,19 +2,21 @@ package com.lnicolet.androidchallenge.postlist.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.lnicolet.androidchallenge.core.BaseViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.lnicolet.androidchallenge.core.DispatcherProvider
 import com.lnicolet.androidchallenge.postlist.mappers.PostsMapper
 import com.lnicolet.androidchallenge.postlist.models.Post
 import com.lnicolet.domain.models.PostDomainModel
 import com.lnicolet.domain.usecases.PostsAndUsersUseCase
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class PostsListViewModel @Inject constructor(
     private val postsAndUsersUseCase: PostsAndUsersUseCase,
-    private val postsMapper: PostsMapper
-) : BaseViewModel() {
+    private val postsMapper: PostsMapper,
+    private val dispatcher: DispatcherProvider
+) : ViewModel() {
 
     private val _postsListViewState = MutableLiveData<PostListViewState>()
 
@@ -25,26 +27,16 @@ class PostsListViewModel @Inject constructor(
         fetchPosts()
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        disposeAll()
-    }
-
     fun fetchPosts() {
-        lastDisposable = postsAndUsersUseCase.getPostsWithUsers()
-            .doOnSubscribe {
-                _postsListViewState.postValue(PostListViewState.Loading)
+        viewModelScope.launch(dispatcher.io()) {
+            _postsListViewState.postValue(PostListViewState.Loading)
+            try {
+                val postAndUser = postsAndUsersUseCase.getPostsWithUsers()
+                onPostsListSucceed(postAndUser)
+            } catch (exception: Exception) {
+                onPostsListError(exception)
             }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                {
-                    onPostsListSucceed(it)
-                },
-                {
-                    onPostsListError(it)
-                }
-            )
+        }
     }
 
     private fun onPostsListSucceed(postList: List<PostDomainModel>) {

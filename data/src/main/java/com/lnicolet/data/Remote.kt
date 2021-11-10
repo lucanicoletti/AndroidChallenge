@@ -13,23 +13,23 @@ import retrofit2.http.Query
 interface CommentsApi {
 
     @GET("/comments")
-    fun getComments(): Single<ArrayList<CommentEntity>>
+    suspend fun getComments(): ArrayList<CommentEntity>
 
     @GET("/comments")
-    fun getCommentsByPost(@Query("postId") postId: Int): Single<ArrayList<CommentEntity>>
+    suspend fun getCommentsByPost(@Query("postId") postId: Int): ArrayList<CommentEntity>
 }
 
 interface UsersApi {
 
     @GET("/users")
-    fun getUsers(): Single<ArrayList<UserEntity>>
+    suspend fun getUsers(): ArrayList<UserEntity>
 
     @GET("/users/{userId}")
-    fun getUsersById(@Path("userId") userId: Int): Single<UserEntity>
+    suspend fun getUsersById(@Path("userId") userId: Int): UserEntity
 }
 
 interface PostsApi {
 
     @GET("/posts")
-    fun getPosts(): Single<ArrayList<PostEntity>>
+    suspend fun getPosts(): ArrayList<PostEntity>
 }

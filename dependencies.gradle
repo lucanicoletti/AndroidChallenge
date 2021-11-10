@@ -35,6 +35,8 @@ ext {
     // dagger
     daggerVersion = '2.40'
 
+    //coroutines
+    coroutines = '1.4.1'
     // Rx
     rxAndroidVersion = '2.1.1'
     rxKotlinVersion = '2.4.0'
@@ -58,7 +60,7 @@ ext {
     kakaoVersion = '2.0.0'
 
     presentationDependencies = [
-        implementation     : [
+        implementation: [
             kotlin               : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion",
             appCompat            : "androidx.appcompat:appcompat:$xAppCompatVersion",
             coreKtx              : "androidx.core:core-ktx:$xCoreKtxVersion",
@@ -77,16 +79,16 @@ ext {
             daggerAndroidSupport : "com.google.dagger:dagger-android-support:$daggerVersion",
             inject               : "javax.inject:javax.inject:$injectVersion",
             groupie              : "com.xwray:groupie:$groupieVersion",
-            groupieAndroidKotlin : "com.xwray:groupie-kotlin-android-extensions:$groupieVersion"
+            groupieAndroidKotlin : "com.xwray:groupie-kotlin-android-extensions:$groupieVersion",
+            coroutinesCore       : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines",
+            coroutinesAndroid    : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines",
+            androidLifecycle     : "androidx.lifecycle:lifecycle-viewmodel-ktx:$xLifeCycleExtensionsVersion"
         ],
-        kapt               : [
+        kapt          : [
             daggerCompiler        : "com.google.dagger:dagger-compiler:$daggerVersion",
             daggerAndroidProcessor: "com.google.dagger:dagger-android-processor:$daggerVersion",
             androidXAnnotation    : "androidx.annotation:annotation:$xAnnotationVersion",
             glidecompiler         : "com.github.bumptech.glide:compiler:$glideVersion",
-        ],
-        annotationProcessor: [
-
         ]
     ]
     presentationTestDependencies = [
@@ -96,7 +98,8 @@ ext {
             powemockApi   : "org.powermock:powermock-api-mockito2:$powerMockVersion",
             powermockJUnit: "org.powermock:powermock-module-junit4:$powerMockVersion",
             xCoreTesting  : "androidx.arch.core:core-testing:$archCoreTestingVersion",
-            mockitoKotlin : "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion"
+            mockitoKotlin : "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion",
+            coroutinesTest: "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines"
         ],
         androidTestImplementation: [
             mockitoAndroid: "org.mockito:mockito-android:$mockitoAndroidVersion",
@@ -120,18 +123,20 @@ ext {
             retrofit             : "com.squareup.retrofit2:retrofit:$retrofitVersion",
             retrofitRxJavaAdapter: "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion",
             retrofitGSonConverter: "com.squareup.retrofit2:converter-gson:$retrofitVersion",
-            inject               : "javax.inject:javax.inject:$injectVersion"
+            inject               : "javax.inject:javax.inject:$injectVersion",
+            coroutinesCore       : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"
         ]
     ]
 
     dataTestDependencies = [
         testImplementation       : [
-            junit        : "junit:junit:$junitVersion",
-            kotlinJUnit  : "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion",
-            mockitoCore  : "org.mockito:mockito-core:$mockitoCoreVersion",
-            mockito      : "org.mockito:mockito-inline:$mockitoInlineVersion",
-            xCoreTesting : "androidx.arch.core:core-testing:$archCoreTestingVersion",
-            mockitoKotlin: "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion"
+            junit         : "junit:junit:$junitVersion",
+            kotlinJUnit   : "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion",
+            mockitoCore   : "org.mockito:mockito-core:$mockitoCoreVersion",
+            mockito       : "org.mockito:mockito-inline:$mockitoInlineVersion",
+            xCoreTesting  : "androidx.arch.core:core-testing:$archCoreTestingVersion",
+            mockitoKotlin : "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion",
+            coroutinesTest: "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines"
         ],
         androidTestImplementation: [
             mockitoAndroid: "org.mockito:mockito-android:$mockitoAndroidVersion",
@@ -143,17 +148,19 @@ ext {
 
     domainDependencies = [
         implementation: [
-            kotlin   : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion",
-            appCompat: "androidx.appcompat:appcompat:$xAppCompatVersion",
-            rxAndroid: "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion",
-            rxKotlin : "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion",
-            inject   : "javax.inject:javax.inject:$injectVersion"
+            kotlin        : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion",
+            appCompat     : "androidx.appcompat:appcompat:$xAppCompatVersion",
+            rxAndroid     : "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion",
+            rxKotlin      : "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion",
+            inject        : "javax.inject:javax.inject:$injectVersion",
+            coroutinesCore: "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"
         ]
     ]
 
     domainTestDependencies = [
         testImplementation       : [
-            junit: "junit:junit:$junitVersion"
+            junit         : "junit:junit:$junitVersion",
+            coroutinesTest: "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines"
         ],
         androidTestImplementation: [
             testRunner  : "androidx.test:runner:$testRunnerVersion",

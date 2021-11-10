@@ -14,16 +14,11 @@ class CommentsAndUserUseCase @Inject constructor(
     private val usersRepository: UsersRepository
 ) {
 
-    fun getCommentsAndUser(params: Params):
-        Single<PostDetailDomainModel> =
-        Single.zip(
-            commentsRepository.getCommentsByPost(params.postId),
-            usersRepository.getUsersById(params.userId),
-            BiFunction<List<CommentDomainModel>, UserDomainModel,
-                PostDetailDomainModel> { comments, user ->
-                PostDetailDomainModel(user, comments)
-            }
-        )
+    suspend fun getCommentsAndUser(params: Params): PostDetailDomainModel {
+        val comments = commentsRepository.getCommentsByPost(params.postId)
+        val user = usersRepository.getUsersById(params.userId)
+        return PostDetailDomainModel(user, comments)
+    }
 
     data class Params(val userId: Int, val postId: Int)
 }

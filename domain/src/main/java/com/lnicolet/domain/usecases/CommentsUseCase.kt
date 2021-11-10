@@ -7,9 +7,9 @@ import javax.inject.Inject
 
 class CommentsUseCase @Inject constructor(private val commentsRepository: CommentsRepository) {
 
-    fun getComments(): Single<List<CommentDomainModel>> =
+    suspend fun getComments(): List<CommentDomainModel> =
             commentsRepository.getComments()
 
-    fun getCommentsByPostId(postId: Int): Single<List<CommentDomainModel>> =
+    suspend fun getCommentsByPostId(postId: Int): List<CommentDomainModel> =
             commentsRepository.getCommentsByPost(postId)
 }

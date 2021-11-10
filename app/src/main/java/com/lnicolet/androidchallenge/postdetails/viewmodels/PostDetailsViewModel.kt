@@ -2,7 +2,9 @@ package com.lnicolet.androidchallenge.postdetails.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.lnicolet.androidchallenge.core.BaseViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.lnicolet.androidchallenge.core.DispatcherProvider
 import com.lnicolet.androidchallenge.postdetails.mappers.CommentMapper
 import com.lnicolet.androidchallenge.postdetails.mappers.PostDetailMapper
 import com.lnicolet.androidchallenge.postdetails.models.Comment
@@ -11,62 +13,44 @@ import com.lnicolet.domain.models.CommentDomainModel
 import com.lnicolet.domain.models.PostDetailDomainModel
 import com.lnicolet.domain.usecases.CommentsAndUserUseCase
 import com.lnicolet.domain.usecases.CommentsUseCase
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import java.util.concurrent.TimeUnit
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class PostDetailsViewModel @Inject constructor(
     private val commentsAndUserUseCase: CommentsAndUserUseCase,
     private val commentsUseCase: CommentsUseCase,
     private val postDetailMapper: PostDetailMapper,
-    private val commentMapper: CommentMapper
-) : BaseViewModel() {
+    private val commentMapper: CommentMapper,
+    private val dispatcher: DispatcherProvider
+) : ViewModel() {
 
     private val _postDetailsViewState = MutableLiveData<PostDetailsViewState>()
 
     val postDetailsViewState: LiveData<PostDetailsViewState>
         get() = _postDetailsViewState
 
-    override fun onCleared() {
-        super.onCleared()
-        disposeAll()
-    }
-
     fun loadCommentsAndUserData(userId: Int, postId: Int) {
-        lastDisposable =
-            commentsAndUserUseCase.getCommentsAndUser(CommentsAndUserUseCase.Params(userId, postId))
-                .doOnSubscribe {
-                    _postDetailsViewState.postValue(PostDetailsViewState.Loading)
-                }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                    {
-                        onCommentsAndUserSucceed(it)
-                    },
-                    {
-                        onCommentsAndUserFailed(it)
-                    }
-                )
+        viewModelScope.launch(dispatcher.io()) {
+            _postDetailsViewState.postValue(PostDetailsViewState.Loading)
+            try {
+                val commentsAndUser = commentsAndUserUseCase.getCommentsAndUser(CommentsAndUserUseCase.Params(userId, postId))
+                onCommentsAndUserSucceed(commentsAndUser)
+            } catch (exception: Exception) {
+                onCommentsAndUserFailed(exception)
+            }
+        }
     }
 
     fun loadComments(postId: Int) {
-        lastDisposable =
-            commentsUseCase.getCommentsByPostId(postId)
-                .doOnSubscribe {
-                    _postDetailsViewState.postValue(PostDetailsViewState.LoadingCommentsOnly)
-                }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                    {
-                        onCommentsSucceed(it)
-                    },
-                    {
-                        onCommentsFailed(it)
-                    }
-                )
+        viewModelScope.launch(dispatcher.io()) {
+            _postDetailsViewState.postValue(PostDetailsViewState.LoadingCommentsOnly)
+            try {
+                val comments = commentsUseCase.getCommentsByPostId(postId)
+                onCommentsSucceed(comments)
+            } catch (exception: Exception) {
+                onCommentsFailed(exception)
+            }
+        }
     }
 
     private fun onCommentsFailed(throwable: Throwable) {

@@ -13,17 +13,12 @@ class UsersRepositoryImpl @Inject constructor(
     private val userEntityMapper: UserEntityMapper
 ) : UsersRepository {
 
-    override fun getUsers(): Single<List<UserDomainModel>> =
-        usersApi.getUsers().map { list ->
-            list.map {
-                userEntityMapper.mapToDomain(it)
-            }
+    override suspend fun getUsers(): List<UserDomainModel> =
+        usersApi.getUsers().map {
+            userEntityMapper.mapToDomain(it)
         }
 
-    override fun getUsersById(userId: Int): Single<UserDomainModel> =
-        usersApi.getUsersById(userId)
-            .map {
-                userEntityMapper.mapToDomain(it)
-            }
+    override suspend fun getUsersById(userId: Int): UserDomainModel =
+        userEntityMapper.mapToDomain(usersApi.getUsersById(userId))
 
 }

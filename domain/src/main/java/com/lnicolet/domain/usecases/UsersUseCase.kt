@@ -7,5 +7,5 @@ import javax.inject.Inject
 
 class UsersUseCase @Inject constructor(private val usersRepository: UsersRepository) {
 
-    fun getUsers(): Single<List<UserDomainModel>> = usersRepository.getUsers()
+    suspend fun getUsers(): List<UserDomainModel> = usersRepository.getUsers()
 }

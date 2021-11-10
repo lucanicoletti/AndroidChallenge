@@ -7,5 +7,5 @@ import javax.inject.Inject
 
 class PostsUseCase @Inject constructor(private val postsRepository: PostsRepository)  {
 
-    fun getPots(): Single<List<PostDomainModel>> = postsRepository.getPosts()
+    suspend fun getPots(): List<PostDomainModel> = postsRepository.getPosts()
 }
