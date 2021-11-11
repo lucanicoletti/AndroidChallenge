@@ -1,4 +1,4 @@
-package com.lnicolet.androidchallenge.utils
+package com.lnicolet.data.utils
 
 import com.lnicolet.data.DispatcherProvider
 import kotlinx.coroutines.CoroutineDispatcher

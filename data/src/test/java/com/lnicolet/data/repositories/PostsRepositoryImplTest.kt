@@ -1,27 +1,30 @@
 package com.lnicolet.data.repositories
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LifecycleRegistry
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonSyntaxException
+import com.google.gson.reflect.TypeToken
 import com.lnicolet.data.PostsApi
 import com.lnicolet.data.entities.PostEntity
 import com.lnicolet.data.entities.UserEntity
 import com.lnicolet.data.mappers.PostEntityMapper
-import com.lnicolet.data.utils.RxSchedulerRule
-import com.google.gson.GsonBuilder
-import com.google.gson.JsonSyntaxException
-import com.google.gson.reflect.TypeToken
-import io.reactivex.Single
+import com.lnicolet.data.utils.CoroutineTestRule
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
+import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
+import org.mockito.junit.MockitoJUnitRunner
 import kotlin.test.assertFailsWith
 
+@ExperimentalCoroutinesApi
+@RunWith(MockitoJUnitRunner::class)
 class PostsRepositoryImplTest {
 
     companion object {
@@ -62,7 +65,7 @@ class PostsRepositoryImplTest {
     }
 
     @get:Rule
-    val rxRule = RxSchedulerRule()
+    val coroutineRule = CoroutineTestRule()
     @get:Rule
     val rule: TestRule = InstantTaskExecutorRule()
     @Mock
@@ -79,57 +82,34 @@ class PostsRepositoryImplTest {
 
         postEntityMapper = PostEntityMapper()
         postRepository = PostsRepositoryImpl(postsApi, postEntityMapper)
-        setupLifeCycleOwner()
-    }
-
-    private fun setupLifeCycleOwner() {
-        val lifecycle = LifecycleRegistry(lifeCycleOwner)
-        Mockito.`when`(lifeCycleOwner.lifecycle).thenReturn(lifecycle)
-        lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
     }
 
     @Test
-    fun `verify that users are fetched correctly with ok response`() {
+    fun `verify that users are fetched correctly with ok response`() = runBlockingTest {
         val listType = object : TypeToken<ArrayList<PostEntity>>() {}.type
         val response =
             GsonBuilder().create()
                 .fromJson<ArrayList<PostEntity>>(POSTS_RESPONSE_OK, listType)
 
         Mockito.`when`(postsApi.getPosts())
-            .thenReturn(Single.just(response))
+            .thenReturn(response)
 
-        val observer = postRepository.getPosts().test()
-        observer.awaitTerminalEvent()
-
-        observer
-            .assertNoTimeout()
-            .assertNoErrors()
-            .assertComplete()
-            .assertValue {
-                it.isNotEmpty()
-            }
+        val posts = postRepository.getPosts()
+        assert(posts.isNotEmpty())
     }
 
     @Test
-    fun `verify that users are fetched correctly with empty-ok response`() {
+    fun `verify that users are fetched correctly with empty-ok response`() = runBlockingTest {
         val listType = object : TypeToken<ArrayList<PostEntity>>() {}.type
         val response =
             GsonBuilder().create()
                 .fromJson<ArrayList<PostEntity>>(POSTS_RESPONSE_OK_EMPTY, listType)
 
         Mockito.`when`(postsApi.getPosts())
-            .thenReturn(Single.just(response))
+            .thenReturn(response)
 
-        val observer = postRepository.getPosts().test()
-        observer.awaitTerminalEvent()
-
-        observer
-            .assertNoTimeout()
-            .assertNoErrors()
-            .assertComplete()
-            .assertValue {
-                it.isEmpty()
-            }
+        val posts = postRepository.getPosts()
+        assert(posts.isEmpty())
     }
 
 

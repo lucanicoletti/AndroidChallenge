@@ -1,7 +1,7 @@
 package com.lnicolet.androidchallenge.di.modules
 
-import com.lnicolet.androidchallenge.core.DefaultDispatcherProvider
-import com.lnicolet.androidchallenge.core.DispatcherProvider
+import com.lnicolet.data.DefaultDispatcherProvider
+import com.lnicolet.data.DispatcherProvider
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

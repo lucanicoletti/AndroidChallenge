@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.lnicolet.androidchallenge.core.DispatcherProvider
+import com.lnicolet.data.DispatcherProvider
 import com.lnicolet.androidchallenge.postlist.mappers.PostsMapper
 import com.lnicolet.androidchallenge.postlist.models.Post
 import com.lnicolet.domain.models.PostDomainModel

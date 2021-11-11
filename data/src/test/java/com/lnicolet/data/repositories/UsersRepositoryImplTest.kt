@@ -1,30 +1,33 @@
 package com.lnicolet.data.repositories
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LifecycleRegistry
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonSyntaxException
+import com.google.gson.reflect.TypeToken
 import com.lnicolet.data.UsersApi
 import com.lnicolet.data.entities.UserEntity
 import com.lnicolet.data.mappers.AddressEntityMapper
 import com.lnicolet.data.mappers.CompanyEntityMapper
 import com.lnicolet.data.mappers.GeoEntityMapper
 import com.lnicolet.data.mappers.UserEntityMapper
-import com.lnicolet.data.utils.RxSchedulerRule
-import com.google.gson.GsonBuilder
-import com.google.gson.JsonSyntaxException
-import com.google.gson.reflect.TypeToken
-import io.reactivex.Single
+import com.lnicolet.data.utils.CoroutineTestRule
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
+import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
+import org.mockito.junit.MockitoJUnitRunner
 import kotlin.test.assertFailsWith
 
 
+@ExperimentalCoroutinesApi
+@RunWith(MockitoJUnitRunner::class)
 class UsersRepositoryImplTest {
 
     companion object {
@@ -127,7 +130,7 @@ class UsersRepositoryImplTest {
     }
 
     @get:Rule
-    val rxRule = RxSchedulerRule()
+    val coroutineRule = CoroutineTestRule()
     @get:Rule
     val rule: TestRule = InstantTaskExecutorRule()
     @Mock
@@ -151,55 +154,34 @@ class UsersRepositoryImplTest {
         usersEntityMapper = UserEntityMapper(addressEntityMapper, companyEntityMapper)
 
         repository = UsersRepositoryImpl(usersApi, usersEntityMapper)
-        setupLifeCycleOwner()
-    }
-
-    private fun setupLifeCycleOwner() {
-        val lifecycle = LifecycleRegistry(lifeCycleOwner)
-        Mockito.`when`(lifeCycleOwner.lifecycle).thenReturn(lifecycle)
-        lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
     }
 
     @Test
-    fun `verify that users are fetched correctly with ok response`() {
+    fun `verify that users are fetched correctly with ok response`() = runBlockingTest {
         val listType = object : TypeToken<ArrayList<UserEntity>>() {}.type
         val response =
             GsonBuilder().create().fromJson<ArrayList<UserEntity>>(USERS_RESPONSE_OK, listType)
 
         Mockito.`when`(usersApi.getUsers())
-            .thenReturn(Single.just(response))
+            .thenReturn(response)
 
-        val observer = repository.getUsers().test()
-        observer.awaitTerminalEvent()
+        val users = repository.getUsers()
 
-        observer
-            .assertComplete()
-            .assertNoErrors()
-            .assertNoTimeout()
-            .assertValue {
-                it.isNotEmpty()
-            }
+        assert(users.isNotEmpty())
     }
 
     @Test
-    fun `verify that users are empty with EMPTY response`() {
+    fun `verify that users are empty with EMPTY response`() = runBlockingTest {
         val listType = object : TypeToken<ArrayList<UserEntity>>() {}.type
         val response =
             GsonBuilder().create().fromJson<ArrayList<UserEntity>>(USERS_RESPONSE_EMPTY, listType)
 
         Mockito.`when`(usersApi.getUsers())
-            .thenReturn(Single.just(response))
+            .thenReturn(response)
 
-        val observer = repository.getUsers().test()
-        observer.awaitTerminalEvent()
+        val users = repository.getUsers()
 
-        observer
-            .assertComplete()
-            .assertNoErrors()
-            .assertNoTimeout()
-            .assertValue {
-                it.isEmpty()
-            }
+        assert(users.isEmpty())
     }
 
     @Test
@@ -213,23 +195,15 @@ class UsersRepositoryImplTest {
     }
 
     @Test
-    fun `verify that user is fetch correctly given an ID`() {
+    fun `verify that user is fetch correctly given an ID`() = runBlockingTest {
         val response = GsonBuilder().create()
             .fromJson<UserEntity>(USER_RESPONSE_OK, UserEntity::class.java)
 
         Mockito.`when`(usersApi.getUsersById(4))
-            .thenReturn(Single.just(response))
+            .thenReturn(response)
 
-        val observer = repository.getUsersById(4).test()
-        observer.awaitTerminalEvent()
-
-        observer
-            .assertNoErrors()
-            .assertComplete()
-            .assertNoTimeout()
-            .assertValue {
-                it.id == 4
-            }
+        val userById = repository.getUsersById(4)
+        assert(userById.id == 4)
     }
 
     @Test

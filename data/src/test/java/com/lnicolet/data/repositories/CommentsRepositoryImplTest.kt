@@ -4,24 +4,29 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
-import com.lnicolet.data.CommentsApi
-import com.lnicolet.data.entities.CommentEntity
-import com.lnicolet.data.mappers.CommentEntityMapper
-import com.lnicolet.data.utils.RxSchedulerRule
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
+import com.lnicolet.data.CommentsApi
+import com.lnicolet.data.entities.CommentEntity
+import com.lnicolet.data.mappers.CommentEntityMapper
+import com.lnicolet.data.utils.CoroutineTestRule
 import com.nhaarman.mockitokotlin2.any
-import io.reactivex.Single
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
+import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
+import org.mockito.junit.MockitoJUnitRunner
 import kotlin.test.assertFailsWith
 
+@ExperimentalCoroutinesApi
+@RunWith(MockitoJUnitRunner::class)
 class CommentsRepositoryImplTest {
 
     companion object {
@@ -53,11 +58,13 @@ class CommentsRepositoryImplTest {
     }
 
     @get:Rule
-    val rxRule = RxSchedulerRule()
+    val coroutineRule = CoroutineTestRule()
     @get:Rule
     val rule: TestRule = InstantTaskExecutorRule()
+
     @Mock
     lateinit var lifeCycleOwner: LifecycleOwner
+
     @Mock
     lateinit var commentsApi: CommentsApi
 
@@ -80,46 +87,32 @@ class CommentsRepositoryImplTest {
     }
 
     @Test
-    fun `verify that comments are fetched correctly with ok response`() {
+    fun `verify that comments are fetched correctly with ok response`() = runBlockingTest {
         val listType = object : TypeToken<ArrayList<CommentEntity>>() {}.type
         val response = GsonBuilder().create().fromJson<ArrayList<CommentEntity>>(
             COMMENTS_LIST_OK, listType
         )
 
         Mockito.`when`(commentsApi.getComments())
-            .thenReturn(Single.just(response))
+            .thenReturn(response)
 
-        val observer = repository.getComments().test()
-        observer.awaitTerminalEvent()
+        val comments = repository.getComments()
 
-        observer
-            .assertNoErrors()
-            .assertComplete()
-            .assertNoTimeout()
-            .assertValue {
-                it.isNotEmpty()
-            }
+        assert(comments.isNotEmpty())
     }
 
     @Test
-    fun `verify that comments are fetched correctly with empty-ok response`() {
+    fun `verify that comments are fetched correctly with empty-ok response`() = runBlockingTest {
         val listType = object : TypeToken<ArrayList<CommentEntity>>() {}.type
         val response = GsonBuilder().create()
             .fromJson<ArrayList<CommentEntity>>(COMMENTS_LIST_OK_EMPTY, listType)
 
         Mockito.`when`(commentsApi.getComments())
-            .thenReturn(Single.just(response))
+            .thenReturn(response)
 
-        val observer = repository.getComments().test()
-        observer.awaitTerminalEvent()
+        val comments = repository.getComments()
+        assert(comments.isEmpty())
 
-        observer
-            .assertNoErrors()
-            .assertComplete()
-            .assertNoTimeout()
-            .assertValue {
-                it.isEmpty()
-            }
     }
 
     @Test
@@ -131,48 +124,33 @@ class CommentsRepositoryImplTest {
             )
         }
     }
+
     @Test
-    fun `verify that comments by post id are fetched correctly with ok response`() {
+    fun `verify that comments by post id are fetched correctly with ok response`() = runBlockingTest {
         val listType = object : TypeToken<ArrayList<CommentEntity>>() {}.type
         val response = GsonBuilder().create().fromJson<ArrayList<CommentEntity>>(
             COMMENTS_LIST_OK, listType
         )
 
         Mockito.`when`(commentsApi.getCommentsByPost(any()))
-            .thenReturn(Single.just(response))
+            .thenReturn(response)
 
-        val observer = repository.getCommentsByPost(1).test()
-        observer.awaitTerminalEvent()
-
-        observer
-            .assertNoErrors()
-            .assertComplete()
-            .assertNoTimeout()
-            .assertValue {
-                it.isNotEmpty() && it.all { commentDomainModel ->
-                    commentDomainModel.postId == 1
-                }
-            }
+        val comments = repository.getCommentsByPost(1)
+        assert(comments.isNotEmpty() && comments.all { commentDomainModel ->
+            commentDomainModel.postId == 1
+        })
     }
 
     @Test
-    fun `verify that comments by post id are fetched correctly with empty-ok response`() {
+    fun `verify that comments by post id are fetched correctly with empty-ok response`() = runBlockingTest {
         val listType = object : TypeToken<ArrayList<CommentEntity>>() {}.type
         val response = GsonBuilder().create()
             .fromJson<ArrayList<CommentEntity>>(COMMENTS_LIST_OK_EMPTY, listType)
 
         Mockito.`when`(commentsApi.getCommentsByPost(any()))
-            .thenReturn(Single.just(response))
+            .thenReturn(response)
 
-        val observer = repository.getCommentsByPost(1).test()
-        observer.awaitTerminalEvent()
-
-        observer
-            .assertNoErrors()
-            .assertComplete()
-            .assertNoTimeout()
-            .assertValue {
-                it.isEmpty()
-            }
+        val comments = repository.getCommentsByPost(1)
+        assert(comments.isEmpty())
     }
 }
