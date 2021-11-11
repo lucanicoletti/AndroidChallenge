@@ -1,29 +1,27 @@
 package com.lnicolet.androidchallenge.viewmodels
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
 import com.lnicolet.androidchallenge.postlist.mappers.PostsMapper
 import com.lnicolet.androidchallenge.postlist.viewmodels.PostListViewState
 import com.lnicolet.androidchallenge.postlist.viewmodels.PostsListViewModel
-import com.lnicolet.androidchallenge.utils.RxSchedulerRule
+import com.lnicolet.androidchallenge.utils.CoroutineTestRule
+import com.lnicolet.androidchallenge.utils.TestDispatcherProvider
 import com.lnicolet.domain.models.PostDomainModel
 import com.lnicolet.domain.models.UserDomainModel
 import com.lnicolet.domain.repositories.PostsRepository
 import com.lnicolet.domain.repositories.UsersRepository
 import com.lnicolet.domain.usecases.PostsAndUsersUseCase
-import io.reactivex.Single
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.TestRule
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
-import org.powermock.modules.junit4.PowerMockRunner
+import org.mockito.junit.MockitoJUnitRunner
 
 /**
  * Created by Luca Nicoletti
@@ -31,17 +29,15 @@ import org.powermock.modules.junit4.PowerMockRunner
  */
 
 
-@RunWith(PowerMockRunner::class)
+@RunWith(MockitoJUnitRunner::class)
 class PostListViewModelTest {
 
-    // Forces RxJava to execute on a specified thread for tests (Thanks to Tristan)
-    @Rule
-    val rxRule = RxSchedulerRule()
-    @Rule
-    var rule: TestRule = InstantTaskExecutorRule()
+    @ExperimentalCoroutinesApi
+    @get:Rule
+    val coroutineRule = CoroutineTestRule()
+    @get:Rule
+    var liveDataRule = InstantTaskExecutorRule()
 
-    @Mock
-    lateinit var lifecycleOwner: LifecycleOwner
     @Mock
     lateinit var postsRepository: PostsRepository
     @Mock
@@ -55,25 +51,25 @@ class PostListViewModelTest {
     @Mock
     lateinit var mockUserDomainModel: UserDomainModel
 
-
     private lateinit var postAndUserUseCase: PostsAndUsersUseCase
     private lateinit var postsListViewModel: PostsListViewModel
+    private val testDispatcherProvider = TestDispatcherProvider()
 
     @Before
     fun `prepare for test`() {
         MockitoAnnotations.initMocks(this)
-        setupLifecycleOwner()
     }
 
+    @ExperimentalCoroutinesApi
     @Test
-    fun `verify that success response create correct view state`() {
+    fun `verify that success response create correct view state`() = runBlockingTest {
         // Arrange
         val validPostsResponse = listOf(mockPostDomainModel, mockPostDomainModel, mockPostDomainModel)
         val validUsersResponse = listOf(mockUserDomainModel, mockUserDomainModel, mockUserDomainModel)
         Mockito.`when`(postsRepository.getPosts())
-            .thenReturn(Single.just(validPostsResponse))
+            .thenReturn(validPostsResponse)
         Mockito.`when`(userRepository.getUsers())
-            .thenReturn(Single.just(validUsersResponse))
+            .thenReturn(validUsersResponse)
 
         // Act
         setupViewModel()
@@ -82,14 +78,13 @@ class PostListViewModelTest {
         Mockito.verify(postsListViewStateObserver).onChanged(PostListViewState.Success(postsMapper.mapToPresentation(validPostsResponse)))
     }
 
+    @ExperimentalCoroutinesApi
     @Test
-    fun `verify that error response create correct view state`() {
+    fun `verify that error response create correct view state`() = runBlockingTest {
         // Arrange
         val message = "Unknown error"
         Mockito.`when`(postsRepository.getPosts())
-            .thenReturn(Single.error(Exception(message)))
-        Mockito.`when`(userRepository.getUsers())
-            .thenReturn(Single.error(Exception(message)))
+            .thenThrow(IllegalStateException(message))
 
         // Act
         setupViewModel()
@@ -100,18 +95,11 @@ class PostListViewModelTest {
 
     private fun setupViewModel() {
         postAndUserUseCase = PostsAndUsersUseCase(postsRepository, userRepository)
-        postsListViewModel = PostsListViewModel(postAndUserUseCase, postsMapper)
+        postsListViewModel = PostsListViewModel(postAndUserUseCase, postsMapper, testDispatcherProvider)
         setupObservers()
     }
 
     private fun setupObservers() {
-        postsListViewModel.postListViewState.observe(lifecycleOwner, postsListViewStateObserver)
+        postsListViewModel.postListViewState.observeForever(postsListViewStateObserver)
     }
-
-    private fun setupLifecycleOwner() {
-        val lifecycle = LifecycleRegistry(lifecycleOwner)
-        Mockito.`when`(lifecycleOwner.lifecycle).thenReturn(lifecycle)
-        lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    }
-
 }
