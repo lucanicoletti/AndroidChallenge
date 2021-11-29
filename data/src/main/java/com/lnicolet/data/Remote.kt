@@ -3,10 +3,7 @@ package com.lnicolet.data
 import com.lnicolet.data.entities.CommentEntity
 import com.lnicolet.data.entities.PostEntity
 import com.lnicolet.data.entities.UserEntity
-import io.reactivex.Flowable
-import io.reactivex.Observable
 import retrofit2.http.GET
-import io.reactivex.Single
 import retrofit2.http.Path
 import retrofit2.http.Query
 

@@ -1,12 +1,8 @@
 package com.lnicolet.domain.usecases
 
-import com.lnicolet.domain.models.CommentDomainModel
 import com.lnicolet.domain.models.PostDetailDomainModel
-import com.lnicolet.domain.models.UserDomainModel
 import com.lnicolet.domain.repositories.CommentsRepository
 import com.lnicolet.domain.repositories.UsersRepository
-import io.reactivex.Single
-import io.reactivex.functions.BiFunction
 import javax.inject.Inject
 
 class CommentsAndUserUseCase @Inject constructor(

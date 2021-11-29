@@ -3,8 +3,6 @@ package com.lnicolet.domain.usecases
 import com.lnicolet.domain.models.PostDomainModel
 import com.lnicolet.domain.repositories.PostsRepository
 import com.lnicolet.domain.repositories.UsersRepository
-import io.reactivex.Single
-import io.reactivex.functions.BiFunction
 import javax.inject.Inject
 
 /**
