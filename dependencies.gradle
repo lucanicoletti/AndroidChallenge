@@ -50,9 +50,6 @@ ext {
     // Inject
     injectVersion = '1'
 
-    // Groupie
-    groupieVersion = '2.7.0'
-
     // Kakao
     kakaoVersion = '2.0.0'
 
@@ -72,8 +69,6 @@ ext {
             daggerAndroid        : "com.google.dagger:dagger-android:$daggerVersion",
             daggerAndroidSupport : "com.google.dagger:dagger-android-support:$daggerVersion",
             inject               : "javax.inject:javax.inject:$injectVersion",
-            groupie              : "com.xwray:groupie:$groupieVersion",
-            groupieAndroidKotlin : "com.xwray:groupie-kotlin-android-extensions:$groupieVersion",
             coroutinesCore       : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines",
             coroutinesAndroid    : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines",
             androidLifecycle     : "androidx.lifecycle:lifecycle-viewmodel-ktx:$xLifeCycleExtensionsVersion"
@@ -128,12 +123,6 @@ ext {
             xCoreTesting  : "androidx.arch.core:core-testing:$archCoreTestingVersion",
             mockitoKotlin : "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion",
             coroutinesTest: "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines"
-        ],
-        androidTestImplementation: [
-            mockitoAndroid: "org.mockito:mockito-android:$mockitoAndroidVersion",
-            testRunner    : "androidx.test:runner:$testRunnerVersion",
-            coreTesting   : "androidx.arch.core:core-testing:$archCoreTestingVersion",
-            espressoCore  : "androidx.test.espresso:espresso-core:$espressoCoreVersion"
         ]
     ]
 
@@ -150,10 +139,6 @@ ext {
         testImplementation       : [
             junit         : "junit:junit:$junitVersion",
             coroutinesTest: "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines"
-        ],
-        androidTestImplementation: [
-            testRunner  : "androidx.test:runner:$testRunnerVersion",
-            espressoCore: "androidx.test.espresso:espresso-core:$espressoCoreVersion"
         ]
     ]
 
@@ -164,9 +149,7 @@ ext {
 
     dataDependenciesImplementation = dataDependencies['implementation'].values()
     dataTestDependenciesImplementation = dataTestDependencies['testImplementation'].values()
-    dataAndroidTestDependenciesImplementation = dataTestDependencies['androidTestImplementation'].values()
 
     domainDependenciesImplementation = domainDependencies['implementation'].values()
     domainTestDependenciesImplementation = domainTestDependencies['testImplementation'].values()
-    domainAndroidTestDependenciesImplementation = domainTestDependencies['androidTestImplementation'].values()
 }
