@@ -1,11 +1,11 @@
 package com.lnicolet.androidchallenge.di.modules
 
-import com.lnicolet.data.repositories.CommentsRepositoryImpl
-import com.lnicolet.data.repositories.PostsRepositoryImpl
-import com.lnicolet.data.repositories.UsersRepositoryImpl
-import com.lnicolet.domain.repositories.CommentsRepository
-import com.lnicolet.domain.repositories.PostsRepository
-import com.lnicolet.domain.repositories.UsersRepository
+import com.lnicolet.data_lib.repositories.CommentsRepositoryImpl
+import com.lnicolet.data_lib.repositories.PostsRepositoryImpl
+import com.lnicolet.data_lib.repositories.UsersRepositoryImpl
+import com.lnicolet.domain_lib.repositories.CommentsRepository
+import com.lnicolet.domain_lib.repositories.PostsRepository
+import com.lnicolet.domain_lib.repositories.UsersRepository
 import dagger.Binds
 import dagger.Module
 

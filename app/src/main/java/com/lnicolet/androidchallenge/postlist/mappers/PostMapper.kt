@@ -2,7 +2,7 @@ package com.lnicolet.androidchallenge.postlist.mappers
 
 import com.lnicolet.androidchallenge.postdetails.mappers.UserMapper
 import com.lnicolet.androidchallenge.postlist.models.Post
-import com.lnicolet.domain.models.PostDomainModel
+import com.lnicolet.domain_lib.models.PostDomainModel
 import javax.inject.Inject
 
 

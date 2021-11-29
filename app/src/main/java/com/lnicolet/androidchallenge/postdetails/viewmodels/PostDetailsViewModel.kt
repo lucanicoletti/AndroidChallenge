@@ -4,15 +4,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.lnicolet.data.DispatcherProvider
+import com.lnicolet.data_lib.DispatcherProvider
 import com.lnicolet.androidchallenge.postdetails.mappers.CommentMapper
 import com.lnicolet.androidchallenge.postdetails.mappers.PostDetailMapper
 import com.lnicolet.androidchallenge.postdetails.models.Comment
 import com.lnicolet.androidchallenge.postdetails.models.User
-import com.lnicolet.domain.models.CommentDomainModel
-import com.lnicolet.domain.models.PostDetailDomainModel
-import com.lnicolet.domain.usecases.CommentsAndUserUseCase
-import com.lnicolet.domain.usecases.CommentsUseCase
+import com.lnicolet.domain_lib.models.CommentDomainModel
+import com.lnicolet.domain_lib.models.PostDetailDomainModel
+import com.lnicolet.domain_lib.usecases.CommentsAndUserUseCase
+import com.lnicolet.domain_lib.usecases.CommentsUseCase
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

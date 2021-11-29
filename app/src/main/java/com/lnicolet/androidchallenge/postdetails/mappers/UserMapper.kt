@@ -1,7 +1,7 @@
 package com.lnicolet.androidchallenge.postdetails.mappers
 
 import com.lnicolet.androidchallenge.postdetails.models.User
-import com.lnicolet.domain.models.UserDomainModel
+import com.lnicolet.domain_lib.models.UserDomainModel
 import javax.inject.Inject
 
 class UserMapper @Inject constructor() {

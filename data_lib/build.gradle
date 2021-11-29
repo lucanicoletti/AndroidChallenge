@@ -1,0 +1,25 @@
+plugins {
+    id 'java-library'
+    id 'kotlin'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_7
+    targetCompatibility = JavaVersion.VERSION_1_7
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    def dataDependenciesImpl = rootProject.ext.dataDependenciesImplementation
+    def dataTestDependenciesImpl = rootProject.ext.dataTestDependenciesImplementation
+
+    implementation dataDependenciesImpl
+    testImplementation dataTestDependenciesImpl
+
+    implementation project(path: ':domain_lib')
+}
+
+repositories {
+    mavenCentral()
+}

@@ -7,11 +7,11 @@ import com.lnicolet.androidchallenge.postlist.viewmodels.PostListViewState
 import com.lnicolet.androidchallenge.postlist.viewmodels.PostsListViewModel
 import com.lnicolet.androidchallenge.utils.CoroutineTestRule
 import com.lnicolet.androidchallenge.utils.TestDispatcherProvider
-import com.lnicolet.domain.models.PostDomainModel
-import com.lnicolet.domain.models.UserDomainModel
-import com.lnicolet.domain.repositories.PostsRepository
-import com.lnicolet.domain.repositories.UsersRepository
-import com.lnicolet.domain.usecases.PostsAndUsersUseCase
+import com.lnicolet.domain_lib.models.PostDomainModel
+import com.lnicolet.domain_lib.models.UserDomainModel
+import com.lnicolet.domain_lib.repositories.PostsRepository
+import com.lnicolet.domain_lib.repositories.UsersRepository
+import com.lnicolet.domain_lib.usecases.PostsAndUsersUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before

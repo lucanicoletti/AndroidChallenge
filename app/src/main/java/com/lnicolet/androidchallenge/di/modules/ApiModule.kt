@@ -1,8 +1,8 @@
 package com.lnicolet.androidchallenge.di.modules
 
-import com.lnicolet.data.CommentsApi
-import com.lnicolet.data.PostsApi
-import com.lnicolet.data.UsersApi
+import com.lnicolet.data_lib.CommentsApi
+import com.lnicolet.data_lib.PostsApi
+import com.lnicolet.data_lib.UsersApi
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit

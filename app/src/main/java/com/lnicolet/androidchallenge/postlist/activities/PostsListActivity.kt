@@ -15,12 +15,11 @@ import com.lnicolet.androidchallenge.core.views.TileSnackBar
 import com.lnicolet.androidchallenge.databinding.PostsListActivityBinding
 import com.lnicolet.androidchallenge.idlingresources.EspressoIdlingResource
 import com.lnicolet.androidchallenge.postdetails.activities.PostDetailsActivity
-import com.lnicolet.androidchallenge.postlist.items.PostListItem
+import com.lnicolet.androidchallenge.postlist.items.PostListAdapter
+import com.lnicolet.androidchallenge.postlist.items.PostListViewHolder
 import com.lnicolet.androidchallenge.postlist.models.Post
 import com.lnicolet.androidchallenge.postlist.viewmodels.PostListViewState
 import com.lnicolet.androidchallenge.postlist.viewmodels.PostsListViewModel
-import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.GroupieViewHolder
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
@@ -41,7 +40,7 @@ class PostsListActivity : AppCompatActivity() {
     private val binding: PostsListActivityBinding by viewBinding(PostsListActivityBinding::inflate)
 
 
-    private var onPostClickListener = object : PostListItem.OnPostClickListener {
+    private var onPostClickListener = object : PostListViewHolder.OnPostClickListener {
         override fun onPostClicked(post: Post, imageView: View?, title: View?, body: View?) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 val activityOptions = ActivityOptions.makeSceneTransitionAnimation(
@@ -63,7 +62,7 @@ class PostsListActivity : AppCompatActivity() {
 
     }
 
-    private val adapter = GroupAdapter<GroupieViewHolder>()
+    private val adapter = PostListAdapter(mutableListOf(), onPostClickListener)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,12 +95,7 @@ class PostsListActivity : AppCompatActivity() {
             is PostListViewState.Success -> {
                 binding.pbLoadingList.gone()
                 binding.rvPosts.visible()
-                adapter.addAll(viewState.list.map {
-                    PostListItem(
-                        it,
-                        onPostClickListener
-                    )
-                })
+                adapter.addAll(viewState.list)
                 postsListIdlingResource.decrement()
             }
             is PostListViewState.Error -> {

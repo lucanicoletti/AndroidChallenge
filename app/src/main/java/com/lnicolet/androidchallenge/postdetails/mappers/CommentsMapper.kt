@@ -1,7 +1,7 @@
 package com.lnicolet.androidchallenge.postdetails.mappers
 
 import com.lnicolet.androidchallenge.postdetails.models.Comment
-import com.lnicolet.domain.models.CommentDomainModel
+import com.lnicolet.domain_lib.models.CommentDomainModel
 import javax.inject.Inject
 
 class CommentsMapper @Inject constructor(private val commentMapper: CommentMapper) {

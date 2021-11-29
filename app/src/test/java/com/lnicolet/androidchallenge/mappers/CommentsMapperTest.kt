@@ -1,7 +1,7 @@
 package com.lnicolet.androidchallenge.mappers
 
 import com.lnicolet.androidchallenge.postdetails.mappers.CommentMapper
-import com.lnicolet.domain.models.CommentDomainModel
+import com.lnicolet.domain_lib.models.CommentDomainModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
